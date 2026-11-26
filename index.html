@@ -687,7 +687,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: min(400px, 92vw);
+      width: min(440px, 94vw);
       height: 100vh;
       background: var(--bg-2);
       border-right: 1px solid var(--border);
@@ -743,6 +743,37 @@
       font-size: 0.78rem;
       color: var(--muted);
       line-height: 1.4;
+    }
+
+    .country-box {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 6px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .country-box.open {
+      display: flex;
+    }
+
+    .country-section-title {
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+
+    .country-list {
+      list-style: disc;
+      padding-left: 18px;
+      color: var(--text);
+    }
+
+    .country-list li {
+      margin-bottom: 3px;
     }
 
     .toggle-switch {
@@ -1041,6 +1072,72 @@
       </div>
     </div>
 
+    <!-- Настройка: Справка по странам (США) -->
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Справка: Соединённые Штаты Америки (США)</div>
+          <div class="setting-desc">География, рельеф, климат, реки и озёра, природа, население и экономика</div>
+        </div>
+        <button class="ghost-btn" id="toggle-usa-btn">Открыть</button>
+      </div>
+
+      <div class="country-box" id="usa-country-box">
+        <div>
+          <div class="country-section-title">1. Географическое положение</div>
+          <ul class="country-list">
+            <li><strong>Расположение:</strong> США расположены в центральной части материка Северная Америка. В состав также входят штат Аляска (северо-запад материка) и штат Гавайи (архипелаг в Тихом океане).</li>
+            <li><strong>Океаны:</strong> широкий выход к трём океанам — Атлантическому на востоке, Тихому на западе и Северному Ледовитому на севере (берега Аляски).</li>
+            <li><strong>Границы:</strong> на севере — с Канадой (самая длинная неохраняемая граница в мире), на юге — с Мексикой; морские границы — с Россией (через Берингов пролив) и Кубой.</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="country-section-title">2. Рельеф и полезные ископаемые</div>
+          <ul class="country-list">
+            <li><strong>Рельеф:</strong> на востоке — невысокие древние горы Аппалачи; в центре — огромные равнины (Центральные и Великие), плавно повышающиеся к западу; на западе — мощный пояс молодых гор Кордильеры (Скалистые горы, Каскадные горы, Сьерра-Невада). Высшая точка — гора Денали на Аляске (6190 м).</li>
+            <li><strong>Ископаемые:</strong> лидерство по запасам угля, нефти и природного газа; богатые запасы железных, медных и полиметаллических руд, золота и фосфоритов.</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="country-section-title">3. Климат</div>
+          <ul class="country-list">
+            <li><strong>Умеренный:</strong> на севере и в центре (чёткое лето и зима).</li>
+            <li><strong>Субтропический:</strong> на юге (влажный на юго-востоке, сухой средиземноморский в Калифорнии).</li>
+            <li><strong>Тропический:</strong> на юге Флориды и Гавайях (вечное лето).</li>
+            <li><strong>Арктический и субарктический:</strong> на Аляске.</li>
+            <li><strong>Особенности:</strong> из-за отсутствия горных преград с севера на юг в центральных районах часто сталкиваются холодные и тёплые воздушные массы, вызывая торнадо.</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="country-section-title">4. Внутренние воды (реки и озёра)</div>
+          <ul class="country-list">
+            <li><strong>Реки:</strong> главная речная система — Миссисипи с притоком Миссури (одна из крупнейших в мире); река Колорадо известна созданием Большого Каньона; река Колумбия обладает крупными запасами гидроэнергии.</li>
+            <li><strong>Озёра:</strong> на севере расположены Великие озёра (Верхнее, Мичиган, Гурон, Эри, Онтарио) — крупнейшее скопление пресной воды в Западном полушарии; в штате Юта находится бессточное Большое Солёное озеро.</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="country-section-title">5. Природные зоны, флора и фауна</div>
+          <ul class="country-list">
+            <li><strong>Зоны:</strong> почти все зоны — от тундры на Аляске до пустынь и вечнозелёных лесов на юге.</li>
+            <li><strong>Флора:</strong> гигантские секвойи в Калифорнии, кактусы сагуаро в пустынях Аризоны, дубы, буки и берёзы в восточных лесах.</li>
+            <li><strong>Фауна:</strong> символ страны — белоголовый орлан; также встречаются медведи (гризли, чёрные), бизоны (в заповедниках), аллигаторы (во Флориде) и койоты.</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="country-section-title">6. Население и экономика</div>
+          <ul class="country-list">
+            <li><strong>Население:</strong> около 340 млн человек — результат массового переселения из Европы, Африки и Азии. Большинство живёт в городах (урбанизация &gt; 80%). Крупнейшие мегаполисы: Нью-Йорк, Лос-Анджелес, Чикаго.</li>
+            <li><strong>Экономика:</strong> ведущая экономическая держава мира с развитой промышленностью (авиация, ИТ, автомобили) и высокоэффективным сельским хозяйством.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <div class="setting-card">
       <div class="setting-title">Сброс выбора даты и тем</div>
       <div class="setting-desc">Возвращает подсветку ближайшего праздника, базовую тему и стандартный цвет</div>
@@ -1083,12 +1180,20 @@
       autumn: { title: 'До начала осени (1 сентября)', month: 8, day: 1, label: 'Осень' }
     };
 
+    // Объединённый список: все прежние праздники РФ + полный список из последнего запроса (без дублей)
     const baseHolidays = [
+      // Январь
       { name: 'Новый год', month: 0, day: 1, cat: 'state' },
+      { name: 'Новогодние каникулы', month: 0, day: 2, cat: 'state' },
       { name: 'Рождество Христово', month: 0, day: 7, cat: 'state' },
-      { name: 'День российского студенчества', month: 0, day: 25, cat: 'social' },
+      { name: 'День работника прокуратуры РФ', month: 0, day: 12, cat: 'prof' },
+      { name: 'День российской печати', month: 0, day: 13, cat: 'prof' },
+      { name: 'День образования Следственного комитета РФ', month: 0, day: 15, cat: 'prof' },
+      { name: 'День инженерных войск', month: 0, day: 21, cat: 'military' },
+      { name: 'День российского студенчества (Татьянин день)', month: 0, day: 25, cat: 'social' },
       { name: 'День полного освобождения Ленинграда от фашистской блокады (1944 год)', month: 0, day: 27, cat: 'military' },
 
+      // Февраль
       { name: 'День разгрома советскими войсками немецко-фашистских войск в Сталинградской битве (1943 год)', month: 1, day: 2, cat: 'military' },
       { name: 'День российской науки', month: 1, day: 8, cat: 'prof' },
       { name: 'День работника гражданской авиации', month: 1, day: 9, cat: 'prof' },
@@ -1098,8 +1203,11 @@
       { name: 'День защитника Отечества', month: 1, day: 23, cat: 'state' },
       { name: 'День Сил специальных операций', month: 1, day: 27, cat: 'military' },
 
+      // Март
       { name: 'День наставника', month: 2, day: 2, cat: 'social' },
       { name: 'Международный женский день', month: 2, day: 8, cat: 'state' },
+      { name: 'День работников архивов', month: 2, day: 10, cat: 'prof' },
+      { name: 'День работников геодезии и картографии', month: 2, day: 11, cat: 'prof' },
       { name: 'День работника уголовно-исполнительной системы', month: 2, day: 12, cat: 'prof' },
       { name: 'День работников торговли, бытового обслуживания населения и ЖКХ', month: 2, day: 15, cat: 'prof' },
       { name: 'День воссоединения Крыма с Россией', month: 2, day: 18, cat: 'state' },
@@ -1107,7 +1215,9 @@
       { name: 'День работника культуры', month: 2, day: 25, cat: 'prof' },
       { name: 'День войск национальной гвардии РФ', month: 2, day: 27, cat: 'military' },
 
-      { name: 'День единения народов', month: 3, day: 2, cat: 'social' },
+      // Апрель
+      { name: 'День единения народов Беларуси и России', month: 3, day: 2, cat: 'social' },
+      { name: 'День сотрудников военных комиссариатов', month: 3, day: 8, cat: 'military' },
       { name: 'День космонавтики', month: 3, day: 12, cat: 'military' },
       { name: 'День победы русских воинов князя Александра Невского над немецкими рыцарями на Чудском озере (Ледовое побоище, 1242 год)', month: 3, day: 18, cat: 'military' },
       { name: 'День принятия Крыма, Тамани и Кубани в состав Российской империи (1783 год); День памяти жертв геноцида советского народа', month: 3, day: 19, cat: 'military' },
@@ -1116,59 +1226,107 @@
       { name: 'День работника скорой медицинской помощи', month: 3, day: 28, cat: 'prof' },
       { name: 'День пожарной охраны', month: 3, day: 30, cat: 'prof' },
 
+      // Май
       { name: 'Праздник Весны и Труда', month: 4, day: 1, cat: 'state' },
       { name: 'День радио', month: 4, day: 7, cat: 'prof' },
       { name: 'День Победы советского народа в Великой Отечественной войне 1941–1945 годов', month: 4, day: 9, cat: 'state' },
       { name: 'День победного завершения советскими войсками Крымской наступательной операции (1944 год)', month: 4, day: 12, cat: 'military' },
+      { name: 'День основания Черноморского флота', month: 4, day: 13, cat: 'military' },
+      { name: 'День основания Тихоокеанского флота', month: 4, day: 21, cat: 'military' },
       { name: 'День полярника', month: 4, day: 21, cat: 'prof' },
       { name: 'День славянской письменности и культуры', month: 4, day: 24, cat: 'social' },
       { name: 'День российского предпринимательства', month: 4, day: 26, cat: 'prof' },
       { name: 'Общероссийский день библиотек', month: 4, day: 27, cat: 'prof' },
       { name: 'День пограничника', month: 4, day: 28, cat: 'military' },
 
+      // Июнь
+      { name: 'День защиты детей', month: 5, day: 1, cat: 'social' },
       { name: 'День эколога', month: 5, day: 5, cat: 'prof' },
       { name: 'Пушкинский день России (День русского языка)', month: 5, day: 6, cat: 'social' },
       { name: 'День социального работника', month: 5, day: 8, cat: 'prof' },
       { name: 'День России', month: 5, day: 12, cat: 'state' },
       { name: 'День памяти и скорби — день начала Великой Отечественной войны (1941 год)', month: 5, day: 22, cat: 'military' },
       { name: 'День молодёжи', month: 5, day: 27, cat: 'social' },
+      { name: 'День изобретателя и рационализатора', month: 5, day: 29, cat: 'prof' },
       { name: 'День партизан и подпольщиков', month: 5, day: 29, cat: 'military' },
 
+      // Июль
+      { name: 'День работников морского и речного флота', month: 6, day: 5, cat: 'prof' },
       { name: 'День победы русского флота над турецким флотом в Чесменском сражении (1770 год)', month: 6, day: 7, cat: 'military' },
+      { name: 'День семьи, любви и верности', month: 6, day: 8, cat: 'social' },
       { name: 'День победы русской армии под командованием Петра Первого над шведами в Полтавском сражении (1709 год)', month: 6, day: 10, cat: 'military' },
+      { name: 'День российской почты', month: 6, day: 12, cat: 'prof' },
+      { name: 'День Военно-Морского Флота', month: 6, day: 26, cat: 'military' },
       { name: 'День Крещения Руси', month: 6, day: 28, cat: 'social' },
 
+      // Август
       { name: 'День памяти российских воинов, погибших в Первой мировой войне 1914–1918 годов', month: 7, day: 1, cat: 'military' },
+      { name: 'День Воздушно-десантных войск (ВДВ)', month: 7, day: 2, cat: 'military' },
+      { name: 'День железнодорожника', month: 7, day: 2, cat: 'prof' },
+      { name: 'День физкультурника', month: 7, day: 8, cat: 'social' },
+      { name: 'День строителя', month: 7, day: 9, cat: 'prof' },
       { name: 'День первой в российской истории морской победы русского флота под командованием Петра Первого над шведами у мыса Гангут (1714 год); День окончания Ленинградской битвы (1944 год)', month: 7, day: 9, cat: 'military' },
+      { name: 'День Военно-воздушных сил', month: 7, day: 12, cat: 'military' },
+      { name: 'День Государственного флага РФ', month: 7, day: 22, cat: 'state' },
       { name: 'День разгрома советскими войсками немецко-фашистских войск в Курской битве (1943 год)', month: 7, day: 23, cat: 'military' },
+      { name: 'День российского кино', month: 7, day: 27, cat: 'prof' },
+      { name: 'День шахтёра', month: 7, day: 30, cat: 'prof' },
 
+      // Сентябрь
+      { name: 'День знаний', month: 8, day: 1, cat: 'social' },
       { name: 'День Победы над милитаристской Японией и окончания Второй мировой войны (1945 год); День солидарности в борьбе с терроризмом', month: 8, day: 3, cat: 'military' },
       { name: 'День Бородинского сражения русской армии под командованием М. И. Кутузова с французской армией (1812 год)', month: 8, day: 8, cat: 'military' },
       { name: 'День победы русской эскадры под командованием Ф. Ф. Ушакова над турецкой эскадрой у мыса Тендра (1790 год)', month: 8, day: 11, cat: 'military' },
+      { name: 'День танкиста', month: 8, day: 13, cat: 'military' },
+      { name: 'День работников леса', month: 8, day: 20, cat: 'prof' },
       { name: 'День победы русских полков во главе с великим князем Дмитрием Донским над монголо-татарскими войсками в Куликовской битве (1380 год)', month: 8, day: 21, cat: 'military' },
+      { name: 'День воспитателя и всех дошкольных работников', month: 8, day: 27, cat: 'prof' },
       { name: 'День воссоединения Донецкой Народной Республики, Луганской Народной Республики, Запорожской области и Херсонской области с Россией (2022 год)', month: 8, day: 30, cat: 'state' },
 
+      // Октябрь
+      { name: 'День пожилых людей', month: 9, day: 1, cat: 'social' },
+      { name: 'День космических войск', month: 9, day: 4, cat: 'military' },
+      { name: 'День учителя', month: 9, day: 5, cat: 'prof' },
       { name: 'День разгрома советскими войсками немецко-фашистских войск в битве за Кавказ (1943 год)', month: 9, day: 9, cat: 'military' },
+      { name: 'День работников сельского хозяйства', month: 9, day: 11, cat: 'prof' },
+      { name: 'День работников дорожного хозяйства', month: 9, day: 18, cat: 'prof' },
+      { name: 'День военного связиста', month: 9, day: 20, cat: 'military' },
+      { name: 'День подразделений специального назначения', month: 9, day: 24, cat: 'military' },
+      { name: 'День таможенника РФ', month: 9, day: 25, cat: 'prof' },
+      { name: 'День работников автомобильного транспорта', month: 9, day: 25, cat: 'prof' },
+      { name: 'День памяти жертв политических репрессий', month: 9, day: 30, cat: 'social' },
 
+      // Ноябрь
       { name: 'День народного единства', month: 10, day: 4, cat: 'state' },
+      { name: 'День военной разведки', month: 10, day: 5, cat: 'military' },
       { name: 'День проведения военного парада на Красной площади в городе Москве в ознаменование двадцать четвёртой годовщины Великой Октябрьской социалистической революции (1941 год); День Октябрьской революции 1917 года', month: 10, day: 7, cat: 'military' },
+      { name: 'День сотрудника органов внутренних дел РФ', month: 10, day: 10, cat: 'prof' },
+      { name: 'День ракетных войск и артиллерии', month: 10, day: 19, cat: 'military' },
       { name: 'День Военной присяги', month: 10, day: 21, cat: 'military' },
+      { name: 'День матери в России', month: 10, day: 29, cat: 'social' },
+      { name: 'День Государственного герба РФ', month: 10, day: 30, cat: 'state' },
 
+      // Декабрь
       { name: 'День победы русской эскадры под командованием П. С. Нахимова над турецкой эскадрой у мыса Синоп (1853 год)', month: 11, day: 1, cat: 'military' },
+      { name: 'День юриста', month: 11, day: 3, cat: 'prof' },
       { name: 'День Неизвестного Солдата', month: 11, day: 3, cat: 'military' },
+      { name: 'День добровольца (волонтёра) в России', month: 11, day: 5, cat: 'social' },
       { name: 'День начала контрнаступления советских войск против немецко-фашистских войск в битве под Москвой (1941 год)', month: 11, day: 5, cat: 'military' },
       { name: 'День Героев Отечества', month: 11, day: 9, cat: 'military' },
       { name: 'День Конституции Российской Федерации', month: 11, day: 12, cat: 'state' },
-      { name: 'День взятия турецкой крепости Измаил русскими войсками под командованием А. В. Суворова (1790 год)', month: 11, day: 24, cat: 'military' }
+      { name: 'День работника органов безопасности РФ', month: 11, day: 20, cat: 'prof' },
+      { name: 'День энергетика', month: 11, day: 22, cat: 'prof' },
+      { name: 'День взятия турецкой крепости Измаил русскими войсками под командованием А. В. Суворова (1790 год)', month: 11, day: 24, cat: 'military' },
+      { name: 'День спасателя РФ', month: 11, day: 27, cat: 'prof' }
     ];
 
     const KEYS = {
-      customHolidays: 'n1ghtixx_custom_holidays_v5',
-      targetState: 'n1ghtixx_target_state_v5',
-      notes: 'n1ghtixx_notes_v5',
-      palette: 'n1ghtixx_palette_v5',
-      season: 'n1ghtixx_season_v5',
-      settings: 'n1ghtixx_settings_v5'
+      customHolidays: 'n1ghtixx_custom_holidays_v6',
+      targetState: 'n1ghtixx_target_state_v6',
+      notes: 'n1ghtixx_notes_v6',
+      palette: 'n1ghtixx_palette_v6',
+      season: 'n1ghtixx_season_v6',
+      settings: 'n1ghtixx_settings_v6'
     };
 
     let selectedCat = 'all';
@@ -1193,7 +1351,8 @@
     let appSettings = readJSON(KEYS.settings, {
       compact: false,
       hour12: false,
-      swipes: true
+      swipes: true,
+      usaOpen: false
     });
 
     function getNextOccurrence(month, day, fromDate = new Date()) {
@@ -1482,7 +1641,6 @@
     document.getElementById('close-settings-btn').addEventListener('click', closeAllDrawers);
     drawerBackdrop.addEventListener('click', closeAllDrawers);
 
-    // Обработка свайпов пальцем
     let touchStartX = 0;
     let touchStartY = 0;
     let touchTarget = null;
@@ -1515,11 +1673,9 @@
         const settingsOpen = settingsSidebar.classList.contains('open');
 
         if (dx < 0) {
-          // Смахнули влево: если открыты настройки — закрываем, иначе открываем заметки
           if (settingsOpen) closeAllDrawers();
           else openNotes();
         } else {
-          // Смахнули вправо: если открыты заметки — закрываем, иначе открываем настройки
           if (notesOpen) closeAllDrawers();
           else openSettings();
         }
@@ -1528,13 +1684,28 @@
     );
 
     // --- Настройки ---
+    function syncUsaBox() {
+      const box = document.getElementById('usa-country-box');
+      const btn = document.getElementById('toggle-usa-btn');
+      const isOpen = Boolean(appSettings.usaOpen);
+      box.classList.toggle('open', isOpen);
+      btn.textContent = isOpen ? 'Скрыть' : 'Открыть';
+    }
+
     function syncSettingsUI() {
       document.getElementById('opt-compact').checked = Boolean(appSettings.compact);
       document.getElementById('opt-12h').checked = Boolean(appSettings.hour12);
       document.getElementById('opt-swipes').checked = appSettings.swipes !== false;
+      syncUsaBox();
       syncBodyClasses();
       tick();
     }
+
+    document.getElementById('toggle-usa-btn').addEventListener('click', () => {
+      appSettings.usaOpen = !appSettings.usaOpen;
+      writeJSON(KEYS.settings, appSettings);
+      syncUsaBox();
+    });
 
     document.getElementById('opt-compact').addEventListener('change', (e) => {
       appSettings.compact = e.target.checked;
@@ -1567,7 +1738,7 @@
       selectedPalette = '';
       localStorage.setItem(KEYS.season, 'auto');
       localStorage.removeItem(KEYS.palette);
-      appSettings = { compact: false, hour12: false, swipes: true };
+      appSettings = { compact: false, hour12: false, swipes: true, usaOpen: false };
       writeJSON(KEYS.settings, appSettings);
 
       document.querySelectorAll('#season-themes .theme-btn').forEach((b) => {
