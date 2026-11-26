@@ -20,6 +20,13 @@
       --text: #f8fafc;
       --muted: #94a3b8;
       --success: #34d399;
+      --card-pad: 20px;
+      --item-pad: 16px;
+    }
+
+    body.compact-mode {
+      --card-pad: 14px;
+      --item-pad: 12px;
     }
 
     body.theme-winter {
@@ -87,6 +94,46 @@
       --glow: rgba(244, 63, 94, 0.3);
     }
 
+    body.palette-gold {
+      --bg-1: #171206;
+      --bg-2: #29200a;
+      --accent: #facc15;
+      --accent-2: #f59e0b;
+      --glow: rgba(250, 204, 21, 0.28);
+    }
+
+    body.palette-lime {
+      --bg-1: #0d1706;
+      --bg-2: #19290c;
+      --accent: #a3e635;
+      --accent-2: #34d399;
+      --glow: rgba(163, 230, 53, 0.28);
+    }
+
+    body.palette-sapphire {
+      --bg-1: #061021;
+      --bg-2: #0c1d3b;
+      --accent: #3b82f6;
+      --accent-2: #38bdf8;
+      --glow: rgba(59, 130, 246, 0.3);
+    }
+
+    body.palette-lavender {
+      --bg-1: #130e21;
+      --bg-2: #22193b;
+      --accent: #a78bfa;
+      --accent-2: #818cf8;
+      --glow: rgba(167, 139, 250, 0.3);
+    }
+
+    body.palette-graphite {
+      --bg-1: #0b0d10;
+      --bg-2: #161a20;
+      --accent: #e2e8f0;
+      --accent-2: #94a3b8;
+      --glow: rgba(226, 232, 240, 0.22);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -132,7 +179,7 @@
       color: var(--muted);
       font-size: 0.94rem;
       margin-top: 6px;
-      max-width: 640px;
+      max-width: 680px;
       line-height: 1.45;
     }
 
@@ -271,9 +318,9 @@
       backdrop-filter: blur(14px);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 20px;
+      padding: var(--card-pad);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-      transition: border-color 0.25s ease, transform 0.2s ease;
+      transition: border-color 0.25s ease, transform 0.2s ease, padding 0.2s ease;
     }
 
     .card:hover {
@@ -333,7 +380,7 @@
       border: 1px solid var(--accent);
       box-shadow: 0 0 28px var(--glow);
       border-radius: 22px;
-      padding: 20px;
+      padding: var(--card-pad);
       margin-bottom: 20px;
       display: grid;
       grid-template-columns: 1.15fr 1fr;
@@ -375,7 +422,7 @@
       backdrop-filter: blur(14px);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 18px;
+      padding: var(--card-pad);
       margin-bottom: 20px;
     }
 
@@ -488,13 +535,13 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 16px;
+      padding: var(--item-pad);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 10px;
       cursor: pointer;
-      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, padding 0.2s ease;
     }
 
     .holiday-item:hover {
@@ -529,6 +576,7 @@
       background: var(--card-soft);
       border: 1px solid var(--border);
       color: var(--muted);
+      flex-shrink: 0;
     }
 
     .badge.soon {
@@ -597,8 +645,8 @@
       border-radius: 16px;
     }
 
-    /* Боковая панель заметок */
-    .notes-backdrop {
+    /* Подложка выдвижных панелей */
+    .drawer-backdrop {
       display: none;
       position: fixed;
       inset: 0;
@@ -607,10 +655,11 @@
       z-index: 40;
     }
 
-    .notes-backdrop.open {
+    .drawer-backdrop.open {
       display: block;
     }
 
+    /* Боковая панель заметок (свайп влево) */
     .notes-sidebar {
       position: fixed;
       top: 0;
@@ -633,15 +682,112 @@
       transform: translateX(0);
     }
 
-    .notes-head {
+    /* Боковая панель настроек (свайп вправо) */
+    .settings-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(400px, 92vw);
+      height: 100vh;
+      background: var(--bg-2);
+      border-right: 1px solid var(--border);
+      box-shadow: 12px 0 40px rgba(0, 0, 0, 0.45);
+      z-index: 50;
+      transform: translateX(-100%);
+      transition: transform 0.28s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 14px;
+      overflow-y: auto;
+    }
+
+    .settings-sidebar.open {
+      transform: translateX(0);
+    }
+
+    .drawer-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .notes-head h2 {
+    .drawer-head h2 {
       font-family: 'Unbounded', sans-serif;
       font-size: 1.1rem;
+    }
+
+    .setting-card {
+      background: var(--card-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .setting-title {
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .setting-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 46px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: rgba(148, 163, 184, 0.25);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.22s ease;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background: var(--text);
+      transition: 0.22s ease;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .toggle-switch input:checked + .toggle-slider::before {
+      transform: translateX(20px);
+      background: #061018;
     }
 
     .note-form {
@@ -710,7 +856,7 @@
     <header>
       <div>
         <h1>n1ghtixx</h1>
-        <p class="subtitle">Полный календарь праздников РФ, таймер до выбранной даты или сезона и личные заметки</p>
+        <p class="subtitle">Полный календарь праздников РФ, таймер до выбранной даты или сезона, заметки и свайп-жесты</p>
       </div>
 
       <div class="header-actions">
@@ -723,6 +869,7 @@
         </div>
 
         <button class="tool-btn" id="toggle-presets-btn">Цвета</button>
+        <button class="tool-btn" id="open-settings-btn">Настройки</button>
         <button class="tool-btn" id="open-notes-btn">
           Заметки <span class="notes-badge" id="notes-count">0</span>
         </button>
@@ -737,6 +884,11 @@
         <button class="preset-btn" data-palette="palette-emerald"><span class="swatch" style="background:#2dd4bf"></span>Изумруд</button>
         <button class="preset-btn" data-palette="palette-sunset"><span class="swatch" style="background:#fb7185"></span>Закат</button>
         <button class="preset-btn" data-palette="palette-crimson"><span class="swatch" style="background:#f43f5e"></span>Рубин</button>
+        <button class="preset-btn" data-palette="palette-gold"><span class="swatch" style="background:#facc15"></span>Золото</button>
+        <button class="preset-btn" data-palette="palette-lime"><span class="swatch" style="background:#a3e635"></span>Лайм</button>
+        <button class="preset-btn" data-palette="palette-sapphire"><span class="swatch" style="background:#3b82f6"></span>Сапфир</button>
+        <button class="preset-btn" data-palette="palette-lavender"><span class="swatch" style="background:#a78bfa"></span>Лаванда</button>
+        <button class="preset-btn" data-palette="palette-graphite"><span class="swatch" style="background:#e2e8f0"></span>Графит</button>
       </div>
       <button class="ghost-btn" id="reset-palette-btn">Сбросить</button>
     </section>
@@ -775,7 +927,7 @@
           <input type="datetime-local" id="target-date-input" />
           <button class="action-btn" id="apply-target-btn">Запустить</button>
         </div>
-        <div class="target-hint">Клик по карточке праздника ставит его в отсчёт; клик по Зима/Весна/Лето/Осень — отсчёт до этого сезона.</div>
+        <div class="target-hint">Клик по празднику ставит его в отсчёт; свайп влево — заметки, свайп вправо — настройки.</div>
       </div>
       <div class="countdown" id="selected-target-timer"></div>
     </section>
@@ -840,10 +992,68 @@
     <section class="holidays-list" id="holidays-list"></section>
   </div>
 
-  <!-- Боковая панель заметок -->
-  <div class="notes-backdrop" id="notes-backdrop"></div>
+  <!-- Подложка для панелей -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+
+  <!-- Боковая панель настроек (открывается свайпом вправо или кнопкой) -->
+  <aside class="settings-sidebar" id="settings-sidebar">
+    <div class="drawer-head">
+      <h2>Настройки</h2>
+      <button class="ghost-btn" id="close-settings-btn">Закрыть</button>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Компактный режим карточек</div>
+          <div class="setting-desc">Уменьшает отступы, чтобы на экране помещалось больше праздников</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="opt-compact" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">12-часовой формат времени (AM/PM)</div>
+          <div class="setting-desc">Меняет отображение времени в заголовке выбранной даты</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="opt-12h" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Свайпы влево / вправо</div>
+          <div class="setting-desc">Свайп влево открывает заметки, свайп вправо — настройки</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="opt-swipes" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-title">Сброс выбора даты и тем</div>
+      <div class="setting-desc">Возвращает подсветку ближайшего праздника, базовую тему и стандартный цвет</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
+        <button class="ghost-btn" id="opt-reset-target">Сбросить выбранную дату</button>
+        <button class="ghost-btn" id="opt-reset-all">Сбросить оформление</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Боковая панель заметок (открывается свайпом влево или кнопкой) -->
   <aside class="notes-sidebar" id="notes-sidebar">
-    <div class="notes-head">
+    <div class="drawer-head">
       <h2>Заметки</h2>
       <button class="ghost-btn" id="close-notes-btn">Закрыть</button>
     </div>
@@ -875,112 +1085,90 @@
 
     const baseHolidays = [
       { name: 'Новый год', month: 0, day: 1, cat: 'state' },
-      { name: 'Новогодние каникулы', month: 0, day: 2, cat: 'state' },
       { name: 'Рождество Христово', month: 0, day: 7, cat: 'state' },
-      { name: 'День работника прокуратуры РФ', month: 0, day: 12, cat: 'prof' },
-      { name: 'День российской печати', month: 0, day: 13, cat: 'prof' },
-      { name: 'День образования Следственного комитета РФ', month: 0, day: 15, cat: 'prof' },
-      { name: 'День инженерных войск', month: 0, day: 21, cat: 'military' },
-      { name: 'День российского студенчества (Татьянин день)', month: 0, day: 25, cat: 'social' },
-      { name: 'День полного освобождения Ленинграда от фашистской блокады', month: 0, day: 27, cat: 'military' },
+      { name: 'День российского студенчества', month: 0, day: 25, cat: 'social' },
+      { name: 'День полного освобождения Ленинграда от фашистской блокады (1944 год)', month: 0, day: 27, cat: 'military' },
 
-      { name: 'День разгрома советскими войсками немецко-фашистских войск в Сталинградской битве', month: 1, day: 2, cat: 'military' },
+      { name: 'День разгрома советскими войсками немецко-фашистских войск в Сталинградской битве (1943 год)', month: 1, day: 2, cat: 'military' },
       { name: 'День российской науки', month: 1, day: 8, cat: 'prof' },
+      { name: 'День работника гражданской авиации', month: 1, day: 9, cat: 'prof' },
       { name: 'День дипломатического работника', month: 1, day: 10, cat: 'prof' },
       { name: 'День памяти о россиянах, исполнявших служебный долг за пределами Отечества', month: 1, day: 15, cat: 'military' },
+      { name: 'День российских студенческих отрядов', month: 1, day: 17, cat: 'social' },
       { name: 'День защитника Отечества', month: 1, day: 23, cat: 'state' },
-      { name: 'День сил специальных операций', month: 1, day: 27, cat: 'military' },
+      { name: 'День Сил специальных операций', month: 1, day: 27, cat: 'military' },
 
+      { name: 'День наставника', month: 2, day: 2, cat: 'social' },
       { name: 'Международный женский день', month: 2, day: 8, cat: 'state' },
-      { name: 'День работников архивов', month: 2, day: 10, cat: 'prof' },
-      { name: 'День работников геодезии и картографии', month: 2, day: 11, cat: 'prof' },
+      { name: 'День работника уголовно-исполнительной системы', month: 2, day: 12, cat: 'prof' },
+      { name: 'День работников торговли, бытового обслуживания населения и ЖКХ', month: 2, day: 15, cat: 'prof' },
       { name: 'День воссоединения Крыма с Россией', month: 2, day: 18, cat: 'state' },
-      { name: 'День работников культуры', month: 2, day: 25, cat: 'prof' },
+      { name: 'День моряка-подводника', month: 2, day: 19, cat: 'military' },
+      { name: 'День работника культуры', month: 2, day: 25, cat: 'prof' },
       { name: 'День войск национальной гвардии РФ', month: 2, day: 27, cat: 'military' },
 
-      { name: 'День единения народов Беларуси и России', month: 3, day: 2, cat: 'social' },
-      { name: 'День сотрудников военных комиссариатов', month: 3, day: 8, cat: 'military' },
+      { name: 'День единения народов', month: 3, day: 2, cat: 'social' },
       { name: 'День космонавтики', month: 3, day: 12, cat: 'military' },
-      { name: 'День памяти погибших в радиационных авариях и катастрофах', month: 3, day: 26, cat: 'social' },
+      { name: 'День победы русских воинов князя Александра Невского над немецкими рыцарями на Чудском озере (Ледовое побоище, 1242 год)', month: 3, day: 18, cat: 'military' },
+      { name: 'День принятия Крыма, Тамани и Кубани в состав Российской империи (1783 год); День памяти жертв геноцида советского народа', month: 3, day: 19, cat: 'military' },
+      { name: 'День участников ликвидации последствий радиационных аварий и катастроф и памяти жертв этих аварий и катастроф', month: 3, day: 26, cat: 'social' },
       { name: 'День российского парламентаризма', month: 3, day: 27, cat: 'social' },
       { name: 'День работника скорой медицинской помощи', month: 3, day: 28, cat: 'prof' },
       { name: 'День пожарной охраны', month: 3, day: 30, cat: 'prof' },
 
       { name: 'Праздник Весны и Труда', month: 4, day: 1, cat: 'state' },
       { name: 'День радио', month: 4, day: 7, cat: 'prof' },
-      { name: 'День Победы', month: 4, day: 9, cat: 'state' },
-      { name: 'День основания Черноморского флота', month: 4, day: 13, cat: 'military' },
-      { name: 'День основания Тихоокеанского флота', month: 4, day: 21, cat: 'military' },
+      { name: 'День Победы советского народа в Великой Отечественной войне 1941–1945 годов', month: 4, day: 9, cat: 'state' },
+      { name: 'День победного завершения советскими войсками Крымской наступательной операции (1944 год)', month: 4, day: 12, cat: 'military' },
+      { name: 'День полярника', month: 4, day: 21, cat: 'prof' },
       { name: 'День славянской письменности и культуры', month: 4, day: 24, cat: 'social' },
       { name: 'День российского предпринимательства', month: 4, day: 26, cat: 'prof' },
+      { name: 'Общероссийский день библиотек', month: 4, day: 27, cat: 'prof' },
       { name: 'День пограничника', month: 4, day: 28, cat: 'military' },
 
-      { name: 'День защиты детей', month: 5, day: 1, cat: 'social' },
       { name: 'День эколога', month: 5, day: 5, cat: 'prof' },
-      { name: 'День русского языка / Пушкинский день России', month: 5, day: 6, cat: 'social' },
+      { name: 'Пушкинский день России (День русского языка)', month: 5, day: 6, cat: 'social' },
       { name: 'День социального работника', month: 5, day: 8, cat: 'prof' },
       { name: 'День России', month: 5, day: 12, cat: 'state' },
-      { name: 'День памяти и скорби', month: 5, day: 22, cat: 'military' },
+      { name: 'День памяти и скорби — день начала Великой Отечественной войны (1941 год)', month: 5, day: 22, cat: 'military' },
       { name: 'День молодёжи', month: 5, day: 27, cat: 'social' },
-      { name: 'День изобретателя и рационализатора', month: 5, day: 29, cat: 'prof' },
+      { name: 'День партизан и подпольщиков', month: 5, day: 29, cat: 'military' },
 
-      { name: 'День работников морского и речного флота', month: 6, day: 5, cat: 'prof' },
-      { name: 'День семьи, любви и верности', month: 6, day: 8, cat: 'social' },
-      { name: 'День российской почты', month: 6, day: 12, cat: 'prof' },
-      { name: 'День Военно-Морского Флота', month: 6, day: 26, cat: 'military' },
-      { name: 'День памяти святого равноапостольного князя Владимира', month: 6, day: 28, cat: 'social' },
+      { name: 'День победы русского флота над турецким флотом в Чесменском сражении (1770 год)', month: 6, day: 7, cat: 'military' },
+      { name: 'День победы русской армии под командованием Петра Первого над шведами в Полтавском сражении (1709 год)', month: 6, day: 10, cat: 'military' },
+      { name: 'День Крещения Руси', month: 6, day: 28, cat: 'social' },
 
-      { name: 'День Воздушно-десантных войск (ВДВ)', month: 7, day: 2, cat: 'military' },
-      { name: 'День железнодорожника', month: 7, day: 2, cat: 'prof' },
-      { name: 'День физкультурника', month: 7, day: 8, cat: 'social' },
-      { name: 'День строителя', month: 7, day: 9, cat: 'prof' },
-      { name: 'День Военно-воздушных сил', month: 7, day: 12, cat: 'military' },
-      { name: 'День Государственного флага РФ', month: 7, day: 22, cat: 'state' },
-      { name: 'День российского кино', month: 7, day: 27, cat: 'prof' },
-      { name: 'День шахтёра', month: 7, day: 30, cat: 'prof' },
+      { name: 'День памяти российских воинов, погибших в Первой мировой войне 1914–1918 годов', month: 7, day: 1, cat: 'military' },
+      { name: 'День первой в российской истории морской победы русского флота под командованием Петра Первого над шведами у мыса Гангут (1714 год); День окончания Ленинградской битвы (1944 год)', month: 7, day: 9, cat: 'military' },
+      { name: 'День разгрома советскими войсками немецко-фашистских войск в Курской битве (1943 год)', month: 7, day: 23, cat: 'military' },
 
-      { name: 'День знаний', month: 8, day: 1, cat: 'social' },
-      { name: 'День окончания Второй мировой войны', month: 8, day: 3, cat: 'military' },
-      { name: 'День солидарности в борьбе с терроризмом', month: 8, day: 3, cat: 'social' },
-      { name: 'День танкиста', month: 8, day: 13, cat: 'military' },
-      { name: 'День работников леса', month: 8, day: 20, cat: 'prof' },
-      { name: 'День воспитателя и всех дошкольных работников', month: 8, day: 27, cat: 'prof' },
-      { name: 'День воссоединения ДНР, ЛНР, Запорожской и Херсонской областей с РФ', month: 8, day: 30, cat: 'state' },
+      { name: 'День Победы над милитаристской Японией и окончания Второй мировой войны (1945 год); День солидарности в борьбе с терроризмом', month: 8, day: 3, cat: 'military' },
+      { name: 'День Бородинского сражения русской армии под командованием М. И. Кутузова с французской армией (1812 год)', month: 8, day: 8, cat: 'military' },
+      { name: 'День победы русской эскадры под командованием Ф. Ф. Ушакова над турецкой эскадрой у мыса Тендра (1790 год)', month: 8, day: 11, cat: 'military' },
+      { name: 'День победы русских полков во главе с великим князем Дмитрием Донским над монголо-татарскими войсками в Куликовской битве (1380 год)', month: 8, day: 21, cat: 'military' },
+      { name: 'День воссоединения Донецкой Народной Республики, Луганской Народной Республики, Запорожской области и Херсонской области с Россией (2022 год)', month: 8, day: 30, cat: 'state' },
 
-      { name: 'День пожилых людей', month: 9, day: 1, cat: 'social' },
-      { name: 'День космических войск', month: 9, day: 4, cat: 'military' },
-      { name: 'День учителя', month: 9, day: 5, cat: 'prof' },
-      { name: 'День работников сельского хозяйства', month: 9, day: 11, cat: 'prof' },
-      { name: 'День работников дорожного хозяйства', month: 9, day: 18, cat: 'prof' },
-      { name: 'День военного связиста', month: 9, day: 20, cat: 'military' },
-      { name: 'День подразделений специального назначения', month: 9, day: 24, cat: 'military' },
-      { name: 'День таможенника РФ', month: 9, day: 25, cat: 'prof' },
-      { name: 'День работников автомобильного транспорта', month: 9, day: 25, cat: 'prof' },
-      { name: 'День памяти жертв политических репрессий', month: 9, day: 30, cat: 'social' },
+      { name: 'День разгрома советскими войсками немецко-фашистских войск в битве за Кавказ (1943 год)', month: 9, day: 9, cat: 'military' },
 
       { name: 'День народного единства', month: 10, day: 4, cat: 'state' },
-      { name: 'День военной разведки', month: 10, day: 5, cat: 'military' },
-      { name: 'День сотрудника органов внутренних дел РФ', month: 10, day: 10, cat: 'prof' },
-      { name: 'День ракетных войск и артиллерии', month: 10, day: 19, cat: 'military' },
-      { name: 'День матери в России', month: 10, day: 29, cat: 'social' },
-      { name: 'День Государственного герба РФ', month: 10, day: 30, cat: 'state' },
+      { name: 'День проведения военного парада на Красной площади в городе Москве в ознаменование двадцать четвёртой годовщины Великой Октябрьской социалистической революции (1941 год); День Октябрьской революции 1917 года', month: 10, day: 7, cat: 'military' },
+      { name: 'День Военной присяги', month: 10, day: 21, cat: 'military' },
 
-      { name: 'День юриста', month: 11, day: 3, cat: 'prof' },
+      { name: 'День победы русской эскадры под командованием П. С. Нахимова над турецкой эскадрой у мыса Синоп (1853 год)', month: 11, day: 1, cat: 'military' },
       { name: 'День Неизвестного Солдата', month: 11, day: 3, cat: 'military' },
-      { name: 'День добровольца (волонтёра) в России', month: 11, day: 5, cat: 'social' },
-      { name: 'День героев Отечества', month: 11, day: 9, cat: 'military' },
-      { name: 'День Конституции РФ', month: 11, day: 12, cat: 'state' },
-      { name: 'День работника органов безопасности РФ', month: 11, day: 20, cat: 'prof' },
-      { name: 'День энергетика', month: 11, day: 22, cat: 'prof' },
-      { name: 'День спасателя РФ', month: 11, day: 27, cat: 'prof' }
+      { name: 'День начала контрнаступления советских войск против немецко-фашистских войск в битве под Москвой (1941 год)', month: 11, day: 5, cat: 'military' },
+      { name: 'День Героев Отечества', month: 11, day: 9, cat: 'military' },
+      { name: 'День Конституции Российской Федерации', month: 11, day: 12, cat: 'state' },
+      { name: 'День взятия турецкой крепости Измаил русскими войсками под командованием А. В. Суворова (1790 год)', month: 11, day: 24, cat: 'military' }
     ];
 
     const KEYS = {
-      customHolidays: 'n1ghtixx_custom_holidays_v4',
-      targetState: 'n1ghtixx_target_state_v4',
-      notes: 'n1ghtixx_notes_v4',
-      palette: 'n1ghtixx_palette_v4',
-      season: 'n1ghtixx_season_v4'
+      customHolidays: 'n1ghtixx_custom_holidays_v5',
+      targetState: 'n1ghtixx_target_state_v5',
+      notes: 'n1ghtixx_notes_v5',
+      palette: 'n1ghtixx_palette_v5',
+      season: 'n1ghtixx_season_v5',
+      settings: 'n1ghtixx_settings_v5'
     };
 
     let selectedCat = 'all';
@@ -1001,6 +1189,12 @@
         localStorage.setItem(key, JSON.stringify(value));
       } catch {}
     }
+
+    let appSettings = readJSON(KEYS.settings, {
+      compact: false,
+      hour12: false,
+      swipes: true
+    });
 
     function getNextOccurrence(month, day, fromDate = new Date()) {
       const year = fromDate.getFullYear();
@@ -1076,9 +1270,6 @@
       return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
 
-    /* Состояние выбранного отсчёта:
-       - mode: 'none' (по умолчанию — ближайший праздник) | 'holiday' (выбрана дата из списка) | 'season' (выбран сезон) | 'custom' (вручную задана дата)
-    */
     function getTargetState(now = new Date()) {
       const saved = readJSON(KEYS.targetState, null);
       if (saved && saved.mode === 'season' && SEASON_TARGETS[saved.seasonKey]) {
@@ -1150,7 +1341,6 @@
             hasExplicitSelection &&
             h.name.trim().toLowerCase() === (targetState.name || '').trim().toLowerCase();
 
-          // Светится ТОЛЬКО выбранная дата (если она выбрана), иначе светится ближайшая дата
           const shouldGlow = hasExplicitSelection ? isPickedDate : isGlobalNearest;
 
           let badgeHtml = `<span class="badge">${CAT_LABELS[h.cat]}</span>`;
@@ -1205,7 +1395,6 @@
       });
     }
 
-    // --- Применение классов темы сезона + готового цветового пресета ---
     function syncBodyClasses() {
       const classes = [];
       const activeThemeBtn = document.querySelector(`#season-themes .theme-btn[data-season="${selectedSeason}"]`);
@@ -1214,6 +1403,9 @@
       }
       if (selectedPalette) {
         classes.push(selectedPalette);
+      }
+      if (appSettings.compact) {
+        classes.push('compact-mode');
       }
       document.body.className = classes.join(' ');
     }
@@ -1228,7 +1420,6 @@
         });
         syncBodyClasses();
 
-        // Если нажали Зима / Весна / Лето / Осень — запускаем отсчёт до этого сезона в центральном баннере
         if (SEASON_TARGETS[selectedSeason]) {
           const s = SEASON_TARGETS[selectedSeason];
           setTargetState({
@@ -1243,7 +1434,6 @@
       });
     });
 
-    // Готовые цветовые пресеты
     function applyPalette(paletteClass) {
       selectedPalette = paletteClass || '';
       localStorage.setItem(KEYS.palette, selectedPalette);
@@ -1263,24 +1453,133 @@
 
     document.getElementById('reset-palette-btn').addEventListener('click', () => applyPalette(''));
 
-    // --- Боковая панель заметок ---
+    // --- Выдвижные панели: Заметки (свайп влево) и Настройки (свайп вправо) ---
     const notesSidebar = document.getElementById('notes-sidebar');
-    const notesBackdrop = document.getElementById('notes-backdrop');
+    const settingsSidebar = document.getElementById('settings-sidebar');
+    const drawerBackdrop = document.getElementById('drawer-backdrop');
 
-    function openNotes() {
-      notesSidebar.classList.add('open');
-      notesBackdrop.classList.add('open');
+    function closeAllDrawers() {
+      notesSidebar.classList.remove('open');
+      settingsSidebar.classList.remove('open');
+      drawerBackdrop.classList.remove('open');
     }
 
-    function closeNotes() {
+    function openNotes() {
+      settingsSidebar.classList.remove('open');
+      notesSidebar.classList.add('open');
+      drawerBackdrop.classList.add('open');
+    }
+
+    function openSettings() {
       notesSidebar.classList.remove('open');
-      notesBackdrop.classList.remove('open');
+      settingsSidebar.classList.add('open');
+      drawerBackdrop.classList.add('open');
     }
 
     document.getElementById('open-notes-btn').addEventListener('click', openNotes);
-    document.getElementById('close-notes-btn').addEventListener('click', closeNotes);
-    notesBackdrop.addEventListener('click', closeNotes);
+    document.getElementById('close-notes-btn').addEventListener('click', closeAllDrawers);
+    document.getElementById('open-settings-btn').addEventListener('click', openSettings);
+    document.getElementById('close-settings-btn').addEventListener('click', closeAllDrawers);
+    drawerBackdrop.addEventListener('click', closeAllDrawers);
 
+    // Обработка свайпов пальцем
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchTarget = null;
+
+    document.addEventListener(
+      'touchstart',
+      (e) => {
+        if (!e.touches || e.touches.length !== 1) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchTarget = e.target;
+      },
+      { passive: true }
+    );
+
+    document.addEventListener(
+      'touchend',
+      (e) => {
+        if (!appSettings.swipes || !e.changedTouches || e.changedTouches.length !== 1) return;
+        if (touchTarget && touchTarget.closest('input, textarea, select, .notes-list, .settings-sidebar')) return;
+
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        const absX = Math.abs(dx);
+        const absY = Math.abs(dy);
+
+        if (absX < 70 || absX < absY * 1.45) return;
+
+        const notesOpen = notesSidebar.classList.contains('open');
+        const settingsOpen = settingsSidebar.classList.contains('open');
+
+        if (dx < 0) {
+          // Смахнули влево: если открыты настройки — закрываем, иначе открываем заметки
+          if (settingsOpen) closeAllDrawers();
+          else openNotes();
+        } else {
+          // Смахнули вправо: если открыты заметки — закрываем, иначе открываем настройки
+          if (notesOpen) closeAllDrawers();
+          else openSettings();
+        }
+      },
+      { passive: true }
+    );
+
+    // --- Настройки ---
+    function syncSettingsUI() {
+      document.getElementById('opt-compact').checked = Boolean(appSettings.compact);
+      document.getElementById('opt-12h').checked = Boolean(appSettings.hour12);
+      document.getElementById('opt-swipes').checked = appSettings.swipes !== false;
+      syncBodyClasses();
+      tick();
+    }
+
+    document.getElementById('opt-compact').addEventListener('change', (e) => {
+      appSettings.compact = e.target.checked;
+      writeJSON(KEYS.settings, appSettings);
+      syncBodyClasses();
+    });
+
+    document.getElementById('opt-12h').addEventListener('change', (e) => {
+      appSettings.hour12 = e.target.checked;
+      writeJSON(KEYS.settings, appSettings);
+      tick();
+    });
+
+    document.getElementById('opt-swipes').addEventListener('change', (e) => {
+      appSettings.swipes = e.target.checked;
+      writeJSON(KEYS.settings, appSettings);
+    });
+
+    document.getElementById('opt-reset-target').addEventListener('click', () => {
+      localStorage.removeItem(KEYS.targetState);
+      const init = getTargetState();
+      document.getElementById('target-name-input').value = init.name;
+      document.getElementById('target-date-input').value = toLocalInputString(init.date);
+      renderHolidays();
+      tick();
+    });
+
+    document.getElementById('opt-reset-all').addEventListener('click', () => {
+      selectedSeason = 'auto';
+      selectedPalette = '';
+      localStorage.setItem(KEYS.season, 'auto');
+      localStorage.removeItem(KEYS.palette);
+      appSettings = { compact: false, hour12: false, swipes: true };
+      writeJSON(KEYS.settings, appSettings);
+
+      document.querySelectorAll('#season-themes .theme-btn').forEach((b) => {
+        b.classList.toggle('active', b.dataset.season === 'auto');
+      });
+      document.querySelectorAll('#presets-list .preset-btn').forEach((b) => {
+        b.classList.toggle('active', !b.dataset.palette);
+      });
+      syncSettingsUI();
+    });
+
+    // --- Заметки ---
     function renderNotes() {
       const notes = readJSON(KEYS.notes, []);
       const listEl = document.getElementById('notes-list');
@@ -1423,7 +1722,8 @@
         month: 'long',
         year: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        hour12: Boolean(appSettings.hour12)
       });
       document.getElementById('selected-target-title').textContent = `${targetState.name} — ${dateStr}`;
       renderTimer(document.getElementById('selected-target-timer'), activeDate, now);
@@ -1436,13 +1736,12 @@
     document.querySelectorAll('#presets-list .preset-btn').forEach((b) => {
       b.classList.toggle('active', (b.dataset.palette || '') === selectedPalette);
     });
-    syncBodyClasses();
 
     const initTarget = getTargetState();
     document.getElementById('target-name-input').value = initTarget.name;
     document.getElementById('target-date-input').value = toLocalInputString(initTarget.date);
 
-    tick();
+    syncSettingsUI();
     renderHolidays();
     renderNotes();
     setInterval(tick, 1000);
