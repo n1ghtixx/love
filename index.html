@@ -13,7 +13,7 @@
       --bg-2: #0f172a;
       --accent: #38bdf8;
       --accent-2: #818cf8;
-      --glow: rgba(56, 189, 248, 0.22);
+      --glow: rgba(56, 189, 248, 0.28);
       --card: rgba(15, 23, 42, 0.78);
       --card-soft: rgba(255, 255, 255, 0.045);
       --border: rgba(255, 255, 255, 0.1);
@@ -27,7 +27,7 @@
       --bg-2: #122138;
       --accent: #60a5fa;
       --accent-2: #a5f3fc;
-      --glow: rgba(96, 165, 250, 0.25);
+      --glow: rgba(96, 165, 250, 0.3);
     }
 
     body.theme-spring {
@@ -35,7 +35,7 @@
       --bg-2: #0e2c23;
       --accent: #34d399;
       --accent-2: #a3e635;
-      --glow: rgba(52, 211, 153, 0.24);
+      --glow: rgba(52, 211, 153, 0.28);
     }
 
     body.theme-summer {
@@ -43,7 +43,7 @@
       --bg-2: #2d1d0a;
       --accent: #fb923c;
       --accent-2: #facc15;
-      --glow: rgba(251, 146, 60, 0.25);
+      --glow: rgba(251, 146, 60, 0.3);
     }
 
     body.theme-autumn {
@@ -51,7 +51,40 @@
       --bg-2: #2b1410;
       --accent: #f87171;
       --accent-2: #fbbf24;
-      --glow: rgba(248, 113, 113, 0.24);
+      --glow: rgba(248, 113, 113, 0.28);
+    }
+
+    /* Готовые цветовые пресеты */
+    body.palette-violet {
+      --bg-1: #10091f;
+      --bg-2: #1c1036;
+      --accent: #c084fc;
+      --accent-2: #f472b6;
+      --glow: rgba(192, 132, 252, 0.3);
+    }
+
+    body.palette-emerald {
+      --bg-1: #061714;
+      --bg-2: #0c2924;
+      --accent: #2dd4bf;
+      --accent-2: #4ade80;
+      --glow: rgba(45, 212, 191, 0.3);
+    }
+
+    body.palette-sunset {
+      --bg-1: #1b0b12;
+      --bg-2: #2e121e;
+      --accent: #fb7185;
+      --accent-2: #fbbf24;
+      --glow: rgba(251, 113, 133, 0.3);
+    }
+
+    body.palette-crimson {
+      --bg-1: #19070b;
+      --bg-2: #2c0d14;
+      --accent: #f43f5e;
+      --accent-2: #fb923c;
+      --glow: rgba(244, 63, 94, 0.3);
     }
 
     * {
@@ -83,13 +116,7 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      margin-bottom: 20px;
     }
 
     h1 {
@@ -177,61 +204,58 @@
       border-radius: 999px;
     }
 
-    /* Панель кастомизации цветов */
-    .customizer-drawer {
+    /* Панель готовых цветов */
+    .presets-bar {
       display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
       background: var(--card);
       backdrop-filter: blur(14px);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 20px;
-      animation: fadeIn 0.2s ease;
+      border-radius: 16px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
     }
 
-    .customizer-drawer.open {
-      display: block;
-    }
-
-    .customizer-header {
+    .presets-bar.open {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-      gap: 10px;
+    }
+
+    .presets-list {
+      display: flex;
       flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .customizer-title {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 0.95rem;
-    }
-
-    .color-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-      gap: 12px;
-    }
-
-    .color-control {
+    .preset-btn {
       background: var(--card-soft);
+      color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 12px;
-      display: flex;
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      font-size: 0.84rem;
+      gap: 8px;
+      transition: 0.2s ease;
     }
 
-    .color-control input[type="color"] {
-      width: 34px;
-      height: 30px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      padding: 0;
+    .preset-btn:hover,
+    .preset-btn.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 14px var(--glow);
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
     }
 
     /* Верхние 3 карточки */
@@ -302,7 +326,7 @@
       margin-top: 2px;
     }
 
-    /* Блок отсчёта до выбранной даты (по центру между карточками и поиском) */
+    /* Блок отсчёта до выбранной даты / сезона */
     .target-banner {
       background: var(--card);
       backdrop-filter: blur(14px);
@@ -479,9 +503,10 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
 
-    .holiday-item.next-up {
+    /* Светится ТОЛЬКО активный статус: либо ближайшая дата, либо выбранная дата */
+    .holiday-item.glow-active {
       border-color: var(--accent);
-      box-shadow: 0 0 22px var(--glow);
+      box-shadow: 0 0 24px var(--glow);
     }
 
     .item-top {
@@ -511,6 +536,13 @@
       border-color: rgba(52, 211, 153, 0.4);
       color: var(--success);
       font-weight: 600;
+    }
+
+    .badge.picked {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 700;
     }
 
     .holiday-name {
@@ -565,7 +597,7 @@
       border-radius: 16px;
     }
 
-    /* Боковая панель для заметок */
+    /* Боковая панель заметок */
     .notes-backdrop {
       display: none;
       position: fixed;
@@ -671,21 +703,14 @@
       font-size: 0.72rem;
       color: var(--muted);
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div>
-        <div class="brand-row">
-          <h1>n1ghtixx</h1>
-        </div>
-        <p class="subtitle">Полный календарь праздников РФ, таймер до любой выбранной даты, отсчёт сезонов и личные заметки</p>
+        <h1>n1ghtixx</h1>
+        <p class="subtitle">Полный календарь праздников РФ, таймер до выбранной даты или сезона и личные заметки</p>
       </div>
 
       <div class="header-actions">
@@ -697,41 +722,23 @@
           <button class="theme-btn" data-theme="theme-autumn" data-season="autumn">Осень</button>
         </div>
 
-        <button class="tool-btn" id="toggle-colors-btn">Цвета</button>
+        <button class="tool-btn" id="toggle-presets-btn">Цвета</button>
         <button class="tool-btn" id="open-notes-btn">
           Заметки <span class="notes-badge" id="notes-count">0</span>
         </button>
       </div>
     </header>
 
-    <!-- Кастомизация любых цветов интерфейса -->
-    <section class="customizer-drawer" id="customizer-drawer">
-      <div class="customizer-header">
-        <div class="customizer-title">Настройка цветов интерфейса</div>
-        <button class="ghost-btn" id="reset-colors-btn">Сбросить цвета</button>
+    <!-- Готовые цветовые наборы -->
+    <section class="presets-bar" id="presets-bar">
+      <div class="presets-list" id="presets-list">
+        <button class="preset-btn active" data-palette=""><span class="swatch" style="background:#38bdf8"></span>Неон</button>
+        <button class="preset-btn" data-palette="palette-violet"><span class="swatch" style="background:#c084fc"></span>Фиолет</button>
+        <button class="preset-btn" data-palette="palette-emerald"><span class="swatch" style="background:#2dd4bf"></span>Изумруд</button>
+        <button class="preset-btn" data-palette="palette-sunset"><span class="swatch" style="background:#fb7185"></span>Закат</button>
+        <button class="preset-btn" data-palette="palette-crimson"><span class="swatch" style="background:#f43f5e"></span>Рубин</button>
       </div>
-      <div class="color-grid">
-        <label class="color-control">
-          <span>Главный акцент</span>
-          <input type="color" id="pick-accent" value="#38bdf8" />
-        </label>
-        <label class="color-control">
-          <span>Второй акцент</span>
-          <input type="color" id="pick-accent2" value="#818cf8" />
-        </label>
-        <label class="color-control">
-          <span>Фон (верх)</span>
-          <input type="color" id="pick-bg1" value="#070b14" />
-        </label>
-        <label class="color-control">
-          <span>Фон (низ)</span>
-          <input type="color" id="pick-bg2" value="#0f172a" />
-        </label>
-        <label class="color-control">
-          <span>Цвет текста</span>
-          <input type="color" id="pick-text" value="#f8fafc" />
-        </label>
-      </div>
+      <button class="ghost-btn" id="reset-palette-btn">Сбросить</button>
     </section>
 
     <!-- Верхние 3 карточки -->
@@ -758,17 +765,17 @@
       </div>
     </section>
 
-    <!-- Таймер до выбранной даты (между карточками и поиском) -->
-    <section class="target-banner">
+    <!-- Блок отсчёта до выбранной даты или выбранного сезона -->
+    <section class="target-banner" id="target-banner">
       <div>
-        <div class="card-label">Отсчёт до выбранной даты</div>
-        <div class="card-title" id="selected-target-title">Выбери дату или нажми на праздник ниже</div>
+        <div class="card-label" id="target-banner-label">Отсчёт до выбранной даты</div>
+        <div class="card-title" id="selected-target-title">Выбери дату, сезон или нажми на праздник ниже</div>
         <div class="target-inputs">
           <input type="text" id="target-name-input" placeholder="Название события..." />
           <input type="datetime-local" id="target-date-input" />
           <button class="action-btn" id="apply-target-btn">Запустить</button>
         </div>
-        <div class="target-hint">Совет: кликни по любой карточке праздника внизу, чтобы сразу поставить её в этот таймер.</div>
+        <div class="target-hint">Клик по карточке праздника ставит его в отсчёт; клик по Зима/Весна/Лето/Осень — отсчёт до этого сезона.</div>
       </div>
       <div class="countdown" id="selected-target-timer"></div>
     </section>
@@ -859,8 +866,14 @@
       custom: 'Моя дата'
     };
 
+    const SEASON_TARGETS = {
+      winter: { title: 'До начала зимы (1 декабря)', month: 11, day: 1, label: 'Зима' },
+      spring: { title: 'До начала весны (1 марта)', month: 2, day: 1, label: 'Весна' },
+      summer: { title: 'До начала лета (1 июня)', month: 5, day: 1, label: 'Лето' },
+      autumn: { title: 'До начала осени (1 сентября)', month: 8, day: 1, label: 'Осень' }
+    };
+
     const baseHolidays = [
-      // Январь
       { name: 'Новый год', month: 0, day: 1, cat: 'state' },
       { name: 'Новогодние каникулы', month: 0, day: 2, cat: 'state' },
       { name: 'Рождество Христово', month: 0, day: 7, cat: 'state' },
@@ -871,7 +884,6 @@
       { name: 'День российского студенчества (Татьянин день)', month: 0, day: 25, cat: 'social' },
       { name: 'День полного освобождения Ленинграда от фашистской блокады', month: 0, day: 27, cat: 'military' },
 
-      // Февраль
       { name: 'День разгрома советскими войсками немецко-фашистских войск в Сталинградской битве', month: 1, day: 2, cat: 'military' },
       { name: 'День российской науки', month: 1, day: 8, cat: 'prof' },
       { name: 'День дипломатического работника', month: 1, day: 10, cat: 'prof' },
@@ -879,7 +891,6 @@
       { name: 'День защитника Отечества', month: 1, day: 23, cat: 'state' },
       { name: 'День сил специальных операций', month: 1, day: 27, cat: 'military' },
 
-      // Март
       { name: 'Международный женский день', month: 2, day: 8, cat: 'state' },
       { name: 'День работников архивов', month: 2, day: 10, cat: 'prof' },
       { name: 'День работников геодезии и картографии', month: 2, day: 11, cat: 'prof' },
@@ -887,7 +898,6 @@
       { name: 'День работников культуры', month: 2, day: 25, cat: 'prof' },
       { name: 'День войск национальной гвардии РФ', month: 2, day: 27, cat: 'military' },
 
-      // Апрель
       { name: 'День единения народов Беларуси и России', month: 3, day: 2, cat: 'social' },
       { name: 'День сотрудников военных комиссариатов', month: 3, day: 8, cat: 'military' },
       { name: 'День космонавтики', month: 3, day: 12, cat: 'military' },
@@ -896,7 +906,6 @@
       { name: 'День работника скорой медицинской помощи', month: 3, day: 28, cat: 'prof' },
       { name: 'День пожарной охраны', month: 3, day: 30, cat: 'prof' },
 
-      // Май
       { name: 'Праздник Весны и Труда', month: 4, day: 1, cat: 'state' },
       { name: 'День радио', month: 4, day: 7, cat: 'prof' },
       { name: 'День Победы', month: 4, day: 9, cat: 'state' },
@@ -906,7 +915,6 @@
       { name: 'День российского предпринимательства', month: 4, day: 26, cat: 'prof' },
       { name: 'День пограничника', month: 4, day: 28, cat: 'military' },
 
-      // Июнь
       { name: 'День защиты детей', month: 5, day: 1, cat: 'social' },
       { name: 'День эколога', month: 5, day: 5, cat: 'prof' },
       { name: 'День русского языка / Пушкинский день России', month: 5, day: 6, cat: 'social' },
@@ -916,14 +924,12 @@
       { name: 'День молодёжи', month: 5, day: 27, cat: 'social' },
       { name: 'День изобретателя и рационализатора', month: 5, day: 29, cat: 'prof' },
 
-      // Июль
       { name: 'День работников морского и речного флота', month: 6, day: 5, cat: 'prof' },
       { name: 'День семьи, любви и верности', month: 6, day: 8, cat: 'social' },
       { name: 'День российской почты', month: 6, day: 12, cat: 'prof' },
       { name: 'День Военно-Морского Флота', month: 6, day: 26, cat: 'military' },
       { name: 'День памяти святого равноапостольного князя Владимира', month: 6, day: 28, cat: 'social' },
 
-      // Август
       { name: 'День Воздушно-десантных войск (ВДВ)', month: 7, day: 2, cat: 'military' },
       { name: 'День железнодорожника', month: 7, day: 2, cat: 'prof' },
       { name: 'День физкультурника', month: 7, day: 8, cat: 'social' },
@@ -933,7 +939,6 @@
       { name: 'День российского кино', month: 7, day: 27, cat: 'prof' },
       { name: 'День шахтёра', month: 7, day: 30, cat: 'prof' },
 
-      // Сентябрь
       { name: 'День знаний', month: 8, day: 1, cat: 'social' },
       { name: 'День окончания Второй мировой войны', month: 8, day: 3, cat: 'military' },
       { name: 'День солидарности в борьбе с терроризмом', month: 8, day: 3, cat: 'social' },
@@ -942,7 +947,6 @@
       { name: 'День воспитателя и всех дошкольных работников', month: 8, day: 27, cat: 'prof' },
       { name: 'День воссоединения ДНР, ЛНР, Запорожской и Херсонской областей с РФ', month: 8, day: 30, cat: 'state' },
 
-      // Октябрь
       { name: 'День пожилых людей', month: 9, day: 1, cat: 'social' },
       { name: 'День космических войск', month: 9, day: 4, cat: 'military' },
       { name: 'День учителя', month: 9, day: 5, cat: 'prof' },
@@ -954,7 +958,6 @@
       { name: 'День работников автомобильного транспорта', month: 9, day: 25, cat: 'prof' },
       { name: 'День памяти жертв политических репрессий', month: 9, day: 30, cat: 'social' },
 
-      // Ноябрь
       { name: 'День народного единства', month: 10, day: 4, cat: 'state' },
       { name: 'День военной разведки', month: 10, day: 5, cat: 'military' },
       { name: 'День сотрудника органов внутренних дел РФ', month: 10, day: 10, cat: 'prof' },
@@ -962,7 +965,6 @@
       { name: 'День матери в России', month: 10, day: 29, cat: 'social' },
       { name: 'День Государственного герба РФ', month: 10, day: 30, cat: 'state' },
 
-      // Декабрь
       { name: 'День юриста', month: 11, day: 3, cat: 'prof' },
       { name: 'День Неизвестного Солдата', month: 11, day: 3, cat: 'military' },
       { name: 'День добровольца (волонтёра) в России', month: 11, day: 5, cat: 'social' },
@@ -974,15 +976,16 @@
     ];
 
     const KEYS = {
-      customHolidays: 'n1ghtixx_custom_holidays_v3',
-      targetDate: 'n1ghtixx_selected_target_v3',
-      notes: 'n1ghtixx_notes_v3',
-      colors: 'n1ghtixx_custom_colors_v3',
-      season: 'n1ghtixx_selected_season_v3'
+      customHolidays: 'n1ghtixx_custom_holidays_v4',
+      targetState: 'n1ghtixx_target_state_v4',
+      notes: 'n1ghtixx_notes_v4',
+      palette: 'n1ghtixx_palette_v4',
+      season: 'n1ghtixx_season_v4'
     };
 
     let selectedCat = 'all';
     let selectedSeason = localStorage.getItem(KEYS.season) || 'auto';
+    let selectedPalette = localStorage.getItem(KEYS.palette) || '';
 
     function readJSON(key, fallback) {
       try {
@@ -999,7 +1002,6 @@
       } catch {}
     }
 
-    // --- Даты и таймеры ---
     function getNextOccurrence(month, day, fromDate = new Date()) {
       const year = fromDate.getFullYear();
       let target = new Date(year, month, day, 0, 0, 0, 0);
@@ -1009,29 +1011,22 @@
       return target;
     }
 
-    function getSeasonInfo(mode, fromDate = new Date()) {
-      const map = {
-        spring: { name: 'До начала весны', label: 'Весна', month: 2, day: 1 },
-        summer: { name: 'До начала лета', label: 'Лето', month: 5, day: 1 },
-        autumn: { name: 'До начала осени', label: 'Осень', month: 8, day: 1 },
-        winter: { name: 'До начала зимы', label: 'Зима', month: 11, day: 1 }
-      };
-
-      if (mode !== 'auto' && map[mode]) {
-        const s = map[mode];
+    function getSeasonCardInfo(mode, fromDate = new Date()) {
+      const order = ['spring', 'summer', 'autumn', 'winter'];
+      if (mode !== 'auto' && SEASON_TARGETS[mode]) {
+        const s = SEASON_TARGETS[mode];
         return {
-          name: s.name,
+          name: `До начала ${s.label.toLowerCase()}`,
           badge: s.label,
           date: getNextOccurrence(s.month, s.day, fromDate)
         };
       }
-
       let nearest = null;
-      for (const key of Object.keys(map)) {
-        const s = map[key];
+      for (const k of order) {
+        const s = SEASON_TARGETS[k];
         const date = getNextOccurrence(s.month, s.day, fromDate);
         if (!nearest || date < nearest.date) {
-          nearest = { name: s.name, badge: 'Авто', date };
+          nearest = { name: `До начала ${s.label.toLowerCase()}`, badge: 'Авто', date };
         }
       }
       return nearest;
@@ -1076,32 +1071,51 @@
         .sort((a, b) => a.nextDate - b.nextDate);
     }
 
-    // --- Выбранная дата для центрального баннера ---
     function toLocalInputString(date) {
       const pad = (n) => String(n).padStart(2, '0');
       return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
 
-    function getSelectedTarget(now = new Date()) {
-      const saved = readJSON(KEYS.targetDate, null);
-      if (saved && saved.iso) {
+    /* Состояние выбранного отсчёта:
+       - mode: 'none' (по умолчанию — ближайший праздник) | 'holiday' (выбрана дата из списка) | 'season' (выбран сезон) | 'custom' (вручную задана дата)
+    */
+    function getTargetState(now = new Date()) {
+      const saved = readJSON(KEYS.targetState, null);
+      if (saved && saved.mode === 'season' && SEASON_TARGETS[saved.seasonKey]) {
+        const s = SEASON_TARGETS[saved.seasonKey];
+        const date = getNextOccurrence(s.month, s.day, now);
+        return { mode: 'season', seasonKey: saved.seasonKey, name: s.title, date };
+      }
+      if (saved && (saved.mode === 'holiday' || saved.mode === 'custom') && saved.iso) {
         const parsed = new Date(saved.iso);
         if (!isNaN(parsed.getTime())) {
-          return { name: saved.name || 'Выбранная дата', date: parsed };
+          return { mode: saved.mode, name: saved.name || 'Выбранная дата', date: parsed };
         }
       }
-      const fallback = getNextOccurrence(0, 1, now);
-      return { name: `Новый год ${fallback.getFullYear()}`, date: fallback };
+      const upcoming = getSortedUpcoming(now);
+      const first = upcoming[0];
+      return {
+        mode: 'none',
+        name: first ? first.name : 'Новый год',
+        date: first ? first.nextDate : getNextOccurrence(0, 1, now)
+      };
     }
 
-    function setSelectedTarget(name, dateObj) {
-      writeJSON(KEYS.targetDate, { name, iso: dateObj.toISOString() });
-      document.getElementById('target-name-input').value = name;
-      document.getElementById('target-date-input').value = toLocalInputString(dateObj);
+    function setTargetState(stateObj) {
+      writeJSON(KEYS.targetState, {
+        mode: stateObj.mode,
+        name: stateObj.name,
+        seasonKey: stateObj.seasonKey || null,
+        iso: stateObj.date ? stateObj.date.toISOString() : null
+      });
+      document.getElementById('target-name-input').value = stateObj.name || '';
+      if (stateObj.date) {
+        document.getElementById('target-date-input').value = toLocalInputString(stateObj.date);
+      }
+      renderHolidays();
       tick();
     }
 
-    // --- Отрисовка списка праздников ---
     function renderHolidays() {
       const now = new Date();
       const query = document.getElementById('search-input').value.trim().toLowerCase();
@@ -1111,6 +1125,8 @@
 
       const upcoming = getSortedUpcoming(now);
       const globalNearestName = upcoming[0]?.name;
+      const targetState = getTargetState(now);
+      const hasExplicitSelection = targetState.mode !== 'none';
 
       const filtered = upcoming.filter((h) => {
         const matchesCat = selectedCat === 'all' || h.cat === selectedCat;
@@ -1129,17 +1145,32 @@
       listEl.innerHTML = filtered
         .map((h, i) => {
           const dateLabel = h.nextDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
-          const isNearest = h.name === globalNearestName && selectedCat === 'all' && monthVal === 'all' && !query;
-          const isSoon = h.daysLeft <= 14;
+          const isGlobalNearest = h.name === globalNearestName;
+          const isPickedDate =
+            hasExplicitSelection &&
+            h.name.trim().toLowerCase() === (targetState.name || '').trim().toLowerCase();
+
+          // Светится ТОЛЬКО выбранная дата (если она выбрана), иначе светится ближайшая дата
+          const shouldGlow = hasExplicitSelection ? isPickedDate : isGlobalNearest;
+
+          let badgeHtml = `<span class="badge">${CAT_LABELS[h.cat]}</span>`;
+          if (isPickedDate) {
+            badgeHtml = `<span class="badge picked">Выбрана</span>`;
+          } else if (isGlobalNearest && !hasExplicitSelection) {
+            badgeHtml = `<span class="badge soon">Ближайшая</span>`;
+          } else if (h.daysLeft <= 14) {
+            badgeHtml = `<span class="badge soon">Скоро</span>`;
+          }
+
           const delBtn = h.cat === 'custom'
             ? `<button class="del-btn" data-del="${h.customIndex}">Удалить</button>`
             : '';
 
           return `
-            <div class="holiday-item ${isNearest ? 'next-up' : ''}" data-pick-idx="${i}">
+            <div class="holiday-item ${shouldGlow ? 'glow-active' : ''}" data-pick-idx="${i}">
               <div class="item-top">
                 <span class="holiday-date">${dateLabel}</span>
-                <span class="badge ${isSoon ? 'soon' : ''}">${isNearest ? 'Ближайшая' : CAT_LABELS[h.cat]}</span>
+                ${badgeHtml}
               </div>
               <div class="holiday-name">${h.name}</div>
               <div class="item-bottom">
@@ -1156,8 +1187,8 @@
           if (e.target.closest('[data-del]')) return;
           const item = filtered[Number(card.dataset.pickIdx)];
           if (item) {
-            setSelectedTarget(item.name, item.nextDate);
-            document.querySelector('.target-banner').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTargetState({ mode: 'holiday', name: item.name, date: item.nextDate });
+            document.getElementById('target-banner').scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
         });
       });
@@ -1174,82 +1205,63 @@
       });
     }
 
-    // --- Темы и сезоны ---
-    function applySeasonTheme(themeClass, seasonMode) {
-      document.body.className = themeClass;
-      selectedSeason = seasonMode;
-      localStorage.setItem(KEYS.season, seasonMode);
-
-      document.querySelectorAll('#season-themes .theme-btn').forEach((btn) => {
-        btn.classList.toggle('active', btn.dataset.season === seasonMode);
-      });
-      tick();
+    // --- Применение классов темы сезона + готового цветового пресета ---
+    function syncBodyClasses() {
+      const classes = [];
+      const activeThemeBtn = document.querySelector(`#season-themes .theme-btn[data-season="${selectedSeason}"]`);
+      if (activeThemeBtn && activeThemeBtn.dataset.theme) {
+        classes.push(activeThemeBtn.dataset.theme);
+      }
+      if (selectedPalette) {
+        classes.push(selectedPalette);
+      }
+      document.body.className = classes.join(' ');
     }
 
     document.querySelectorAll('#season-themes .theme-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        // При выборе готовой темы сбрасываем кастомные inline-цвета
-        clearCustomInlineColors();
-        applySeasonTheme(btn.dataset.theme, btn.dataset.season);
+        selectedSeason = btn.dataset.season;
+        localStorage.setItem(KEYS.season, selectedSeason);
+
+        document.querySelectorAll('#season-themes .theme-btn').forEach((b) => {
+          b.classList.toggle('active', b.dataset.season === selectedSeason);
+        });
+        syncBodyClasses();
+
+        // Если нажали Зима / Весна / Лето / Осень — запускаем отсчёт до этого сезона в центральном баннере
+        if (SEASON_TARGETS[selectedSeason]) {
+          const s = SEASON_TARGETS[selectedSeason];
+          setTargetState({
+            mode: 'season',
+            seasonKey: selectedSeason,
+            name: s.title,
+            date: getNextOccurrence(s.month, s.day, new Date())
+          });
+        } else {
+          tick();
+        }
       });
     });
 
-    // --- Кастомайзер любых цветов ---
-    function hexToRgba(hex, alpha) {
-      const clean = hex.replace('#', '');
-      const num = parseInt(clean, 16);
-      const r = (num >> 16) & 255;
-      const g = (num >> 8) & 255;
-      const b = num & 255;
-      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-    }
-
-    function applyCustomColors(colors) {
-      if (!colors) return;
-      const root = document.documentElement.style;
-      root.setProperty('--accent', colors.accent);
-      root.setProperty('--accent-2', colors.accent2);
-      root.setProperty('--glow', hexToRgba(colors.accent, 0.25));
-      root.setProperty('--bg-1', colors.bg1);
-      root.setProperty('--bg-2', colors.bg2);
-      root.setProperty('--text', colors.text);
-
-      document.getElementById('pick-accent').value = colors.accent;
-      document.getElementById('pick-accent2').value = colors.accent2;
-      document.getElementById('pick-bg1').value = colors.bg1;
-      document.getElementById('pick-bg2').value = colors.bg2;
-      document.getElementById('pick-text').value = colors.text;
-    }
-
-    function clearCustomInlineColors() {
-      const root = document.documentElement.style;
-      ['--accent', '--accent-2', '--glow', '--bg-1', '--bg-2', '--text'].forEach((v) => root.removeProperty(v));
-      localStorage.removeItem(KEYS.colors);
-    }
-
-    const colorInputs = ['pick-accent', 'pick-accent2', 'pick-bg1', 'pick-bg2', 'pick-text'];
-    colorInputs.forEach((id) => {
-      document.getElementById(id).addEventListener('input', () => {
-        const colors = {
-          accent: document.getElementById('pick-accent').value,
-          accent2: document.getElementById('pick-accent2').value,
-          bg1: document.getElementById('pick-bg1').value,
-          bg2: document.getElementById('pick-bg2').value,
-          text: document.getElementById('pick-text').value
-        };
-        applyCustomColors(colors);
-        writeJSON(KEYS.colors, colors);
+    // Готовые цветовые пресеты
+    function applyPalette(paletteClass) {
+      selectedPalette = paletteClass || '';
+      localStorage.setItem(KEYS.palette, selectedPalette);
+      document.querySelectorAll('#presets-list .preset-btn').forEach((b) => {
+        b.classList.toggle('active', (b.dataset.palette || '') === selectedPalette);
       });
+      syncBodyClasses();
+    }
+
+    document.getElementById('toggle-presets-btn').addEventListener('click', () => {
+      document.getElementById('presets-bar').classList.toggle('open');
     });
 
-    document.getElementById('toggle-colors-btn').addEventListener('click', () => {
-      document.getElementById('customizer-drawer').classList.toggle('open');
+    document.querySelectorAll('#presets-list .preset-btn').forEach((btn) => {
+      btn.addEventListener('click', () => applyPalette(btn.dataset.palette || ''));
     });
 
-    document.getElementById('reset-colors-btn').addEventListener('click', () => {
-      clearCustomInlineColors();
-      applySeasonTheme('', 'auto');
-    });
+    document.getElementById('reset-palette-btn').addEventListener('click', () => applyPalette(''));
 
     // --- Боковая панель заметок ---
     const notesSidebar = document.getElementById('notes-sidebar');
@@ -1327,7 +1339,7 @@
       renderNotes();
     });
 
-    // --- Обработчики фильтров и форм ---
+    // --- Фильтры и формы ---
     document.querySelectorAll('.cat-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.cat-btn').forEach((b) => b.classList.remove('active'));
@@ -1373,17 +1385,16 @@
       const parsed = new Date(rawDate);
       if (isNaN(parsed.getTime())) return;
       const customLabel = document.getElementById('target-name-input').value.trim() || 'Выбранная дата';
-      setSelectedTarget(customLabel, parsed);
+      setTargetState({ mode: 'custom', name: customLabel, date: parsed });
     });
 
-    // --- Главный цикл таймеров ---
     function tick() {
       const now = new Date();
       const upcoming = getSortedUpcoming(now);
       const nearest = upcoming[0];
       const nyDate = getNextOccurrence(0, 1, now);
-      const seasonInfo = getSeasonInfo(selectedSeason, now);
-      const targetInfo = getSelectedTarget(now);
+      const seasonCard = getSeasonCardInfo(selectedSeason, now);
+      const targetState = getTargetState(now);
 
       if (nearest) {
         const shortDate = nearest.nextDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
@@ -1394,31 +1405,40 @@
       document.getElementById('ny-title').textContent = `Новый год ${nyDate.getFullYear()}`;
       renderTimer(document.getElementById('ny-timer'), nyDate, now);
 
-      document.getElementById('season-title').textContent = seasonInfo.name;
-      document.getElementById('season-mode-badge').textContent = seasonInfo.badge;
-      renderTimer(document.getElementById('season-timer'), seasonInfo.date, now);
+      document.getElementById('season-title').textContent = seasonCard.name;
+      document.getElementById('season-mode-badge').textContent = seasonCard.badge;
+      renderTimer(document.getElementById('season-timer'), seasonCard.date, now);
 
-      const targetDateStr = targetInfo.date.toLocaleString('ru-RU', {
+      const activeDate = targetState.mode === 'season' && SEASON_TARGETS[targetState.seasonKey]
+        ? getNextOccurrence(SEASON_TARGETS[targetState.seasonKey].month, SEASON_TARGETS[targetState.seasonKey].day, now)
+        : targetState.date;
+
+      const labelEl = document.getElementById('target-banner-label');
+      labelEl.textContent = targetState.mode === 'season'
+        ? `Отсчёт до сезона — ${SEASON_TARGETS[targetState.seasonKey].label}`
+        : 'Отсчёт до выбранной даты';
+
+      const dateStr = activeDate.toLocaleString('ru-RU', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
       });
-      document.getElementById('selected-target-title').textContent = `${targetInfo.name} — ${targetDateStr}`;
-      renderTimer(document.getElementById('selected-target-timer'), targetInfo.date, now);
+      document.getElementById('selected-target-title').textContent = `${targetState.name} — ${dateStr}`;
+      renderTimer(document.getElementById('selected-target-timer'), activeDate, now);
     }
 
-    // --- Инициализация ---
-    const initialSeasonBtn = document.querySelector(`#season-themes .theme-btn[data-season="${selectedSeason}"]`);
-    if (initialSeasonBtn) {
-      applySeasonTheme(initialSeasonBtn.dataset.theme, selectedSeason);
-    }
-    const savedColors = readJSON(KEYS.colors, null);
-    if (savedColors) {
-      applyCustomColors(savedColors);
-    }
-    const initTarget = getSelectedTarget();
+    // Инициализация
+    document.querySelectorAll('#season-themes .theme-btn').forEach((b) => {
+      b.classList.toggle('active', b.dataset.season === selectedSeason);
+    });
+    document.querySelectorAll('#presets-list .preset-btn').forEach((b) => {
+      b.classList.toggle('active', (b.dataset.palette || '') === selectedPalette);
+    });
+    syncBodyClasses();
+
+    const initTarget = getTargetState();
     document.getElementById('target-name-input').value = initTarget.name;
     document.getElementById('target-date-input').value = toLocalInputString(initTarget.date);
 
