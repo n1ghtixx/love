@@ -22,11 +22,34 @@
       --success: #34d399;
       --card-pad: 20px;
       --item-pad: 16px;
+      --font-scale: 1;
+      --drawer-width: min(420px, 92vw);
+    }
+
+    body.font-small {
+      --font-scale: 0.9;
+    }
+
+    body.font-medium {
+      --font-scale: 1;
+    }
+
+    body.font-large {
+      --font-scale: 1.12;
     }
 
     body.compact-mode {
       --card-pad: 14px;
       --item-pad: 12px;
+    }
+
+    body.no-scroll {
+      overflow: hidden;
+    }
+
+    body.drawer-full-mobile .notes-sidebar,
+    body.drawer-full-mobile .settings-sidebar {
+      --drawer-width: 100vw;
     }
 
     body.theme-winter {
@@ -143,6 +166,7 @@
     body {
       min-height: 100vh;
       font-family: 'Inter', sans-serif;
+      font-size: calc(16px * var(--font-scale));
       color: var(--text);
       background:
         radial-gradient(circle at 12% 8%, var(--glow), transparent 44%),
@@ -150,6 +174,19 @@
         linear-gradient(160deg, var(--bg-1), var(--bg-2));
       padding: 24px 16px 80px;
       transition: background 0.35s ease, color 0.25s ease;
+    }
+
+    body.focus-mode header .themes,
+    body.focus-mode header #toggle-presets-btn,
+    body.focus-mode .grid-top,
+    body.focus-mode .category-tabs,
+    body.focus-mode #month-filter,
+    body.focus-mode #days-window-filter,
+    body.focus-mode #reset-filters-btn,
+    body.focus-mode #toggle-add-btn,
+    body.focus-mode .meta-bar,
+    body.focus-mode #holidays-list {
+      display: none !important;
     }
 
     .container {
@@ -168,7 +205,7 @@
 
     h1 {
       font-family: 'Unbounded', sans-serif;
-      font-size: clamp(1.55rem, 3.6vw, 2.35rem);
+      font-size: clamp(1.5rem, 3.5vw, 2.3rem);
       letter-spacing: -0.02em;
       background: linear-gradient(135deg, var(--text), var(--accent));
       -webkit-background-clip: text;
@@ -177,7 +214,7 @@
 
     .subtitle {
       color: var(--muted);
-      font-size: 0.94rem;
+      font-size: 0.92rem;
       margin-top: 6px;
       max-width: 680px;
       line-height: 1.45;
@@ -208,7 +245,7 @@
       padding: 7px 12px;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       font-weight: 500;
       font-family: inherit;
       transition: 0.2s ease;
@@ -231,7 +268,7 @@
     .tool-btn {
       background: var(--card);
       border: 1px solid var(--border);
-      padding: 11px 14px;
+      padding: 10px 14px;
       border-radius: 14px;
       font-weight: 600;
     }
@@ -240,6 +277,12 @@
     .tool-btn.active {
       border-color: var(--accent);
       box-shadow: 0 0 18px var(--glow);
+    }
+
+    .tool-btn.running {
+      background: #475569;
+      border-color: #64748b;
+      color: #f8fafc;
     }
 
     .notes-badge {
@@ -282,7 +325,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 7px 12px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
       font-family: inherit;
@@ -329,7 +372,7 @@
 
     .card-label {
       color: var(--accent);
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -337,11 +380,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
     }
 
     .card-title {
       font-family: 'Unbounded', sans-serif;
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       margin-bottom: 14px;
       line-height: 1.35;
     }
@@ -353,6 +397,35 @@
       text-align: center;
     }
 
+    .countdown.has-ms {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .countdown.inline-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+      background: var(--card-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .countdown.inline-strip .unit {
+      background: transparent;
+      border: none;
+      padding: 0;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .countdown.inline-strip .num {
+      font-size: 1rem;
+    }
+
     .unit {
       background: var(--card-soft);
       border: 1px solid var(--border);
@@ -362,13 +435,13 @@
 
     .num {
       font-family: 'Unbounded', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.12rem;
       font-weight: 700;
       color: var(--accent);
     }
 
     .unit-label {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--muted);
       margin-top: 2px;
     }
@@ -394,15 +467,22 @@
       }
     }
 
+    .target-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
     .target-inputs {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     .target-inputs input[type="text"] {
-      flex: 1 1 180px;
+      flex: 1 1 170px;
     }
 
     .target-inputs input[type="datetime-local"] {
@@ -411,7 +491,7 @@
     }
 
     .target-hint {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--muted);
       margin-top: 8px;
     }
@@ -439,7 +519,7 @@
       border: 1px solid var(--border);
       border-radius: 999px;
       padding: 7px 14px;
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       font-weight: 500;
       cursor: pointer;
       font-family: inherit;
@@ -469,13 +549,14 @@
     select,
     textarea,
     button.action-btn,
-    button.ghost-btn {
+    button.ghost-btn,
+    button.mini-btn {
       background: rgba(7, 11, 20, 0.65);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 0.9rem;
+      padding: 9px 13px;
+      font-size: 0.88rem;
       font-family: inherit;
       outline: none;
     }
@@ -487,7 +568,7 @@
     }
 
     .controls input[type="text"] {
-      flex: 1 1 220px;
+      flex: 1 1 200px;
     }
 
     button.action-btn {
@@ -496,7 +577,7 @@
       font-weight: 700;
       border: none;
       cursor: pointer;
-      transition: transform 0.15s ease, opacity 0.2s ease;
+      transition: transform 0.15s ease, opacity 0.2s ease, background 0.2s ease;
     }
 
     button.action-btn:hover {
@@ -504,13 +585,24 @@
       opacity: 0.95;
     }
 
-    button.ghost-btn {
-      cursor: pointer;
-      font-size: 0.82rem;
-      padding: 8px 12px;
+    button.action-btn.running,
+    button.ghost-btn.running,
+    button.mini-btn.running {
+      background: #475569;
+      border-color: #64748b;
+      color: #f8fafc;
+      font-weight: 700;
     }
 
-    button.ghost-btn:hover {
+    button.ghost-btn,
+    button.mini-btn {
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 7px 11px;
+    }
+
+    button.ghost-btn:hover,
+    button.mini-btn:hover {
       border-color: var(--accent);
     }
 
@@ -522,7 +614,7 @@
       gap: 8px;
       margin-bottom: 14px;
       color: var(--muted);
-      font-size: 0.86rem;
+      font-size: 0.85rem;
     }
 
     .holidays-list {
@@ -550,7 +642,6 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
 
-    /* Светится ТОЛЬКО активный статус: либо ближайшая дата, либо выбранная дата */
     .holiday-item.glow-active {
       border-color: var(--accent);
       box-shadow: 0 0 24px var(--glow);
@@ -564,13 +655,13 @@
     }
 
     .holiday-date {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--accent);
       font-weight: 700;
     }
 
     .badge {
-      font-size: 0.71rem;
+      font-size: 0.7rem;
       padding: 3px 8px;
       border-radius: 999px;
       background: var(--card-soft);
@@ -579,33 +670,53 @@
       flex-shrink: 0;
     }
 
+    body.badge-outline .badge {
+      background: transparent;
+      border-width: 1.5px;
+    }
+
     .badge.soon {
-      background: rgba(52, 211, 153, 0.14);
-      border-color: rgba(52, 211, 153, 0.4);
+      background: rgba(52, 211, 153, 0.16);
+      border-color: rgba(52, 211, 153, 0.45);
       color: var(--success);
       font-weight: 600;
     }
 
+    body.badge-outline .badge.soon {
+      background: transparent;
+    }
+
     .badge.picked {
-      background: rgba(56, 189, 248, 0.16);
+      background: rgba(56, 189, 248, 0.2);
       border-color: var(--accent);
       color: var(--accent);
       font-weight: 700;
     }
 
+    body.badge-outline .badge.picked {
+      background: transparent;
+    }
+
     .holiday-name {
       font-weight: 600;
-      font-size: 0.98rem;
+      font-size: 0.96rem;
       line-height: 1.38;
     }
 
     .item-bottom {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      font-size: 0.82rem;
+      gap: 6px;
+      font-size: 0.8rem;
       color: var(--muted);
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
     }
 
     .del-btn {
@@ -614,7 +725,7 @@
       color: #fda4af;
       border-radius: 8px;
       padding: 3px 8px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       cursor: pointer;
     }
 
@@ -638,7 +749,7 @@
     .empty-state {
       grid-column: 1 / -1;
       text-align: center;
-      padding: 36px 16px;
+      padding: 30px 16px;
       color: var(--muted);
       background: var(--card);
       border: 1px dashed var(--border);
@@ -650,7 +761,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(2, 6, 23, 0.55);
+      background: rgba(2, 6, 23, 0.62);
       backdrop-filter: blur(4px);
       z-index: 40;
     }
@@ -659,12 +770,12 @@
       display: block;
     }
 
-    /* Боковая панель заметок (свайп влево) */
+    /* Боковая панель заметок */
     .notes-sidebar {
       position: fixed;
       top: 0;
       right: 0;
-      width: min(400px, 92vw);
+      width: var(--drawer-width);
       height: 100vh;
       background: var(--bg-2);
       border-left: 1px solid var(--border);
@@ -675,19 +786,19 @@
       display: flex;
       flex-direction: column;
       padding: 20px;
-      gap: 14px;
+      gap: 12px;
     }
 
     .notes-sidebar.open {
       transform: translateX(0);
     }
 
-    /* Боковая панель настроек (свайп вправо) */
+    /* Боковая панель настроек */
     .settings-sidebar {
       position: fixed;
       top: 0;
       left: 0;
-      width: min(440px, 94vw);
+      width: var(--drawer-width);
       height: 100vh;
       background: var(--bg-2);
       border-right: 1px solid var(--border);
@@ -698,7 +809,7 @@
       display: flex;
       flex-direction: column;
       padding: 20px;
-      gap: 14px;
+      gap: 12px;
       overflow-y: auto;
     }
 
@@ -706,22 +817,54 @@
       transform: translateX(0);
     }
 
+    body.panels-left .notes-sidebar {
+      right: auto;
+      left: 0;
+      border-left: none;
+      border-right: 1px solid var(--border);
+      transform: translateX(-100%);
+    }
+    body.panels-left .notes-sidebar.open {
+      transform: translateX(0);
+    }
+
+    body.panels-right .settings-sidebar {
+      left: auto;
+      right: 0;
+      border-right: none;
+      border-left: 1px solid var(--border);
+      transform: translateX(100%);
+    }
+    body.panels-right .settings-sidebar.open {
+      transform: translateX(0);
+    }
+
     .drawer-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
     }
 
     .drawer-head h2 {
       font-family: 'Unbounded', sans-serif;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
+    }
+
+    .settings-group-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      margin-top: 6px;
     }
 
     .setting-card {
       background: var(--card-soft);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 14px;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -736,50 +879,19 @@
 
     .setting-title {
       font-weight: 600;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
     }
 
     .setting-desc {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .country-box {
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 6px;
-      padding-top: 10px;
-      border-top: 1px solid var(--border);
-      font-size: 0.82rem;
-      line-height: 1.45;
-    }
-
-    .country-box.open {
-      display: flex;
-    }
-
-    .country-section-title {
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 2px;
-    }
-
-    .country-list {
-      list-style: disc;
-      padding-left: 18px;
-      color: var(--text);
-    }
-
-    .country-list li {
-      margin-bottom: 3px;
+      line-height: 1.38;
     }
 
     .toggle-switch {
       position: relative;
-      width: 46px;
-      height: 26px;
+      width: 44px;
+      height: 24px;
       flex-shrink: 0;
     }
 
@@ -802,8 +914,8 @@
     .toggle-slider::before {
       content: '';
       position: absolute;
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       left: 3px;
       top: 3px;
       border-radius: 50%;
@@ -833,8 +945,16 @@
 
     .note-form textarea {
       resize: vertical;
-      min-height: 76px;
-      font-size: 0.88rem;
+      min-height: 68px;
+      font-size: 0.86rem;
+    }
+
+    .notes-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .notes-list {
@@ -865,20 +985,76 @@
 
     .note-title {
       font-weight: 700;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--accent);
     }
 
     .note-body {
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       line-height: 1.45;
       white-space: pre-wrap;
       color: var(--text);
     }
 
+    .note-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
     .note-meta {
       font-size: 0.72rem;
       color: var(--muted);
+    }
+
+    /* Отдельное модальное окно таймера */
+    .timer-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.72);
+      backdrop-filter: blur(6px);
+      z-index: 70;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .timer-modal-backdrop.open {
+      display: flex;
+    }
+
+    .timer-modal {
+      width: min(560px, 100%);
+      background: var(--bg-2);
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 36px var(--glow);
+      border-radius: 22px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .timer-note-preview {
+      background: var(--card-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.84rem;
+      color: var(--text);
+      white-space: pre-wrap;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .quick-presets-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
   </style>
 </head>
@@ -887,7 +1063,7 @@
     <header>
       <div>
         <h1>n1ghtixx</h1>
-        <p class="subtitle">Полный календарь праздников РФ, таймер до выбранной даты или сезона, заметки и свайп-жесты</p>
+        <p class="subtitle">Полный календарь праздников РФ, таймеры, заметки и гибкие настройки интерфейса</p>
       </div>
 
       <div class="header-actions">
@@ -899,6 +1075,7 @@
           <button class="theme-btn" data-theme="theme-autumn" data-season="autumn">Осень</button>
         </div>
 
+        <button class="tool-btn" id="open-timer-modal-btn">Таймер</button>
         <button class="tool-btn" id="toggle-presets-btn">Цвета</button>
         <button class="tool-btn" id="open-settings-btn">Настройки</button>
         <button class="tool-btn" id="open-notes-btn">
@@ -933,7 +1110,10 @@
       </div>
 
       <div class="card">
-        <div class="card-label">Главное событие</div>
+        <div class="card-label">
+          <span id="pinned-slot-label">Главное событие</span>
+          <button class="mini-btn" id="unpin-slot-btn" style="display:none; padding:2px 8px; font-size:0.7rem;">Открепить</button>
+        </div>
         <div class="card-title" id="ny-title">Новый год</div>
         <div class="countdown" id="ny-timer"></div>
       </div>
@@ -948,15 +1128,22 @@
       </div>
     </section>
 
-    <!-- Блок отсчёта до выбранной даты или выбранного сезона -->
+    <!-- Блок отсчёта до выбранной даты / сезона / таймера -->
     <section class="target-banner" id="target-banner">
       <div>
         <div class="card-label" id="target-banner-label">Отсчёт до выбранной даты</div>
         <div class="card-title" id="selected-target-title">Выбери дату, сезон или нажми на праздник ниже</div>
+        <div class="timer-note-preview" id="banner-note-preview" style="display:none; margin-bottom:10px;"></div>
+        <div class="target-nav">
+          <button class="ghost-btn" id="prev-event-btn">← Предыдущее</button>
+          <button class="ghost-btn" id="next-event-btn">Следующее →</button>
+          <button class="action-btn" id="launch-main-timer-btn">Запустить</button>
+          <button class="ghost-btn" id="open-window-from-banner-btn">Окно таймера</button>
+        </div>
         <div class="target-inputs">
-          <input type="text" id="target-name-input" placeholder="Название события..." />
+          <input type="text" id="target-name-input" placeholder="Название события или заметки..." />
           <input type="datetime-local" id="target-date-input" />
-          <button class="action-btn" id="apply-target-btn">Запустить</button>
+          <button class="action-btn" id="apply-target-btn">Применить</button>
         </div>
         <div class="target-hint">Клик по празднику ставит его в отсчёт; свайп влево — заметки, свайп вправо — настройки.</div>
       </div>
@@ -975,7 +1162,7 @@
       </div>
 
       <div class="controls">
-        <input type="text" id="search-input" placeholder="Поиск по названию праздника или даты..." />
+        <input type="text" id="search-input" placeholder="Поиск по праздникам и заметкам..." />
         <select id="month-filter">
           <option value="all">Все месяцы</option>
           <option value="0">Январь</option>
@@ -991,6 +1178,16 @@
           <option value="10">Ноябрь</option>
           <option value="11">Декабрь</option>
         </select>
+        <select id="days-window-filter">
+          <option value="all">Весь год</option>
+          <option value="0">Сегодня</option>
+          <option value="7">Ближайшие 7 дней</option>
+          <option value="14">Ближайшие 14 дней</option>
+          <option value="30">Ближайшие 30 дней</option>
+          <option value="60">Ближайшие 60 дней</option>
+          <option value="90">Ближайшие 90 дней</option>
+        </select>
+        <button class="ghost-btn" id="reset-filters-btn">Сбросить все фильтры</button>
         <button class="action-btn" id="toggle-add-btn">+ Добавить дату</button>
       </div>
 
@@ -1010,34 +1207,268 @@
           <option value="10">Ноябрь</option>
           <option value="11">Декабрь</option>
         </select>
-        <input type="number" id="custom-day" min="1" max="31" placeholder="День (1–31)" style="max-width: 130px;" required />
+        <input type="number" id="custom-day" min="1" max="31" placeholder="День (1–31)" style="max-width: 120px;" required />
+        <select id="custom-repeat">
+          <option value="yearly">Ежегодно</option>
+          <option value="monthly">Ежемесячно</option>
+          <option value="weekly">Каждую неделю</option>
+        </select>
+        <select id="custom-color">
+          <option value="">Цвет по умолчанию</option>
+          <option value="#38bdf8">Голубой</option>
+          <option value="#34d399">Зелёный</option>
+          <option value="#fb923c">Оранжевый</option>
+          <option value="#c084fc">Фиолетовый</option>
+          <option value="#fb7185">Розовый</option>
+          <option value="#facc15">Жёлтый</option>
+        </select>
         <button type="submit" class="action-btn">Сохранить</button>
       </form>
     </section>
 
     <div class="meta-bar">
       <span id="results-count">Найдено дат: 0</span>
-      <span>Сортировка: по ближайшей дате</span>
+      <span id="sort-meta-label">Сортировка: по ближайшей дате</span>
     </div>
 
     <section class="holidays-list" id="holidays-list"></section>
   </div>
 
-  <!-- Подложка для панелей -->
+  <!-- Подложка для боковых панелей -->
   <div class="drawer-backdrop" id="drawer-backdrop"></div>
 
-  <!-- Боковая панель настроек (открывается свайпом вправо или кнопкой) -->
+  <!-- Отдельное окно таймера -->
+  <div class="timer-modal-backdrop" id="timer-modal-backdrop">
+    <div class="timer-modal">
+      <div class="drawer-head">
+        <h2>Окно таймера</h2>
+        <button class="ghost-btn" id="close-timer-modal-btn">Закрыть</button>
+      </div>
+      <div class="card-title" id="modal-timer-title" style="margin-bottom:0;">Таймер готов к запуску</div>
+      <div class="timer-note-preview" id="modal-timer-note" style="display:none;"></div>
+      <div class="countdown" id="modal-timer-display"></div>
+
+      <div class="quick-presets-row">
+        <button class="mini-btn" data-add-mins="1">+1 мин</button>
+        <button class="mini-btn" data-add-mins="5">+5 мин</button>
+        <button class="mini-btn" data-add-mins="15">+15 мин</button>
+        <button class="mini-btn" data-add-mins="60">+1 час</button>
+      </div>
+
+      <div class="target-inputs">
+        <input type="text" id="modal-timer-name" placeholder="Подпись таймера..." />
+        <input type="datetime-local" id="modal-timer-date" />
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:space-between;">
+        <button class="action-btn" id="modal-toggle-run-btn">Запустить</button>
+        <button class="ghost-btn" id="modal-stop-reset-btn">Сбросить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Боковая панель настроек -->
   <aside class="settings-sidebar" id="settings-sidebar">
     <div class="drawer-head">
       <h2>Настройки</h2>
       <button class="ghost-btn" id="close-settings-btn">Закрыть</button>
     </div>
 
+    <div class="settings-group-title">1. Таймеры и виджеты</div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Вид счётчика</div>
+          <div class="setting-desc">Плитки или компактная строка</div>
+        </div>
+        <select id="opt-counter-style">
+          <option value="blocks">Плитки</option>
+          <option value="inline">Строка</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Доли секунд в активном таймере</div>
+          <div class="setting-desc">Показывает десятые доли секунды (0.1 с)</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="opt-ms" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Формат времени выбранной даты</div>
+          <div class="setting-desc">12/24ч, секунды и день недели</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
+          <label style="font-size:0.78rem; display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="opt-12h" /> 12-часовой
+          </label>
+          <label style="font-size:0.78rem; display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="opt-seconds" /> Показывать секунды
+          </label>
+          <label style="font-size:0.78rem; display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="opt-weekday" /> День недели
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-title">Закрепить дату вместо «Главного события»</div>
+      <div class="setting-desc">Подставит выбранную дату во второй верхний виджет</div>
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button class="ghost-btn" id="opt-pin-selected">Закрепить текущую выбранную</button>
+        <button class="ghost-btn" id="opt-unpin-slot">Вернуть Новый год</button>
+      </div>
+    </div>
+
+    <div class="settings-group-title">2. Поиск, фильтры и навигация</div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Учитывать регистр при поиске</div>
+          <div class="setting-desc">Различать заглавные и строчные буквы</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="opt-case-sensitive" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Искать также в заметках</div>
+          <div class="setting-desc">При поиске фильтрует совпадающие заметки</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="opt-search-notes" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Сохранять прокрутку при открытии панелей</div>
+          <div class="setting-desc">Возвращает страницу на прежнюю позицию при закрытии</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="opt-preserve-scroll" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-group-title">3. Карточки событий</div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Стиль бейджей</div>
+          <div class="setting-desc">Заливка, контур или только ближайший</div>
+        </div>
+        <select id="opt-badge-style">
+          <option value="filled">Заливка</option>
+          <option value="outline">Контур</option>
+          <option value="only-nearest">Только ближайший</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Показывать год в дате карточки</div>
+          <div class="setting-desc">Например, «29 ноября 2026 г.»</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="opt-show-year" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Порядок элементов в карточке</div>
+          <div class="setting-desc">Позиция даты и счётчика дней</div>
+        </div>
+        <select id="opt-card-order">
+          <option value="top-left">Дата сверху, дней слева</option>
+          <option value="bottom-right">Дата снизу, дней справа</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings-group-title">4. Заметки и пользовательские даты</div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Сортировка заметок и своих дат</div>
+          <div class="setting-desc">Порядок отображения в списках</div>
+        </div>
+        <select id="opt-sort-custom">
+          <option value="created">По дате создания</option>
+          <option value="soon">По ближайшему сроку</option>
+          <option value="alpha">По алфавиту</option>
+        </select>
+      </div>
+      <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;">
+        <button class="ghost-btn" id="opt-clean-past-custom">Удалить прошедшие свои даты</button>
+        <button class="ghost-btn" id="opt-clean-empty-notes">Удалить пустые заметки</button>
+      </div>
+    </div>
+
+    <div class="settings-group-title">5. Интерфейс и эргономика</div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Размер шрифта</div>
+          <div class="setting-desc">Мелкий, стандартный или крупный</div>
+        </div>
+        <select id="opt-font-size">
+          <option value="small">Мелкий</option>
+          <option value="medium" selected>Стандартный</option>
+          <option value="large">Крупный</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <div class="setting-row">
+        <div>
+          <div class="setting-title">Позиция боковых панелей</div>
+          <div class="setting-desc">По краям или во всю ширину на узких экранах</div>
+        </div>
+        <select id="opt-drawer-pos">
+          <option value="default">Заметки справа / Настройки слева</option>
+          <option value="swapped">Поменять местами</option>
+          <option value="full-mobile">Во всю ширину на узких экранах</option>
+        </select>
+      </div>
+    </div>
+
     <div class="setting-card">
       <div class="setting-row">
         <div>
           <div class="setting-title">Компактный режим карточек</div>
-          <div class="setting-desc">Уменьшает отступы, чтобы на экране помещалось больше праздников</div>
+          <div class="setting-desc">Уменьшает внутренние отступы карточек</div>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="opt-compact" />
@@ -1049,21 +1480,8 @@
     <div class="setting-card">
       <div class="setting-row">
         <div>
-          <div class="setting-title">12-часовой формат времени (AM/PM)</div>
-          <div class="setting-desc">Меняет отображение времени в заголовке выбранной даты</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="opt-12h" />
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-    </div>
-
-    <div class="setting-card">
-      <div class="setting-row">
-        <div>
           <div class="setting-title">Свайпы влево / вправо</div>
-          <div class="setting-desc">Свайп влево открывает заметки, свайп вправо — настройки</div>
+          <div class="setting-desc">Свайп влево — заметки, вправо — настройки</div>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="opt-swipes" checked />
@@ -1072,83 +1490,25 @@
       </div>
     </div>
 
-    <!-- Настройка: Справка по странам (США) -->
     <div class="setting-card">
       <div class="setting-row">
         <div>
-          <div class="setting-title">Справка: Соединённые Штаты Америки (США)</div>
-          <div class="setting-desc">География, рельеф, климат, реки и озёра, природа, население и экономика</div>
+          <div class="setting-title">Режим «Фокус»</div>
+          <div class="setting-desc">Скрывает лишние элементы, оставляя отсчёт и поиск</div>
         </div>
-        <button class="ghost-btn" id="toggle-usa-btn">Открыть</button>
-      </div>
-
-      <div class="country-box" id="usa-country-box">
-        <div>
-          <div class="country-section-title">1. Географическое положение</div>
-          <ul class="country-list">
-            <li><strong>Расположение:</strong> США расположены в центральной части материка Северная Америка. В состав также входят штат Аляска (северо-запад материка) и штат Гавайи (архипелаг в Тихом океане).</li>
-            <li><strong>Океаны:</strong> широкий выход к трём океанам — Атлантическому на востоке, Тихому на западе и Северному Ледовитому на севере (берега Аляски).</li>
-            <li><strong>Границы:</strong> на севере — с Канадой (самая длинная неохраняемая граница в мире), на юге — с Мексикой; морские границы — с Россией (через Берингов пролив) и Кубой.</li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="country-section-title">2. Рельеф и полезные ископаемые</div>
-          <ul class="country-list">
-            <li><strong>Рельеф:</strong> на востоке — невысокие древние горы Аппалачи; в центре — огромные равнины (Центральные и Великие), плавно повышающиеся к западу; на западе — мощный пояс молодых гор Кордильеры (Скалистые горы, Каскадные горы, Сьерра-Невада). Высшая точка — гора Денали на Аляске (6190 м).</li>
-            <li><strong>Ископаемые:</strong> лидерство по запасам угля, нефти и природного газа; богатые запасы железных, медных и полиметаллических руд, золота и фосфоритов.</li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="country-section-title">3. Климат</div>
-          <ul class="country-list">
-            <li><strong>Умеренный:</strong> на севере и в центре (чёткое лето и зима).</li>
-            <li><strong>Субтропический:</strong> на юге (влажный на юго-востоке, сухой средиземноморский в Калифорнии).</li>
-            <li><strong>Тропический:</strong> на юге Флориды и Гавайях (вечное лето).</li>
-            <li><strong>Арктический и субарктический:</strong> на Аляске.</li>
-            <li><strong>Особенности:</strong> из-за отсутствия горных преград с севера на юг в центральных районах часто сталкиваются холодные и тёплые воздушные массы, вызывая торнадо.</li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="country-section-title">4. Внутренние воды (реки и озёра)</div>
-          <ul class="country-list">
-            <li><strong>Реки:</strong> главная речная система — Миссисипи с притоком Миссури (одна из крупнейших в мире); река Колорадо известна созданием Большого Каньона; река Колумбия обладает крупными запасами гидроэнергии.</li>
-            <li><strong>Озёра:</strong> на севере расположены Великие озёра (Верхнее, Мичиган, Гурон, Эри, Онтарио) — крупнейшее скопление пресной воды в Западном полушарии; в штате Юта находится бессточное Большое Солёное озеро.</li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="country-section-title">5. Природные зоны, флора и фауна</div>
-          <ul class="country-list">
-            <li><strong>Зоны:</strong> почти все зоны — от тундры на Аляске до пустынь и вечнозелёных лесов на юге.</li>
-            <li><strong>Флора:</strong> гигантские секвойи в Калифорнии, кактусы сагуаро в пустынях Аризоны, дубы, буки и берёзы в восточных лесах.</li>
-            <li><strong>Фауна:</strong> символ страны — белоголовый орлан; также встречаются медведи (гризли, чёрные), бизоны (в заповедниках), аллигаторы (во Флориде) и койоты.</li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="country-section-title">6. Население и экономика</div>
-          <ul class="country-list">
-            <li><strong>Население:</strong> около 340 млн человек — результат массового переселения из Европы, Африки и Азии. Большинство живёт в городах (урбанизация &gt; 80%). Крупнейшие мегаполисы: Нью-Йорк, Лос-Анджелес, Чикаго.</li>
-            <li><strong>Экономика:</strong> ведущая экономическая держава мира с развитой промышленностью (авиация, ИТ, автомобили) и высокоэффективным сельским хозяйством.</li>
-          </ul>
-        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="opt-focus" />
+          <span class="toggle-slider"></span>
+        </label>
       </div>
     </div>
 
     <div class="setting-card">
-      <div class="setting-title">Сброс выбора даты и тем</div>
-      <div class="setting-desc">Возвращает подсветку ближайшего праздника, базовую тему и стандартный цвет</div>
-      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
-        <button class="ghost-btn" id="opt-reset-target">Сбросить выбранную дату</button>
-        <button class="ghost-btn" id="opt-reset-all">Сбросить оформление</button>
-      </div>
+      <button class="ghost-btn" id="opt-reset-all">Сбросить все настройки</button>
     </div>
   </aside>
 
-  <!-- Боковая панель заметок (открывается свайпом влево или кнопкой) -->
+  <!-- Боковая панель заметок -->
   <aside class="notes-sidebar" id="notes-sidebar">
     <div class="drawer-head">
       <h2>Заметки</h2>
@@ -1157,9 +1517,25 @@
 
     <form class="note-form" id="note-form">
       <input type="text" id="note-title-input" placeholder="Заголовок заметки..." />
-      <textarea id="note-text-input" placeholder="Напиши текст заметки, идею или список дел..." required></textarea>
-      <button type="submit" class="action-btn">Добавить заметку</button>
+      <textarea id="note-text-input" placeholder="Текст заметки (можно оставить пустым при наличии заголовка)..."></textarea>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+        <select id="note-color-input" style="flex:1;">
+          <option value="">Цвет по умолчанию</option>
+          <option value="#38bdf8">Голубой</option>
+          <option value="#34d399">Зелёный</option>
+          <option value="#fb923c">Оранжевый</option>
+          <option value="#c084fc">Фиолетовый</option>
+          <option value="#fb7185">Розовый</option>
+          <option value="#facc15">Жёлтый</option>
+        </select>
+        <button type="submit" class="action-btn">Добавить</button>
+      </div>
     </form>
+
+    <div class="notes-toolbar">
+      <span class="note-meta" id="notes-filter-hint">Все заметки</span>
+      <button class="ghost-btn" id="notes-open-timer-btn">Окно таймера</button>
+    </div>
 
     <div class="notes-list" id="notes-list"></div>
   </aside>
@@ -1173,6 +1549,12 @@
       custom: 'Моя дата'
     };
 
+    const REPEAT_LABELS = {
+      yearly: 'Ежегодно',
+      monthly: 'Ежемесячно',
+      weekly: 'Каждую неделю'
+    };
+
     const SEASON_TARGETS = {
       winter: { title: 'До начала зимы (1 декабря)', month: 11, day: 1, label: 'Зима' },
       spring: { title: 'До начала весны (1 марта)', month: 2, day: 1, label: 'Весна' },
@@ -1180,7 +1562,6 @@
       autumn: { title: 'До начала осени (1 сентября)', month: 8, day: 1, label: 'Осень' }
     };
 
-    // Объединённый список: все прежние праздники РФ + полный список из последнего запроса (без дублей)
     const baseHolidays = [
       // Январь
       { name: 'Новый год', month: 0, day: 1, cat: 'state' },
@@ -1321,17 +1702,20 @@
     ];
 
     const KEYS = {
-      customHolidays: 'n1ghtixx_custom_holidays_v6',
-      targetState: 'n1ghtixx_target_state_v6',
-      notes: 'n1ghtixx_notes_v6',
-      palette: 'n1ghtixx_palette_v6',
-      season: 'n1ghtixx_season_v6',
-      settings: 'n1ghtixx_settings_v6'
+      customHolidays: 'n1ghtixx_custom_holidays_v8',
+      targetState: 'n1ghtixx_target_state_v8',
+      notes: 'n1ghtixx_notes_v8',
+      palette: 'n1ghtixx_palette_v8',
+      season: 'n1ghtixx_season_v8',
+      settings: 'n1ghtixx_settings_v8',
+      pinnedSlot: 'n1ghtixx_pinned_slot_v8',
+      runnerTimer: 'n1ghtixx_runner_timer_v8'
     };
 
     let selectedCat = 'all';
     let selectedSeason = localStorage.getItem(KEYS.season) || 'auto';
     let selectedPalette = localStorage.getItem(KEYS.palette) || '';
+    let savedScrollY = 0;
 
     function readJSON(key, fallback) {
       try {
@@ -1349,13 +1733,46 @@
     }
 
     let appSettings = readJSON(KEYS.settings, {
-      compact: false,
+      counterStyle: 'blocks',
+      showMs: false,
       hour12: false,
+      showSeconds: false,
+      showWeekday: false,
+      caseSensitive: false,
+      searchNotes: true,
+      preserveScroll: true,
+      badgeStyle: 'filled',
+      showYear: false,
+      cardOrder: 'top-left',
+      sortCustom: 'created',
+      fontSize: 'medium',
+      drawerPos: 'default',
+      compact: false,
       swipes: true,
-      usaOpen: false
+      focusMode: false
     });
 
-    function getNextOccurrence(month, day, fromDate = new Date()) {
+    function getNextOccurrence(month, day, fromDate = new Date(), repeat = 'yearly') {
+      if (repeat === 'weekly') {
+        const target = new Date(fromDate);
+        target.setHours(0, 0, 0, 0);
+        const diffDays = (day - target.getDay() + 7) % 7;
+        target.setDate(target.getDate() + diffDays);
+        if (target <= fromDate) target.setDate(target.getDate() + 7);
+        return target;
+      }
+      if (repeat === 'monthly') {
+        const y = fromDate.getFullYear();
+        const m = fromDate.getMonth();
+        const maxDayThisMonth = new Date(y, m + 1, 0).getDate();
+        let target = new Date(y, m, Math.min(day, maxDayThisMonth), 0, 0, 0, 0);
+        if (target <= fromDate) {
+          const nextMonthDate = new Date(y, m + 1, 1);
+          const maxDayNext = new Date(nextMonthDate.getFullYear(), nextMonthDate.getMonth() + 1, 0).getDate();
+          target = new Date(nextMonthDate.getFullYear(), nextMonthDate.getMonth(), Math.min(day, maxDayNext), 0, 0, 0, 0);
+        }
+        return target;
+      }
       const year = fromDate.getFullYear();
       let target = new Date(year, month, day, 0, 0, 0, 0);
       if (target <= fromDate) {
@@ -1371,13 +1788,13 @@
         return {
           name: `До начала ${s.label.toLowerCase()}`,
           badge: s.label,
-          date: getNextOccurrence(s.month, s.day, fromDate)
+          date: getNextOccurrence(s.month, s.day, fromDate, 'yearly')
         };
       }
       let nearest = null;
       for (const k of order) {
         const s = SEASON_TARGETS[k];
-        const date = getNextOccurrence(s.month, s.day, fromDate);
+        const date = getNextOccurrence(s.month, s.day, fromDate, 'yearly');
         if (!nearest || date < nearest.date) {
           nearest = { name: `До начала ${s.label.toLowerCase()}`, badge: 'Авто', date };
         }
@@ -1391,33 +1808,59 @@
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
         hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((diff / (1000 * 60)) % 60),
-        seconds: Math.floor((diff / 1000) % 60)
+        seconds: Math.floor((diff / 1000) % 60),
+        tenths: Math.floor((diff / 100) % 10)
       };
     }
 
-    function renderTimer(el, targetDate, now = new Date()) {
-      const { days, hours, minutes, seconds } = formatDiff(targetDate, now);
+    function renderTimer(el, targetDate, now = new Date(), allowMs = false) {
+      const { days, hours, minutes, seconds, tenths } = formatDiff(targetDate, now);
+      const useInline = appSettings.counterStyle === 'inline';
+      const useMs = Boolean(allowMs && appSettings.showMs);
+
+      el.classList.toggle('inline-strip', useInline);
+      el.classList.toggle('has-ms', !useInline && useMs);
+
+      const msBlock = useMs
+        ? `<div class="unit"><div class="num">.${tenths}</div><div class="unit-label">доли сек</div></div>`
+        : '';
+
       el.innerHTML = `
         <div class="unit"><div class="num">${days}</div><div class="unit-label">дней</div></div>
         <div class="unit"><div class="num">${String(hours).padStart(2, '0')}</div><div class="unit-label">часов</div></div>
         <div class="unit"><div class="num">${String(minutes).padStart(2, '0')}</div><div class="unit-label">минут</div></div>
-        <div class="unit"><div class="num">${String(seconds).padStart(2, '0')}</div><div class="unit-label">секунд</div></div>
+        <div class="unit"><div class="num">${String(seconds).padStart(2, '0')}</div><div class="unit-label">сек</div></div>
+        ${msBlock}
       `;
     }
 
     function getAllHolidays() {
-      const custom = readJSON(KEYS.customHolidays, []).map((item, idx) => ({
+      const rawCustom = readJSON(KEYS.customHolidays, []).map((item, idx) => ({
         ...item,
         cat: 'custom',
+        repeat: item.repeat || 'yearly',
+        color: item.color || '',
         customIndex: idx
       }));
-      return [...baseHolidays, ...custom];
+
+      const now = new Date();
+      rawCustom.sort((a, b) => {
+        if (appSettings.sortCustom === 'alpha') {
+          return a.name.localeCompare(b.name, 'ru');
+        }
+        if (appSettings.sortCustom === 'soon') {
+          return getNextOccurrence(a.month, a.day, now, a.repeat) - getNextOccurrence(b.month, b.day, now, b.repeat);
+        }
+        return (a.createdAtTs || a.customIndex) - (b.createdAtTs || b.customIndex);
+      });
+
+      return [...baseHolidays, ...rawCustom];
     }
 
     function getSortedUpcoming(now = new Date()) {
       return getAllHolidays()
         .map((h) => {
-          const nextDate = getNextOccurrence(h.month, h.day, now);
+          const nextDate = getNextOccurrence(h.month, h.day, now, h.repeat || 'yearly');
           const daysLeft = Math.max(0, Math.ceil((nextDate - now) / (1000 * 60 * 60 * 24)));
           return { ...h, nextDate, daysLeft };
         })
@@ -1433,13 +1876,18 @@
       const saved = readJSON(KEYS.targetState, null);
       if (saved && saved.mode === 'season' && SEASON_TARGETS[saved.seasonKey]) {
         const s = SEASON_TARGETS[saved.seasonKey];
-        const date = getNextOccurrence(s.month, s.day, now);
-        return { mode: 'season', seasonKey: saved.seasonKey, name: s.title, date };
+        const date = getNextOccurrence(s.month, s.day, now, 'yearly');
+        return { mode: 'season', seasonKey: saved.seasonKey, name: s.title, noteText: '', date };
       }
-      if (saved && (saved.mode === 'holiday' || saved.mode === 'custom') && saved.iso) {
+      if (saved && (saved.mode === 'holiday' || saved.mode === 'custom' || saved.mode === 'note') && saved.iso) {
         const parsed = new Date(saved.iso);
         if (!isNaN(parsed.getTime())) {
-          return { mode: saved.mode, name: saved.name || 'Выбранная дата', date: parsed };
+          return {
+            mode: saved.mode,
+            name: saved.name || 'Выбранная дата',
+            noteText: saved.noteText || '',
+            date: parsed
+          };
         }
       }
       const upcoming = getSortedUpcoming(now);
@@ -1447,7 +1895,8 @@
       return {
         mode: 'none',
         name: first ? first.name : 'Новый год',
-        date: first ? first.nextDate : getNextOccurrence(0, 1, now)
+        noteText: '',
+        date: first ? first.nextDate : getNextOccurrence(0, 1, now, 'yearly')
       };
     }
 
@@ -1456,6 +1905,7 @@
         mode: stateObj.mode,
         name: stateObj.name,
         seasonKey: stateObj.seasonKey || null,
+        noteText: stateObj.noteText || '',
         iso: stateObj.date ? stateObj.date.toISOString() : null
       });
       document.getElementById('target-name-input').value = stateObj.name || '';
@@ -1466,12 +1916,77 @@
       tick();
     }
 
+    // --- Запуск таймера и состояние кнопки "Запущен" (серая) ---
+    function getRunnerState() {
+      return readJSON(KEYS.runnerTimer, { running: false, name: '', iso: null, noteText: '' });
+    }
+
+    function setRunnerState(nextState) {
+      writeJSON(KEYS.runnerTimer, nextState);
+      syncRunnerButtons();
+      tick();
+    }
+
+    function syncRunnerButtons() {
+      const st = getRunnerState();
+      const isRunning = Boolean(st.running && st.iso && new Date(st.iso) > new Date());
+      if (!isRunning && st.running) {
+        st.running = false;
+        writeJSON(KEYS.runnerTimer, st);
+      }
+
+      const mainBtn = document.getElementById('launch-main-timer-btn');
+      const modalBtn = document.getElementById('modal-toggle-run-btn');
+      const headerBtn = document.getElementById('open-timer-modal-btn');
+
+      mainBtn.textContent = isRunning ? 'Запущен' : 'Запустить';
+      mainBtn.classList.toggle('running', isRunning);
+
+      modalBtn.textContent = isRunning ? 'Запущен' : 'Запустить';
+      modalBtn.classList.toggle('running', isRunning);
+
+      headerBtn.classList.toggle('running', isRunning);
+      headerBtn.textContent = isRunning ? 'Таймер · Запущен' : 'Таймер';
+    }
+
+    function startOrToggleMainTimer(customName = null, customDate = null, noteText = '') {
+      const st = getRunnerState();
+      const now = new Date();
+      const activeTarget = getTargetState(now);
+      const targetName = customName || document.getElementById('target-name-input').value.trim() || activeTarget.name || 'Таймер';
+      const rawInput = customDate ? toLocalInputString(customDate) : document.getElementById('target-date-input').value;
+      const targetDate = customDate || (rawInput ? new Date(rawInput) : activeTarget.date);
+
+      if (!targetDate || isNaN(targetDate.getTime()) || targetDate <= now) {
+        const soon = new Date(now.getTime() + 10 * 60 * 1000);
+        setRunnerState({ running: true, name: targetName, iso: soon.toISOString(), noteText });
+        return;
+      }
+
+      if (st.running && !customName && !customDate) {
+        setRunnerState({ ...st, running: false });
+      } else {
+        setRunnerState({ running: true, name: targetName, iso: targetDate.toISOString(), noteText });
+      }
+    }
+
+    // --- Список праздников ---
+    function matchesQuery(text) {
+      const rawQ = document.getElementById('search-input').value;
+      if (!rawQ.trim()) return true;
+      if (appSettings.caseSensitive) {
+        return text.includes(rawQ.trim());
+      }
+      return text.toLowerCase().includes(rawQ.trim().toLowerCase());
+    }
+
     function renderHolidays() {
       const now = new Date();
-      const query = document.getElementById('search-input').value.trim().toLowerCase();
       const monthVal = document.getElementById('month-filter').value;
+      const daysWindowVal = document.getElementById('days-window-filter').value;
       const listEl = document.getElementById('holidays-list');
       const countEl = document.getElementById('results-count');
+      const notes = readJSON(KEYS.notes, []);
 
       const upcoming = getSortedUpcoming(now);
       const globalNearestName = upcoming[0]?.name;
@@ -1480,21 +1995,36 @@
 
       const filtered = upcoming.filter((h) => {
         const matchesCat = selectedCat === 'all' || h.cat === selectedCat;
-        const matchesName = !query || h.name.toLowerCase().includes(query);
         const matchesMonth = monthVal === 'all' || String(h.month) === monthVal;
-        return matchesCat && matchesName && matchesMonth;
+
+        let matchesWindow = true;
+        if (daysWindowVal !== 'all') {
+          const limitDays = Number(daysWindowVal);
+          matchesWindow = limitDays === 0 ? h.daysLeft === 0 : h.daysLeft <= limitDays;
+        }
+
+        const dateStr = h.nextDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        const noteMatch = appSettings.searchNotes
+          ? notes.some((n) => matchesQuery(`${n.title || ''} ${n.text || ''}`))
+          : false;
+        const matchesSearch = matchesQuery(`${h.name} ${dateStr}`) || noteMatch;
+
+        return matchesCat && matchesMonth && matchesWindow && matchesSearch;
       });
 
       countEl.textContent = `Найдено дат: ${filtered.length}`;
 
       if (!filtered.length) {
-        listEl.innerHTML = `<div class="empty-state">Ничего не найдено. Попробуй изменить фильтры или поисковый запрос.</div>`;
+        listEl.innerHTML = `<div class="empty-state">Ничего не найдено. Попробуй сбросить фильтры или изменить запрос.</div>`;
         return;
       }
 
       listEl.innerHTML = filtered
         .map((h, i) => {
-          const dateLabel = h.nextDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+          const dateOpts = appSettings.showYear
+            ? { day: 'numeric', month: 'long', year: 'numeric' }
+            : { day: 'numeric', month: 'long' };
+          const dateLabel = h.nextDate.toLocaleDateString('ru-RU', dateOpts);
           const isGlobalNearest = h.name === globalNearestName;
           const isPickedDate =
             hasExplicitSelection &&
@@ -1502,30 +2032,54 @@
 
           const shouldGlow = hasExplicitSelection ? isPickedDate : isGlobalNearest;
 
-          let badgeHtml = `<span class="badge">${CAT_LABELS[h.cat]}</span>`;
-          if (isPickedDate) {
-            badgeHtml = `<span class="badge picked">Выбрана</span>`;
-          } else if (isGlobalNearest && !hasExplicitSelection) {
-            badgeHtml = `<span class="badge soon">Ближайшая</span>`;
-          } else if (h.daysLeft <= 14) {
-            badgeHtml = `<span class="badge soon">Скоро</span>`;
+          let badgeHtml = '';
+          if (appSettings.badgeStyle !== 'only-nearest' || isGlobalNearest || isPickedDate) {
+            if (isPickedDate) {
+              badgeHtml = `<span class="badge picked">Выбрана</span>`;
+            } else if (isGlobalNearest && !hasExplicitSelection) {
+              badgeHtml = `<span class="badge soon">Ближайшая</span>`;
+            } else if (appSettings.badgeStyle !== 'only-nearest') {
+              if (h.daysLeft <= 14) {
+                badgeHtml = `<span class="badge soon">Скоро</span>`;
+              } else {
+                badgeHtml = `<span class="badge">${CAT_LABELS[h.cat]}</span>`;
+              }
+            }
           }
+
+          const repeatTag = h.cat === 'custom' && h.repeat && h.repeat !== 'yearly'
+            ? ` · ${REPEAT_LABELS[h.repeat]}`
+            : '';
 
           const delBtn = h.cat === 'custom'
             ? `<button class="del-btn" data-del="${h.customIndex}">Удалить</button>`
             : '';
 
+          const quickButtons = `
+            <div class="item-actions">
+              <button class="mini-btn" data-save-my="${i}" title="В Мои даты">+Своя</button>
+              <button class="mini-btn" data-note-from="${i}" title="Заметка по событию">+Заметка</button>
+              ${delBtn}
+            </div>
+          `;
+
+          const borderStyle = h.color ? `border-color:${h.color};` : '';
+          const dateColorStyle = h.color ? `color:${h.color};` : '';
+
+          const daysText = `Осталось дней: <strong>${h.daysLeft}</strong>${repeatTag}`;
+          const topBlock = appSettings.cardOrder === 'bottom-right'
+            ? `<div class="item-top"><span>${daysText}</span>${badgeHtml}</div>`
+            : `<div class="item-top"><span class="holiday-date" style="${dateColorStyle}">${dateLabel}</span>${badgeHtml}</div>`;
+
+          const bottomBlock = appSettings.cardOrder === 'bottom-right'
+            ? `<div class="item-bottom"><span class="holiday-date" style="${dateColorStyle}">${dateLabel}</span>${quickButtons}</div>`
+            : `<div class="item-bottom"><span>${daysText}</span>${quickButtons}</div>`;
+
           return `
-            <div class="holiday-item ${shouldGlow ? 'glow-active' : ''}" data-pick-idx="${i}">
-              <div class="item-top">
-                <span class="holiday-date">${dateLabel}</span>
-                ${badgeHtml}
-              </div>
+            <div class="holiday-item ${shouldGlow ? 'glow-active' : ''}" style="${borderStyle}" data-pick-idx="${i}">
+              ${topBlock}
               <div class="holiday-name">${h.name}</div>
-              <div class="item-bottom">
-                <span>Осталось дней: <strong>${h.daysLeft}</strong></span>
-                ${delBtn}
-              </div>
+              ${bottomBlock}
             </div>
           `;
         })
@@ -1533,12 +2087,55 @@
 
       listEl.querySelectorAll('.holiday-item').forEach((card) => {
         card.addEventListener('click', (e) => {
-          if (e.target.closest('[data-del]')) return;
+          if (e.target.closest('button')) return;
           const item = filtered[Number(card.dataset.pickIdx)];
           if (item) {
             setTargetState({ mode: 'holiday', name: item.name, date: item.nextDate });
             document.getElementById('target-banner').scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
+        });
+      });
+
+      listEl.querySelectorAll('[data-save-my]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const item = filtered[Number(btn.dataset.saveMy)];
+          if (!item) return;
+          const current = readJSON(KEYS.customHolidays, []);
+          current.push({
+            name: item.name,
+            month: item.month,
+            day: item.day,
+            repeat: item.repeat || 'yearly',
+            color: item.color || '',
+            createdAtTs: Date.now()
+          });
+          writeJSON(KEYS.customHolidays, current);
+          renderHolidays();
+        });
+      });
+
+      listEl.querySelectorAll('[data-note-from]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const item = filtered[Number(btn.dataset.noteFrom)];
+          if (!item) return;
+          const list = readJSON(KEYS.notes, []);
+          list.unshift({
+            title: item.name,
+            text: `Дата: ${item.nextDate.toLocaleDateString('ru-RU')}`,
+            color: item.color || '',
+            createdAt: new Date().toLocaleString('ru-RU', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })
+          });
+          writeJSON(KEYS.notes, list);
+          renderNotes();
+          openNotes();
         });
       });
 
@@ -1554,6 +2151,23 @@
       });
     }
 
+    // --- Переход к предыдущему / следующему событию ---
+    function stepTargetEvent(delta) {
+      const now = new Date();
+      const upcoming = getSortedUpcoming(now);
+      if (!upcoming.length) return;
+      const current = getTargetState(now);
+      const idx = upcoming.findIndex((h) => h.name === current.name);
+      const baseIdx = idx >= 0 ? idx : 0;
+      const nextIdx = (baseIdx + delta + upcoming.length) % upcoming.length;
+      const picked = upcoming[nextIdx];
+      setTargetState({ mode: 'holiday', name: picked.name, date: picked.nextDate });
+    }
+
+    document.getElementById('prev-event-btn').addEventListener('click', () => stepTargetEvent(-1));
+    document.getElementById('next-event-btn').addEventListener('click', () => stepTargetEvent(1));
+
+    // --- Темы и цвета ---
     function syncBodyClasses() {
       const classes = [];
       const activeThemeBtn = document.querySelector(`#season-themes .theme-btn[data-season="${selectedSeason}"]`);
@@ -1563,9 +2177,24 @@
       if (selectedPalette) {
         classes.push(selectedPalette);
       }
-      if (appSettings.compact) {
-        classes.push('compact-mode');
+      if (appSettings.compact) classes.push('compact-mode');
+      if (appSettings.fontSize === 'small') classes.push('font-small');
+      else if (appSettings.fontSize === 'large') classes.push('font-large');
+      else classes.push('font-medium');
+
+      if (appSettings.badgeStyle === 'outline') classes.push('badge-outline');
+      if (appSettings.focusMode) classes.push('focus-mode');
+
+      if (appSettings.drawerPos === 'swapped') {
+        classes.push('panels-left', 'panels-right');
+      } else if (appSettings.drawerPos === 'full-mobile') {
+        classes.push('drawer-full-mobile');
       }
+
+      if (notesSidebar.classList.contains('open') || settingsSidebar.classList.contains('open')) {
+        classes.push('no-scroll');
+      }
+
       document.body.className = classes.join(' ');
     }
 
@@ -1585,7 +2214,7 @@
             mode: 'season',
             seasonKey: selectedSeason,
             name: s.title,
-            date: getNextOccurrence(s.month, s.day, new Date())
+            date: getNextOccurrence(s.month, s.day, new Date(), 'yearly')
           });
         } else {
           tick();
@@ -1612,27 +2241,70 @@
 
     document.getElementById('reset-palette-btn').addEventListener('click', () => applyPalette(''));
 
-    // --- Выдвижные панели: Заметки (свайп влево) и Настройки (свайп вправо) ---
+    // --- Боковые панели и модальное окно таймера ---
     const notesSidebar = document.getElementById('notes-sidebar');
     const settingsSidebar = document.getElementById('settings-sidebar');
     const drawerBackdrop = document.getElementById('drawer-backdrop');
+    const timerModalBackdrop = document.getElementById('timer-modal-backdrop');
 
     function closeAllDrawers() {
       notesSidebar.classList.remove('open');
       settingsSidebar.classList.remove('open');
       drawerBackdrop.classList.remove('open');
+      syncBodyClasses();
+      if (appSettings.preserveScroll) {
+        window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+      }
     }
 
     function openNotes() {
+      if (!notesSidebar.classList.contains('open') && !settingsSidebar.classList.contains('open')) {
+        savedScrollY = window.scrollY;
+      }
       settingsSidebar.classList.remove('open');
       notesSidebar.classList.add('open');
       drawerBackdrop.classList.add('open');
+      syncBodyClasses();
     }
 
     function openSettings() {
+      if (!notesSidebar.classList.contains('open') && !settingsSidebar.classList.contains('open')) {
+        savedScrollY = window.scrollY;
+      }
       notesSidebar.classList.remove('open');
       settingsSidebar.classList.add('open');
       drawerBackdrop.classList.add('open');
+      syncBodyClasses();
+    }
+
+    function openTimerModal(presetName = null, presetDate = null, presetNote = '') {
+      const now = new Date();
+      const runner = getRunnerState();
+      const target = getTargetState(now);
+
+      const title = presetName || (runner.running && runner.name ? runner.name : target.name) || 'Таймер';
+      const dateObj = presetDate || (runner.running && runner.iso ? new Date(runner.iso) : target.date) || new Date(now.getTime() + 15 * 60 * 1000);
+      const noteContent = presetNote || (runner.running && runner.noteText ? runner.noteText : target.noteText || '');
+
+      document.getElementById('modal-timer-name').value = title;
+      document.getElementById('modal-timer-date').value = toLocalInputString(dateObj);
+
+      const noteBox = document.getElementById('modal-timer-note');
+      if (noteContent) {
+        noteBox.style.display = 'block';
+        noteBox.textContent = noteContent;
+      } else {
+        noteBox.style.display = 'none';
+        noteBox.textContent = '';
+      }
+
+      timerModalBackdrop.classList.add('open');
+      syncRunnerButtons();
+      tick();
+    }
+
+    function closeTimerModal() {
+      timerModalBackdrop.classList.remove('open');
     }
 
     document.getElementById('open-notes-btn').addEventListener('click', openNotes);
@@ -1641,6 +2313,45 @@
     document.getElementById('close-settings-btn').addEventListener('click', closeAllDrawers);
     drawerBackdrop.addEventListener('click', closeAllDrawers);
 
+    document.getElementById('open-timer-modal-btn').addEventListener('click', () => openTimerModal());
+    document.getElementById('open-window-from-banner-btn').addEventListener('click', () => openTimerModal());
+    document.getElementById('notes-open-timer-btn').addEventListener('click', () => openTimerModal());
+    document.getElementById('close-timer-modal-btn').addEventListener('click', closeTimerModal);
+    timerModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === timerModalBackdrop) closeTimerModal();
+    });
+
+    document.querySelectorAll('.quick-presets-row [data-add-mins]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mins = Number(btn.dataset.addMins) || 1;
+        const now = new Date();
+        const currentInput = document.getElementById('modal-timer-date').value;
+        const base = currentInput && new Date(currentInput) > now ? new Date(currentInput) : now;
+        const next = new Date(base.getTime() + mins * 60 * 1000);
+        document.getElementById('modal-timer-date').value = toLocalInputString(next);
+        const nameVal = document.getElementById('modal-timer-name').value.trim() || `Таймер +${mins} мин`;
+        const noteText = document.getElementById('modal-timer-note').textContent || '';
+        setRunnerState({ running: true, name: nameVal, iso: next.toISOString(), noteText });
+      });
+    });
+
+    document.getElementById('launch-main-timer-btn').addEventListener('click', () => {
+      startOrToggleMainTimer();
+    });
+
+    document.getElementById('modal-toggle-run-btn').addEventListener('click', () => {
+      const nameVal = document.getElementById('modal-timer-name').value.trim() || 'Таймер';
+      const dateVal = document.getElementById('modal-timer-date').value;
+      const parsed = dateVal ? new Date(dateVal) : null;
+      const noteText = document.getElementById('modal-timer-note').textContent || '';
+      startOrToggleMainTimer(nameVal, parsed, noteText);
+    });
+
+    document.getElementById('modal-stop-reset-btn').addEventListener('click', () => {
+      setRunnerState({ running: false, name: '', iso: null, noteText: '' });
+    });
+
+    // Свайпы пальцем
     let touchStartX = 0;
     let touchStartY = 0;
     let touchTarget = null;
@@ -1660,7 +2371,7 @@
       'touchend',
       (e) => {
         if (!appSettings.swipes || !e.changedTouches || e.changedTouches.length !== 1) return;
-        if (touchTarget && touchTarget.closest('input, textarea, select, .notes-list, .settings-sidebar')) return;
+        if (touchTarget && touchTarget.closest('input, textarea, select, .notes-list, .settings-sidebar, .timer-modal')) return;
 
         const dx = e.changedTouches[0].clientX - touchStartX;
         const dy = e.changedTouches[0].clientY - touchStartY;
@@ -1683,95 +2394,51 @@
       { passive: true }
     );
 
-    // --- Настройки ---
-    function syncUsaBox() {
-      const box = document.getElementById('usa-country-box');
-      const btn = document.getElementById('toggle-usa-btn');
-      const isOpen = Boolean(appSettings.usaOpen);
-      box.classList.toggle('open', isOpen);
-      btn.textContent = isOpen ? 'Скрыть' : 'Открыть';
-    }
-
-    function syncSettingsUI() {
-      document.getElementById('opt-compact').checked = Boolean(appSettings.compact);
-      document.getElementById('opt-12h').checked = Boolean(appSettings.hour12);
-      document.getElementById('opt-swipes').checked = appSettings.swipes !== false;
-      syncUsaBox();
-      syncBodyClasses();
-      tick();
-    }
-
-    document.getElementById('toggle-usa-btn').addEventListener('click', () => {
-      appSettings.usaOpen = !appSettings.usaOpen;
-      writeJSON(KEYS.settings, appSettings);
-      syncUsaBox();
-    });
-
-    document.getElementById('opt-compact').addEventListener('change', (e) => {
-      appSettings.compact = e.target.checked;
-      writeJSON(KEYS.settings, appSettings);
-      syncBodyClasses();
-    });
-
-    document.getElementById('opt-12h').addEventListener('change', (e) => {
-      appSettings.hour12 = e.target.checked;
-      writeJSON(KEYS.settings, appSettings);
-      tick();
-    });
-
-    document.getElementById('opt-swipes').addEventListener('change', (e) => {
-      appSettings.swipes = e.target.checked;
-      writeJSON(KEYS.settings, appSettings);
-    });
-
-    document.getElementById('opt-reset-target').addEventListener('click', () => {
-      localStorage.removeItem(KEYS.targetState);
-      const init = getTargetState();
-      document.getElementById('target-name-input').value = init.name;
-      document.getElementById('target-date-input').value = toLocalInputString(init.date);
-      renderHolidays();
-      tick();
-    });
-
-    document.getElementById('opt-reset-all').addEventListener('click', () => {
-      selectedSeason = 'auto';
-      selectedPalette = '';
-      localStorage.setItem(KEYS.season, 'auto');
-      localStorage.removeItem(KEYS.palette);
-      appSettings = { compact: false, hour12: false, swipes: true, usaOpen: false };
-      writeJSON(KEYS.settings, appSettings);
-
-      document.querySelectorAll('#season-themes .theme-btn').forEach((b) => {
-        b.classList.toggle('active', b.dataset.season === 'auto');
-      });
-      document.querySelectorAll('#presets-list .preset-btn').forEach((b) => {
-        b.classList.toggle('active', !b.dataset.palette);
-      });
-      syncSettingsUI();
-    });
-
     // --- Заметки ---
-    function renderNotes() {
-      const notes = readJSON(KEYS.notes, []);
-      const listEl = document.getElementById('notes-list');
-      document.getElementById('notes-count').textContent = notes.length;
+    function getSortedNotes() {
+      const notes = readJSON(KEYS.notes, []).map((n, idx) => ({ ...n, _idx: idx }));
+      if (appSettings.sortCustom === 'alpha') {
+        notes.sort((a, b) => (a.title || a.text || '').localeCompare(b.title || b.text || '', 'ru'));
+      }
+      return notes;
+    }
 
-      if (!notes.length) {
-        listEl.innerHTML = `<div class="empty-state" style="padding: 24px 12px;">Заметок пока нет. Добавь первую сверху!</div>`;
+    function renderNotes() {
+      const allNotes = getSortedNotes();
+      const searchActive = Boolean(document.getElementById('search-input').value.trim()) && appSettings.searchNotes;
+      const visibleNotes = searchActive
+        ? allNotes.filter((n) => matchesQuery(`${n.title || ''} ${n.text || ''}`))
+        : allNotes;
+
+      const listEl = document.getElementById('notes-list');
+      document.getElementById('notes-count').textContent = allNotes.length;
+      document.getElementById('notes-filter-hint').textContent = searchActive
+        ? `Найдено в заметках: ${visibleNotes.length}`
+        : `Всего заметок: ${allNotes.length}`;
+
+      if (!visibleNotes.length) {
+        listEl.innerHTML = `<div class="empty-state" style="padding: 20px 12px;">Заметок нет. Добавь первую сверху!</div>`;
         return;
       }
 
-      listEl.innerHTML = notes
-        .map((n, idx) => `
-          <div class="note-card">
-            <div class="note-card-top">
-              <div class="note-title">${n.title || 'Без названия'}</div>
-              <button class="del-btn" data-del-note="${idx}">Удалить</button>
+      listEl.innerHTML = visibleNotes
+        .map((n) => {
+          const borderAttr = n.color ? `style="border-color:${n.color};"` : '';
+          const titleAttr = n.color ? `style="color:${n.color};"` : '';
+          return `
+            <div class="note-card" ${borderAttr}>
+              <div class="note-card-top">
+                <div class="note-title" ${titleAttr}>${n.title || 'Без названия'}</div>
+                <button class="del-btn" data-del-note="${n._idx}">Удалить</button>
+              </div>
+              <div class="note-body">${n.text || ''}</div>
+              <div class="note-footer">
+                <span class="note-meta">${n.createdAt}</span>
+                <button class="mini-btn" data-run-note="${n._idx}">На таймер</button>
+              </div>
             </div>
-            <div class="note-body">${n.text}</div>
-            <div class="note-meta">${n.createdAt}</div>
-          </div>
-        `)
+          `;
+        })
         .join('');
 
       listEl.querySelectorAll('[data-del-note]').forEach((btn) => {
@@ -1780,6 +2447,20 @@
           const updated = readJSON(KEYS.notes, []).filter((_, i) => i !== idx);
           writeJSON(KEYS.notes, updated);
           renderNotes();
+          renderHolidays();
+        });
+      });
+
+      listEl.querySelectorAll('[data-run-note]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.runNote);
+          const all = readJSON(KEYS.notes, []);
+          const note = all[idx];
+          if (!note) return;
+          const label = note.title || note.text.slice(0, 32) || 'Заметка';
+          const defaultDate = getTargetState().date || new Date(Date.now() + 15 * 60 * 1000);
+          setTargetState({ mode: 'note', name: label, noteText: note.text || '', date: defaultDate });
+          openTimerModal(label, defaultDate, note.text || '');
         });
       });
     }
@@ -1788,13 +2469,16 @@
       e.preventDefault();
       const titleInput = document.getElementById('note-title-input');
       const textInput = document.getElementById('note-text-input');
+      const colorInput = document.getElementById('note-color-input');
+      const title = titleInput.value.trim();
       const text = textInput.value.trim();
-      if (!text) return;
+      if (!title && !text) return;
 
       const notes = readJSON(KEYS.notes, []);
       notes.unshift({
-        title: titleInput.value.trim(),
+        title,
         text,
+        color: colorInput.value || '',
         createdAt: new Date().toLocaleString('ru-RU', {
           day: '2-digit',
           month: '2-digit',
@@ -1806,7 +2490,131 @@
       writeJSON(KEYS.notes, notes);
       titleInput.value = '';
       textInput.value = '';
+      colorInput.value = '';
       renderNotes();
+      renderHolidays();
+    });
+
+    // --- Привязка всех контролов настроек ---
+    function syncSettingsUI() {
+      document.getElementById('opt-counter-style').value = appSettings.counterStyle || 'blocks';
+      document.getElementById('opt-ms').checked = Boolean(appSettings.showMs);
+      document.getElementById('opt-12h').checked = Boolean(appSettings.hour12);
+      document.getElementById('opt-seconds').checked = Boolean(appSettings.showSeconds);
+      document.getElementById('opt-weekday').checked = Boolean(appSettings.showWeekday);
+      document.getElementById('opt-case-sensitive').checked = Boolean(appSettings.caseSensitive);
+      document.getElementById('opt-search-notes').checked = appSettings.searchNotes !== false;
+      document.getElementById('opt-preserve-scroll').checked = appSettings.preserveScroll !== false;
+      document.getElementById('opt-badge-style').value = appSettings.badgeStyle || 'filled';
+      document.getElementById('opt-show-year').checked = Boolean(appSettings.showYear);
+      document.getElementById('opt-card-order').value = appSettings.cardOrder || 'top-left';
+      document.getElementById('opt-sort-custom').value = appSettings.sortCustom || 'created';
+      document.getElementById('opt-font-size').value = appSettings.fontSize || 'medium';
+      document.getElementById('opt-drawer-pos').value = appSettings.drawerPos || 'default';
+      document.getElementById('opt-compact').checked = Boolean(appSettings.compact);
+      document.getElementById('opt-swipes').checked = appSettings.swipes !== false;
+      document.getElementById('opt-focus').checked = Boolean(appSettings.focusMode);
+
+      syncBodyClasses();
+      renderHolidays();
+      renderNotes();
+      tick();
+    }
+
+    function bindSetting(id, key, transform = (el) => el.checked) {
+      document.getElementById(id).addEventListener('change', (e) => {
+        appSettings[key] = transform(e.target);
+        writeJSON(KEYS.settings, appSettings);
+        syncSettingsUI();
+      });
+    }
+
+    bindSetting('opt-counter-style', 'counterStyle', (el) => el.value);
+    bindSetting('opt-ms', 'showMs');
+    bindSetting('opt-12h', 'hour12');
+    bindSetting('opt-seconds', 'showSeconds');
+    bindSetting('opt-weekday', 'showWeekday');
+    bindSetting('opt-case-sensitive', 'caseSensitive');
+    bindSetting('opt-search-notes', 'searchNotes');
+    bindSetting('opt-preserve-scroll', 'preserveScroll');
+    bindSetting('opt-badge-style', 'badgeStyle', (el) => el.value);
+    bindSetting('opt-show-year', 'showYear');
+    bindSetting('opt-card-order', 'cardOrder', (el) => el.value);
+    bindSetting('opt-sort-custom', 'sortCustom', (el) => el.value);
+    bindSetting('opt-font-size', 'fontSize', (el) => el.value);
+    bindSetting('opt-drawer-pos', 'drawerPos', (el) => el.value);
+    bindSetting('opt-compact', 'compact');
+    bindSetting('opt-swipes', 'swipes');
+    bindSetting('opt-focus', 'focusMode');
+
+    document.getElementById('opt-pin-selected').addEventListener('click', () => {
+      const cur = getTargetState();
+      writeJSON(KEYS.pinnedSlot, { name: cur.name, iso: cur.date.toISOString() });
+      tick();
+    });
+
+    document.getElementById('opt-unpin-slot').addEventListener('click', () => {
+      localStorage.removeItem(KEYS.pinnedSlot);
+      tick();
+    });
+
+    document.getElementById('unpin-slot-btn').addEventListener('click', () => {
+      localStorage.removeItem(KEYS.pinnedSlot);
+      tick();
+    });
+
+    document.getElementById('opt-clean-past-custom').addEventListener('click', () => {
+      const now = new Date();
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const kept = readJSON(KEYS.customHolidays, []).filter((h) => {
+        if ((h.repeat || 'yearly') !== 'yearly') return true;
+        const d = new Date(now.getFullYear(), h.month, h.day);
+        return d >= todayStart;
+      });
+      writeJSON(KEYS.customHolidays, kept);
+      renderHolidays();
+    });
+
+    document.getElementById('opt-clean-empty-notes').addEventListener('click', () => {
+      const kept = readJSON(KEYS.notes, []).filter((n) => (n.title || '').trim() || (n.text || '').trim());
+      writeJSON(KEYS.notes, kept);
+      renderNotes();
+      renderHolidays();
+    });
+
+    document.getElementById('opt-reset-all').addEventListener('click', () => {
+      selectedSeason = 'auto';
+      selectedPalette = '';
+      localStorage.setItem(KEYS.season, 'auto');
+      localStorage.removeItem(KEYS.palette);
+      localStorage.removeItem(KEYS.pinnedSlot);
+      appSettings = {
+        counterStyle: 'blocks',
+        showMs: false,
+        hour12: false,
+        showSeconds: false,
+        showWeekday: false,
+        caseSensitive: false,
+        searchNotes: true,
+        preserveScroll: true,
+        badgeStyle: 'filled',
+        showYear: false,
+        cardOrder: 'top-left',
+        sortCustom: 'created',
+        fontSize: 'medium',
+        drawerPos: 'default',
+        compact: false,
+        swipes: true,
+        focusMode: false
+      };
+      writeJSON(KEYS.settings, appSettings);
+      document.querySelectorAll('#season-themes .theme-btn').forEach((b) => {
+        b.classList.toggle('active', b.dataset.season === 'auto');
+      });
+      document.querySelectorAll('#presets-list .preset-btn').forEach((b) => {
+        b.classList.toggle('active', !b.dataset.palette);
+      });
+      syncSettingsUI();
     });
 
     // --- Фильтры и формы ---
@@ -1819,8 +2627,22 @@
       });
     });
 
-    document.getElementById('search-input').addEventListener('input', renderHolidays);
+    document.getElementById('search-input').addEventListener('input', () => {
+      renderHolidays();
+      renderNotes();
+    });
     document.getElementById('month-filter').addEventListener('change', renderHolidays);
+    document.getElementById('days-window-filter').addEventListener('change', renderHolidays);
+
+    document.getElementById('reset-filters-btn').addEventListener('click', () => {
+      selectedCat = 'all';
+      document.querySelectorAll('.cat-btn').forEach((b) => b.classList.toggle('active', b.dataset.cat === 'all'));
+      document.getElementById('search-input').value = '';
+      document.getElementById('month-filter').value = 'all';
+      document.getElementById('days-window-filter').value = 'all';
+      renderHolidays();
+      renderNotes();
+    });
 
     const addForm = document.getElementById('add-form');
     document.getElementById('toggle-add-btn').addEventListener('click', () => {
@@ -1832,6 +2654,8 @@
       const nameInput = document.getElementById('custom-name');
       const monthInput = document.getElementById('custom-month');
       const dayInput = document.getElementById('custom-day');
+      const repeatInput = document.getElementById('custom-repeat');
+      const colorInput = document.getElementById('custom-color');
 
       const name = nameInput.value.trim();
       const month = Number(monthInput.value);
@@ -1839,11 +2663,19 @@
       if (!name || day < 1 || day > 31) return;
 
       const current = readJSON(KEYS.customHolidays, []);
-      current.push({ name, month, day });
+      current.push({
+        name,
+        month,
+        day,
+        repeat: repeatInput.value || 'yearly',
+        color: colorInput.value || '',
+        createdAtTs: Date.now()
+      });
       writeJSON(KEYS.customHolidays, current);
 
       nameInput.value = '';
       dayInput.value = '';
+      colorInput.value = '';
       addForm.classList.remove('open');
       renderHolidays();
       tick();
@@ -1862,25 +2694,39 @@
       const now = new Date();
       const upcoming = getSortedUpcoming(now);
       const nearest = upcoming[0];
-      const nyDate = getNextOccurrence(0, 1, now);
+      const nyDate = getNextOccurrence(0, 1, now, 'yearly');
       const seasonCard = getSeasonCardInfo(selectedSeason, now);
       const targetState = getTargetState(now);
+      const pinned = readJSON(KEYS.pinnedSlot, null);
+      const runner = getRunnerState();
 
       if (nearest) {
         const shortDate = nearest.nextDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
         document.getElementById('nearest-title').textContent = `${nearest.name} (${shortDate})`;
-        renderTimer(document.getElementById('nearest-timer'), nearest.nextDate, now);
+        renderTimer(document.getElementById('nearest-timer'), nearest.nextDate, now, false);
       }
 
-      document.getElementById('ny-title').textContent = `Новый год ${nyDate.getFullYear()}`;
-      renderTimer(document.getElementById('ny-timer'), nyDate, now);
+      const unpinBtn = document.getElementById('unpin-slot-btn');
+      const slotLabel = document.getElementById('pinned-slot-label');
+      if (pinned && pinned.iso && new Date(pinned.iso) > now) {
+        const pDate = new Date(pinned.iso);
+        slotLabel.textContent = 'Закреплённое событие';
+        unpinBtn.style.display = 'inline-block';
+        document.getElementById('ny-title').textContent = pinned.name || 'Закреплённая дата';
+        renderTimer(document.getElementById('ny-timer'), pDate, now, false);
+      } else {
+        slotLabel.textContent = 'Главное событие';
+        unpinBtn.style.display = 'none';
+        document.getElementById('ny-title').textContent = `Новый год ${nyDate.getFullYear()}`;
+        renderTimer(document.getElementById('ny-timer'), nyDate, now, false);
+      }
 
       document.getElementById('season-title').textContent = seasonCard.name;
       document.getElementById('season-mode-badge').textContent = seasonCard.badge;
-      renderTimer(document.getElementById('season-timer'), seasonCard.date, now);
+      renderTimer(document.getElementById('season-timer'), seasonCard.date, now, false);
 
       const activeDate = targetState.mode === 'season' && SEASON_TARGETS[targetState.seasonKey]
-        ? getNextOccurrence(SEASON_TARGETS[targetState.seasonKey].month, SEASON_TARGETS[targetState.seasonKey].day, now)
+        ? getNextOccurrence(SEASON_TARGETS[targetState.seasonKey].month, SEASON_TARGETS[targetState.seasonKey].day, now, 'yearly')
         : targetState.date;
 
       const labelEl = document.getElementById('target-banner-label');
@@ -1888,16 +2734,49 @@
         ? `Отсчёт до сезона — ${SEASON_TARGETS[targetState.seasonKey].label}`
         : 'Отсчёт до выбранной даты';
 
-      const dateStr = activeDate.toLocaleString('ru-RU', {
+      const fmtOptions = {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
         hour12: Boolean(appSettings.hour12)
-      });
+      };
+      if (appSettings.showSeconds) fmtOptions.second = '2-digit';
+      if (appSettings.showWeekday) fmtOptions.weekday = 'short';
+
+      const dateStr = activeDate.toLocaleString('ru-RU', fmtOptions);
       document.getElementById('selected-target-title').textContent = `${targetState.name} — ${dateStr}`;
-      renderTimer(document.getElementById('selected-target-timer'), activeDate, now);
+      renderTimer(document.getElementById('selected-target-timer'), activeDate, now, true);
+
+      const bannerNoteBox = document.getElementById('banner-note-preview');
+      if (targetState.noteText) {
+        bannerNoteBox.style.display = 'block';
+        bannerNoteBox.textContent = targetState.noteText;
+      } else {
+        bannerNoteBox.style.display = 'none';
+        bannerNoteBox.textContent = '';
+      }
+
+      // Обновление модального окна таймера
+      if (runner.running && runner.iso) {
+        const rDate = new Date(runner.iso);
+        if (rDate > now) {
+          document.getElementById('modal-timer-title').textContent = `${runner.name || 'Таймер'} — идёт отсчёт`;
+          renderTimer(document.getElementById('modal-timer-display'), rDate, now, true);
+        } else {
+          syncRunnerButtons();
+          renderTimer(document.getElementById('modal-timer-display'), activeDate, now, true);
+        }
+      } else {
+        const modalName = document.getElementById('modal-timer-name').value.trim() || targetState.name;
+        const modalRaw = document.getElementById('modal-timer-date').value;
+        const modalDate = modalRaw && !isNaN(new Date(modalRaw).getTime()) ? new Date(modalRaw) : activeDate;
+        document.getElementById('modal-timer-title').textContent = modalName;
+        renderTimer(document.getElementById('modal-timer-display'), modalDate, now, true);
+      }
+
+      syncRunnerButtons();
     }
 
     // Инициализация
@@ -1913,9 +2792,7 @@
     document.getElementById('target-date-input').value = toLocalInputString(initTarget.date);
 
     syncSettingsUI();
-    renderHolidays();
-    renderNotes();
-    setInterval(tick, 1000);
+    setInterval(tick, 100);
   </script>
 </body>
 </html>
