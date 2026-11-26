@@ -3,47 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>n1ghtixx — Все праздники РФ и сезоны</title>
+  <title>n1ghtixx — Все праздники РФ, таймеры и заметки</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-1: #090d16;
-      --bg-2: #111827;
+      --bg-1: #070b14;
+      --bg-2: #0f172a;
       --accent: #38bdf8;
       --accent-2: #818cf8;
       --glow: rgba(56, 189, 248, 0.22);
-      --card: rgba(17, 24, 39, 0.82);
-      --card-soft: rgba(255, 255, 255, 0.04);
+      --card: rgba(15, 23, 42, 0.78);
+      --card-soft: rgba(255, 255, 255, 0.045);
       --border: rgba(255, 255, 255, 0.1);
       --text: #f8fafc;
       --muted: #94a3b8;
       --success: #34d399;
     }
 
-    body.theme-newyear {
-      --bg-1: #16090d;
-      --bg-2: #241018;
-      --accent: #fbbf24;
-      --accent-2: #f43f5e;
-      --glow: rgba(251, 191, 36, 0.22);
+    body.theme-winter {
+      --bg-1: #09111e;
+      --bg-2: #122138;
+      --accent: #60a5fa;
+      --accent-2: #a5f3fc;
+      --glow: rgba(96, 165, 250, 0.25);
     }
 
     body.theme-spring {
-      --bg-1: #081814;
-      --bg-2: #0f2922;
+      --bg-1: #071914;
+      --bg-2: #0e2c23;
       --accent: #34d399;
       --accent-2: #a3e635;
-      --glow: rgba(52, 211, 153, 0.22);
+      --glow: rgba(52, 211, 153, 0.24);
     }
 
     body.theme-summer {
-      --bg-1: #1a1207;
-      --bg-2: #291d0c;
+      --bg-1: #1c1206;
+      --bg-2: #2d1d0a;
       --accent: #fb923c;
       --accent-2: #facc15;
-      --glow: rgba(251, 146, 60, 0.22);
+      --glow: rgba(251, 146, 60, 0.25);
+    }
+
+    body.theme-autumn {
+      --bg-1: #1a0c0a;
+      --bg-2: #2b1410;
+      --accent: #f87171;
+      --accent-2: #fbbf24;
+      --glow: rgba(248, 113, 113, 0.24);
     }
 
     * {
@@ -57,15 +65,15 @@
       font-family: 'Inter', sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 15% 10%, var(--glow), transparent 45%),
-        radial-gradient(circle at 85% 0%, rgba(129, 140, 248, 0.12), transparent 40%),
+        radial-gradient(circle at 12% 8%, var(--glow), transparent 44%),
+        radial-gradient(circle at 88% 4%, var(--glow), transparent 42%),
         linear-gradient(160deg, var(--bg-1), var(--bg-2));
-      padding: 24px 16px 72px;
-      transition: background 0.35s ease;
+      padding: 24px 16px 80px;
+      transition: background 0.35s ease, color 0.25s ease;
     }
 
     .container {
-      max-width: 1120px;
+      max-width: 1160px;
       margin: 0 auto;
     }
 
@@ -78,65 +86,186 @@
       margin-bottom: 24px;
     }
 
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
     h1 {
       font-family: 'Unbounded', sans-serif;
-      font-size: clamp(1.45rem, 3.6vw, 2.25rem);
+      font-size: clamp(1.55rem, 3.6vw, 2.35rem);
       letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .subtitle {
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.94rem;
       margin-top: 6px;
-      max-width: 660px;
+      max-width: 640px;
+      line-height: 1.45;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
     }
 
     .themes {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
+      background: var(--card);
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
     }
 
-    .theme-btn {
-      background: var(--card);
+    .theme-btn,
+    .tool-btn {
+      background: transparent;
       color: var(--text);
-      border: 1px solid var(--border);
-      padding: 8px 12px;
+      border: 1px solid transparent;
+      padding: 7px 12px;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 0.84rem;
+      font-size: 0.83rem;
+      font-weight: 500;
       font-family: inherit;
       transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .theme-btn:hover,
+    .theme-btn:hover {
+      background: var(--card-soft);
+    }
+
     .theme-btn.active {
+      background: var(--accent);
+      color: #061018;
+      font-weight: 700;
+      box-shadow: 0 0 18px var(--glow);
+    }
+
+    .tool-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 14px;
+      font-weight: 600;
+    }
+
+    .tool-btn:hover,
+    .tool-btn.active {
       border-color: var(--accent);
       box-shadow: 0 0 18px var(--glow);
     }
 
+    .notes-badge {
+      background: var(--accent);
+      color: #061018;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 999px;
+    }
+
+    /* Панель кастомизации цветов */
+    .customizer-drawer {
+      display: none;
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .customizer-drawer.open {
+      display: block;
+    }
+
+    .customizer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .customizer-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.95rem;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 12px;
+    }
+
+    .color-control {
+      background: var(--card-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.84rem;
+    }
+
+    .color-control input[type="color"] {
+      width: 34px;
+      height: 30px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* Верхние 3 карточки */
     .grid-top {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
       gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
     }
 
     .card {
       background: var(--card);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+      transition: border-color 0.25s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .card-label {
       color: var(--accent);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .card-title {
@@ -173,8 +302,53 @@
       margin-top: 2px;
     }
 
+    /* Блок отсчёта до выбранной даты (по центру между карточками и поиском) */
+    .target-banner {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 28px var(--glow);
+      border-radius: 22px;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width: 820px) {
+      .target-banner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .target-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .target-inputs input[type="text"] {
+      flex: 1 1 180px;
+    }
+
+    .target-inputs input[type="datetime-local"] {
+      flex: 1 1 190px;
+      color-scheme: dark;
+    }
+
+    .target-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    /* Панель фильтров */
     .panel {
       background: var(--card);
+      backdrop-filter: blur(14px);
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 18px;
@@ -194,7 +368,7 @@
       border: 1px solid var(--border);
       border-radius: 999px;
       padding: 7px 14px;
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       font-weight: 500;
       cursor: pointer;
       font-family: inherit;
@@ -210,7 +384,7 @@
       background: var(--accent);
       color: #061018;
       border-color: var(--accent);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .controls {
@@ -222,8 +396,10 @@
 
     input,
     select,
-    button.action-btn {
-      background: rgba(9, 13, 22, 0.7);
+    textarea,
+    button.action-btn,
+    button.ghost-btn {
+      background: rgba(7, 11, 20, 0.65);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -233,18 +409,19 @@
       outline: none;
     }
 
-    input {
-      flex: 1 1 220px;
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
     }
 
-    input:focus,
-    select:focus {
-      border-color: var(--accent);
+    .controls input[type="text"] {
+      flex: 1 1 220px;
     }
 
     button.action-btn {
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #071019;
+      color: #061018;
       font-weight: 700;
       border: none;
       cursor: pointer;
@@ -256,6 +433,16 @@
       opacity: 0.95;
     }
 
+    button.ghost-btn {
+      cursor: pointer;
+      font-size: 0.82rem;
+      padding: 8px 12px;
+    }
+
+    button.ghost-btn:hover {
+      border-color: var(--accent);
+    }
+
     .meta-bar {
       display: flex;
       flex-wrap: wrap;
@@ -264,7 +451,7 @@
       gap: 8px;
       margin-bottom: 14px;
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.86rem;
     }
 
     .holidays-list {
@@ -282,12 +469,14 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 10px;
-      transition: border-color 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .holiday-item:hover {
-      border-color: rgba(255, 255, 255, 0.24);
+      border-color: var(--accent);
       transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
 
     .holiday-item.next-up {
@@ -309,7 +498,7 @@
     }
 
     .badge {
-      font-size: 0.72rem;
+      font-size: 0.71rem;
       padding: 3px 8px;
       border-radius: 999px;
       background: var(--card-soft);
@@ -326,8 +515,8 @@
 
     .holiday-name {
       font-weight: 600;
-      font-size: 1rem;
-      line-height: 1.35;
+      font-size: 0.98rem;
+      line-height: 1.38;
     }
 
     .item-bottom {
@@ -335,7 +524,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       color: var(--muted);
     }
 
@@ -375,26 +564,180 @@
       border: 1px dashed var(--border);
       border-radius: 16px;
     }
+
+    /* Боковая панель для заметок */
+    .notes-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 40;
+    }
+
+    .notes-backdrop.open {
+      display: block;
+    }
+
+    .notes-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(400px, 92vw);
+      height: 100vh;
+      background: var(--bg-2);
+      border-left: 1px solid var(--border);
+      box-shadow: -12px 0 40px rgba(0, 0, 0, 0.45);
+      z-index: 50;
+      transform: translateX(100%);
+      transition: transform 0.28s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 14px;
+    }
+
+    .notes-sidebar.open {
+      transform: translateX(0);
+    }
+
+    .notes-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notes-head h2 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.1rem;
+    }
+
+    .note-form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: var(--card-soft);
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .note-form textarea {
+      resize: vertical;
+      min-height: 76px;
+      font-size: 0.88rem;
+    }
+
+    .notes-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 4px;
+    }
+
+    .note-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .note-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .note-title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--accent);
+    }
+
+    .note-body {
+      font-size: 0.86rem;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      color: var(--text);
+    }
+
+    .note-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div>
-        <h1>n1ghtixx</h1>
-        <p class="subtitle">Полный календарь праздников, памятных, воинских и профессиональных дат Российской Федерации с живыми таймерами</p>
+        <div class="brand-row">
+          <h1>n1ghtixx</h1>
+        </div>
+        <p class="subtitle">Полный календарь праздников РФ, таймер до любой выбранной даты, отсчёт сезонов и личные заметки</p>
       </div>
-      <div class="themes">
-        <button class="theme-btn active" data-theme="">Базовая</button>
-        <button class="theme-btn" data-theme="theme-newyear">Новый год</button>
-        <button class="theme-btn" data-theme="theme-spring">Весна</button>
-        <button class="theme-btn" data-theme="theme-summer">Лето</button>
+
+      <div class="header-actions">
+        <div class="themes" id="season-themes">
+          <button class="theme-btn active" data-theme="" data-season="auto">Базовая</button>
+          <button class="theme-btn" data-theme="theme-winter" data-season="winter">Зима</button>
+          <button class="theme-btn" data-theme="theme-spring" data-season="spring">Весна</button>
+          <button class="theme-btn" data-theme="theme-summer" data-season="summer">Лето</button>
+          <button class="theme-btn" data-theme="theme-autumn" data-season="autumn">Осень</button>
+        </div>
+
+        <button class="tool-btn" id="toggle-colors-btn">Цвета</button>
+        <button class="tool-btn" id="open-notes-btn">
+          Заметки <span class="notes-badge" id="notes-count">0</span>
+        </button>
       </div>
     </header>
 
+    <!-- Кастомизация любых цветов интерфейса -->
+    <section class="customizer-drawer" id="customizer-drawer">
+      <div class="customizer-header">
+        <div class="customizer-title">Настройка цветов интерфейса</div>
+        <button class="ghost-btn" id="reset-colors-btn">Сбросить цвета</button>
+      </div>
+      <div class="color-grid">
+        <label class="color-control">
+          <span>Главный акцент</span>
+          <input type="color" id="pick-accent" value="#38bdf8" />
+        </label>
+        <label class="color-control">
+          <span>Второй акцент</span>
+          <input type="color" id="pick-accent2" value="#818cf8" />
+        </label>
+        <label class="color-control">
+          <span>Фон (верх)</span>
+          <input type="color" id="pick-bg1" value="#070b14" />
+        </label>
+        <label class="color-control">
+          <span>Фон (низ)</span>
+          <input type="color" id="pick-bg2" value="#0f172a" />
+        </label>
+        <label class="color-control">
+          <span>Цвет текста</span>
+          <input type="color" id="pick-text" value="#f8fafc" />
+        </label>
+      </div>
+    </section>
+
+    <!-- Верхние 3 карточки -->
     <section class="grid-top">
       <div class="card">
-        <div class="card-label">Ближайшая дата</div>
+        <div class="card-label">Ближайший праздник</div>
         <div class="card-title" id="nearest-title">Загрузка...</div>
         <div class="countdown" id="nearest-timer"></div>
       </div>
@@ -406,12 +749,31 @@
       </div>
 
       <div class="card">
-        <div class="card-label">Смена сезона</div>
+        <div class="card-label">
+          <span>Отсчёт сезона</span>
+          <span id="season-mode-badge">Авто</span>
+        </div>
         <div class="card-title" id="season-title">До начала зимы</div>
         <div class="countdown" id="season-timer"></div>
       </div>
     </section>
 
+    <!-- Таймер до выбранной даты (между карточками и поиском) -->
+    <section class="target-banner">
+      <div>
+        <div class="card-label">Отсчёт до выбранной даты</div>
+        <div class="card-title" id="selected-target-title">Выбери дату или нажми на праздник ниже</div>
+        <div class="target-inputs">
+          <input type="text" id="target-name-input" placeholder="Название события..." />
+          <input type="datetime-local" id="target-date-input" />
+          <button class="action-btn" id="apply-target-btn">Запустить</button>
+        </div>
+        <div class="target-hint">Совет: кликни по любой карточке праздника внизу, чтобы сразу поставить её в этот таймер.</div>
+      </div>
+      <div class="countdown" id="selected-target-timer"></div>
+    </section>
+
+    <!-- Фильтры и список праздников -->
     <section class="panel">
       <div class="category-tabs" id="category-tabs">
         <button class="cat-btn active" data-cat="all">Все даты</button>
@@ -471,6 +833,23 @@
     <section class="holidays-list" id="holidays-list"></section>
   </div>
 
+  <!-- Боковая панель заметок -->
+  <div class="notes-backdrop" id="notes-backdrop"></div>
+  <aside class="notes-sidebar" id="notes-sidebar">
+    <div class="notes-head">
+      <h2>Заметки</h2>
+      <button class="ghost-btn" id="close-notes-btn">Закрыть</button>
+    </div>
+
+    <form class="note-form" id="note-form">
+      <input type="text" id="note-title-input" placeholder="Заголовок заметки..." />
+      <textarea id="note-text-input" placeholder="Напиши текст заметки, идею или список дел..." required></textarea>
+      <button type="submit" class="action-btn">Добавить заметку</button>
+    </form>
+
+    <div class="notes-list" id="notes-list"></div>
+  </aside>
+
   <script>
     const CAT_LABELS = {
       state: 'Государственный',
@@ -480,7 +859,6 @@
       custom: 'Моя дата'
     };
 
-    // Фиксированные праздники, памятные, воинские и профессиональные даты РФ
     const baseHolidays = [
       // Январь
       { name: 'Новый год', month: 0, day: 1, cat: 'state' },
@@ -496,9 +874,8 @@
       // Февраль
       { name: 'День разгрома советскими войсками немецко-фашистских войск в Сталинградской битве', month: 1, day: 2, cat: 'military' },
       { name: 'День российской науки', month: 1, day: 8, cat: 'prof' },
-      { name: 'День памяти о россиянах, исполнявших служебный долг за пределами Отечества', month: 1, day: 10, cat: 'military' },
       { name: 'День дипломатического работника', month: 1, day: 10, cat: 'prof' },
-      { name: 'День памяти о россиянах, исполнявших долг за пределами Отечества', month: 1, day: 15, cat: 'military' },
+      { name: 'День памяти о россиянах, исполнявших служебный долг за пределами Отечества', month: 1, day: 15, cat: 'military' },
       { name: 'День защитника Отечества', month: 1, day: 23, cat: 'state' },
       { name: 'День сил специальных операций', month: 1, day: 27, cat: 'military' },
 
@@ -543,14 +920,14 @@
       { name: 'День работников морского и речного флота', month: 6, day: 5, cat: 'prof' },
       { name: 'День семьи, любви и верности', month: 6, day: 8, cat: 'social' },
       { name: 'День российской почты', month: 6, day: 12, cat: 'prof' },
-      { name: 'День памяти святого равноапостольного князя Владимира', month: 6, day: 28, cat: 'social' },
       { name: 'День Военно-Морского Флота', month: 6, day: 26, cat: 'military' },
+      { name: 'День памяти святого равноапостольного князя Владимира', month: 6, day: 28, cat: 'social' },
 
       // Август
       { name: 'День Воздушно-десантных войск (ВДВ)', month: 7, day: 2, cat: 'military' },
       { name: 'День железнодорожника', month: 7, day: 2, cat: 'prof' },
-      { name: 'День строителя', month: 7, day: 9, cat: 'prof' },
       { name: 'День физкультурника', month: 7, day: 8, cat: 'social' },
+      { name: 'День строителя', month: 7, day: 9, cat: 'prof' },
       { name: 'День Военно-воздушных сил', month: 7, day: 12, cat: 'military' },
       { name: 'День Государственного флага РФ', month: 7, day: 22, cat: 'state' },
       { name: 'День российского кино', month: 7, day: 27, cat: 'prof' },
@@ -569,12 +946,12 @@
       { name: 'День пожилых людей', month: 9, day: 1, cat: 'social' },
       { name: 'День космических войск', month: 9, day: 4, cat: 'military' },
       { name: 'День учителя', month: 9, day: 5, cat: 'prof' },
-      { name: 'День работников сельского хозяйства и перерабатывающей промышленности', month: 9, day: 11, cat: 'prof' },
+      { name: 'День работников сельского хозяйства', month: 9, day: 11, cat: 'prof' },
       { name: 'День работников дорожного хозяйства', month: 9, day: 18, cat: 'prof' },
       { name: 'День военного связиста', month: 9, day: 20, cat: 'military' },
       { name: 'День подразделений специального назначения', month: 9, day: 24, cat: 'military' },
       { name: 'День таможенника РФ', month: 9, day: 25, cat: 'prof' },
-      { name: 'День работников автомобильного и городского пассажирского транспорта', month: 9, day: 25, cat: 'prof' },
+      { name: 'День работников автомобильного транспорта', month: 9, day: 25, cat: 'prof' },
       { name: 'День памяти жертв политических репрессий', month: 9, day: 30, cat: 'social' },
 
       // Ноябрь
@@ -596,34 +973,33 @@
       { name: 'День спасателя РФ', month: 11, day: 27, cat: 'prof' }
     ];
 
-    const STORAGE_KEY = 'n1ghtixx_custom_holidays_v2';
-    let selectedCat = 'all';
+    const KEYS = {
+      customHolidays: 'n1ghtixx_custom_holidays_v3',
+      targetDate: 'n1ghtixx_selected_target_v3',
+      notes: 'n1ghtixx_notes_v3',
+      colors: 'n1ghtixx_custom_colors_v3',
+      season: 'n1ghtixx_selected_season_v3'
+    };
 
-    function loadCustomHolidays() {
+    let selectedCat = 'all';
+    let selectedSeason = localStorage.getItem(KEYS.season) || 'auto';
+
+    function readJSON(key, fallback) {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const parsed = raw ? JSON.parse(raw) : [];
-        return Array.isArray(parsed) ? parsed : [];
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
       } catch {
-        return [];
+        return fallback;
       }
     }
 
-    function saveCustomHolidays(list) {
+    function writeJSON(key, value) {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        localStorage.setItem(key, JSON.stringify(value));
       } catch {}
     }
 
-    function getAllHolidays() {
-      const custom = loadCustomHolidays().map((item, idx) => ({
-        ...item,
-        cat: 'custom',
-        customIndex: idx
-      }));
-      return [...baseHolidays, ...custom];
-    }
-
+    // --- Даты и таймеры ---
     function getNextOccurrence(month, day, fromDate = new Date()) {
       const year = fromDate.getFullYear();
       let target = new Date(year, month, day, 0, 0, 0, 0);
@@ -633,18 +1009,29 @@
       return target;
     }
 
-    function getNextSeason(fromDate = new Date()) {
-      const seasons = [
-        { name: 'До начала весны', month: 2, day: 1 },
-        { name: 'До начала лета', month: 5, day: 1 },
-        { name: 'До начала осени', month: 8, day: 1 },
-        { name: 'До начала зимы', month: 11, day: 1 }
-      ];
+    function getSeasonInfo(mode, fromDate = new Date()) {
+      const map = {
+        spring: { name: 'До начала весны', label: 'Весна', month: 2, day: 1 },
+        summer: { name: 'До начала лета', label: 'Лето', month: 5, day: 1 },
+        autumn: { name: 'До начала осени', label: 'Осень', month: 8, day: 1 },
+        winter: { name: 'До начала зимы', label: 'Зима', month: 11, day: 1 }
+      };
+
+      if (mode !== 'auto' && map[mode]) {
+        const s = map[mode];
+        return {
+          name: s.name,
+          badge: s.label,
+          date: getNextOccurrence(s.month, s.day, fromDate)
+        };
+      }
+
       let nearest = null;
-      for (const s of seasons) {
+      for (const key of Object.keys(map)) {
+        const s = map[key];
         const date = getNextOccurrence(s.month, s.day, fromDate);
         if (!nearest || date < nearest.date) {
-          nearest = { ...s, date };
+          nearest = { name: s.name, badge: 'Авто', date };
         }
       }
       return nearest;
@@ -652,11 +1039,12 @@
 
     function formatDiff(targetDate, now = new Date()) {
       const diff = Math.max(0, targetDate - now);
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-      return { days, hours, minutes, seconds };
+      return {
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60)
+      };
     }
 
     function renderTimer(el, targetDate, now = new Date()) {
@@ -669,6 +1057,15 @@
       `;
     }
 
+    function getAllHolidays() {
+      const custom = readJSON(KEYS.customHolidays, []).map((item, idx) => ({
+        ...item,
+        cat: 'custom',
+        customIndex: idx
+      }));
+      return [...baseHolidays, ...custom];
+    }
+
     function getSortedUpcoming(now = new Date()) {
       return getAllHolidays()
         .map((h) => {
@@ -679,6 +1076,32 @@
         .sort((a, b) => a.nextDate - b.nextDate);
     }
 
+    // --- Выбранная дата для центрального баннера ---
+    function toLocalInputString(date) {
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    function getSelectedTarget(now = new Date()) {
+      const saved = readJSON(KEYS.targetDate, null);
+      if (saved && saved.iso) {
+        const parsed = new Date(saved.iso);
+        if (!isNaN(parsed.getTime())) {
+          return { name: saved.name || 'Выбранная дата', date: parsed };
+        }
+      }
+      const fallback = getNextOccurrence(0, 1, now);
+      return { name: `Новый год ${fallback.getFullYear()}`, date: fallback };
+    }
+
+    function setSelectedTarget(name, dateObj) {
+      writeJSON(KEYS.targetDate, { name, iso: dateObj.toISOString() });
+      document.getElementById('target-name-input').value = name;
+      document.getElementById('target-date-input').value = toLocalInputString(dateObj);
+      tick();
+    }
+
+    // --- Отрисовка списка праздников ---
     function renderHolidays() {
       const now = new Date();
       const query = document.getElementById('search-input').value.trim().toLowerCase();
@@ -699,29 +1122,21 @@
       countEl.textContent = `Найдено дат: ${filtered.length}`;
 
       if (!filtered.length) {
-        listEl.innerHTML = `
-          <div class="empty-state">
-            По заданным фильтрам ничего не найдено. Попробуй сбросить категорию, месяц или поисковый запрос.
-          </div>
-        `;
+        listEl.innerHTML = `<div class="empty-state">Ничего не найдено. Попробуй изменить фильтры или поисковый запрос.</div>`;
         return;
       }
 
       listEl.innerHTML = filtered
-        .map((h) => {
-          const dateLabel = h.nextDate.toLocaleDateString('ru-RU', {
-            day: 'numeric',
-            month: 'long'
-          });
+        .map((h, i) => {
+          const dateLabel = h.nextDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
           const isNearest = h.name === globalNearestName && selectedCat === 'all' && monthVal === 'all' && !query;
           const isSoon = h.daysLeft <= 14;
-          const delBtn =
-            h.cat === 'custom'
-              ? `<button class="del-btn" data-del="${h.customIndex}">Удалить</button>`
-              : '';
+          const delBtn = h.cat === 'custom'
+            ? `<button class="del-btn" data-del="${h.customIndex}">Удалить</button>`
+            : '';
 
           return `
-            <div class="holiday-item ${isNearest ? 'next-up' : ''}">
+            <div class="holiday-item ${isNearest ? 'next-up' : ''}" data-pick-idx="${i}">
               <div class="item-top">
                 <span class="holiday-date">${dateLabel}</span>
                 <span class="badge ${isSoon ? 'soon' : ''}">${isNearest ? 'Ближайшая' : CAT_LABELS[h.cat]}</span>
@@ -736,25 +1151,183 @@
         })
         .join('');
 
+      listEl.querySelectorAll('.holiday-item').forEach((card) => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('[data-del]')) return;
+          const item = filtered[Number(card.dataset.pickIdx)];
+          if (item) {
+            setSelectedTarget(item.name, item.nextDate);
+            document.querySelector('.target-banner').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      });
+
       listEl.querySelectorAll('[data-del]').forEach((btn) => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
           const idx = Number(btn.dataset.del);
-          const updated = loadCustomHolidays().filter((_, i) => i !== idx);
-          saveCustomHolidays(updated);
+          const updated = readJSON(KEYS.customHolidays, []).filter((_, i) => i !== idx);
+          writeJSON(KEYS.customHolidays, updated);
           renderHolidays();
           tick();
         });
       });
     }
 
-    document.querySelectorAll('.theme-btn').forEach((btn) => {
+    // --- Темы и сезоны ---
+    function applySeasonTheme(themeClass, seasonMode) {
+      document.body.className = themeClass;
+      selectedSeason = seasonMode;
+      localStorage.setItem(KEYS.season, seasonMode);
+
+      document.querySelectorAll('#season-themes .theme-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.season === seasonMode);
+      });
+      tick();
+    }
+
+    document.querySelectorAll('#season-themes .theme-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.theme-btn').forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.body.className = btn.dataset.theme;
+        // При выборе готовой темы сбрасываем кастомные inline-цвета
+        clearCustomInlineColors();
+        applySeasonTheme(btn.dataset.theme, btn.dataset.season);
       });
     });
 
+    // --- Кастомайзер любых цветов ---
+    function hexToRgba(hex, alpha) {
+      const clean = hex.replace('#', '');
+      const num = parseInt(clean, 16);
+      const r = (num >> 16) & 255;
+      const g = (num >> 8) & 255;
+      const b = num & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    function applyCustomColors(colors) {
+      if (!colors) return;
+      const root = document.documentElement.style;
+      root.setProperty('--accent', colors.accent);
+      root.setProperty('--accent-2', colors.accent2);
+      root.setProperty('--glow', hexToRgba(colors.accent, 0.25));
+      root.setProperty('--bg-1', colors.bg1);
+      root.setProperty('--bg-2', colors.bg2);
+      root.setProperty('--text', colors.text);
+
+      document.getElementById('pick-accent').value = colors.accent;
+      document.getElementById('pick-accent2').value = colors.accent2;
+      document.getElementById('pick-bg1').value = colors.bg1;
+      document.getElementById('pick-bg2').value = colors.bg2;
+      document.getElementById('pick-text').value = colors.text;
+    }
+
+    function clearCustomInlineColors() {
+      const root = document.documentElement.style;
+      ['--accent', '--accent-2', '--glow', '--bg-1', '--bg-2', '--text'].forEach((v) => root.removeProperty(v));
+      localStorage.removeItem(KEYS.colors);
+    }
+
+    const colorInputs = ['pick-accent', 'pick-accent2', 'pick-bg1', 'pick-bg2', 'pick-text'];
+    colorInputs.forEach((id) => {
+      document.getElementById(id).addEventListener('input', () => {
+        const colors = {
+          accent: document.getElementById('pick-accent').value,
+          accent2: document.getElementById('pick-accent2').value,
+          bg1: document.getElementById('pick-bg1').value,
+          bg2: document.getElementById('pick-bg2').value,
+          text: document.getElementById('pick-text').value
+        };
+        applyCustomColors(colors);
+        writeJSON(KEYS.colors, colors);
+      });
+    });
+
+    document.getElementById('toggle-colors-btn').addEventListener('click', () => {
+      document.getElementById('customizer-drawer').classList.toggle('open');
+    });
+
+    document.getElementById('reset-colors-btn').addEventListener('click', () => {
+      clearCustomInlineColors();
+      applySeasonTheme('', 'auto');
+    });
+
+    // --- Боковая панель заметок ---
+    const notesSidebar = document.getElementById('notes-sidebar');
+    const notesBackdrop = document.getElementById('notes-backdrop');
+
+    function openNotes() {
+      notesSidebar.classList.add('open');
+      notesBackdrop.classList.add('open');
+    }
+
+    function closeNotes() {
+      notesSidebar.classList.remove('open');
+      notesBackdrop.classList.remove('open');
+    }
+
+    document.getElementById('open-notes-btn').addEventListener('click', openNotes);
+    document.getElementById('close-notes-btn').addEventListener('click', closeNotes);
+    notesBackdrop.addEventListener('click', closeNotes);
+
+    function renderNotes() {
+      const notes = readJSON(KEYS.notes, []);
+      const listEl = document.getElementById('notes-list');
+      document.getElementById('notes-count').textContent = notes.length;
+
+      if (!notes.length) {
+        listEl.innerHTML = `<div class="empty-state" style="padding: 24px 12px;">Заметок пока нет. Добавь первую сверху!</div>`;
+        return;
+      }
+
+      listEl.innerHTML = notes
+        .map((n, idx) => `
+          <div class="note-card">
+            <div class="note-card-top">
+              <div class="note-title">${n.title || 'Без названия'}</div>
+              <button class="del-btn" data-del-note="${idx}">Удалить</button>
+            </div>
+            <div class="note-body">${n.text}</div>
+            <div class="note-meta">${n.createdAt}</div>
+          </div>
+        `)
+        .join('');
+
+      listEl.querySelectorAll('[data-del-note]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.delNote);
+          const updated = readJSON(KEYS.notes, []).filter((_, i) => i !== idx);
+          writeJSON(KEYS.notes, updated);
+          renderNotes();
+        });
+      });
+    }
+
+    document.getElementById('note-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const titleInput = document.getElementById('note-title-input');
+      const textInput = document.getElementById('note-text-input');
+      const text = textInput.value.trim();
+      if (!text) return;
+
+      const notes = readJSON(KEYS.notes, []);
+      notes.unshift({
+        title: titleInput.value.trim(),
+        text,
+        createdAt: new Date().toLocaleString('ru-RU', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })
+      });
+      writeJSON(KEYS.notes, notes);
+      titleInput.value = '';
+      textInput.value = '';
+      renderNotes();
+    });
+
+    // --- Обработчики фильтров и форм ---
     document.querySelectorAll('.cat-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.cat-btn').forEach((b) => b.classList.remove('active'));
@@ -781,46 +1354,77 @@
       const name = nameInput.value.trim();
       const month = Number(monthInput.value);
       const day = Number(dayInput.value);
-
       if (!name || day < 1 || day > 31) return;
 
-      const current = loadCustomHolidays();
+      const current = readJSON(KEYS.customHolidays, []);
       current.push({ name, month, day });
-      saveCustomHolidays(current);
+      writeJSON(KEYS.customHolidays, current);
 
       nameInput.value = '';
       dayInput.value = '';
       addForm.classList.remove('open');
-
       renderHolidays();
       tick();
     });
 
+    document.getElementById('apply-target-btn').addEventListener('click', () => {
+      const rawDate = document.getElementById('target-date-input').value;
+      if (!rawDate) return;
+      const parsed = new Date(rawDate);
+      if (isNaN(parsed.getTime())) return;
+      const customLabel = document.getElementById('target-name-input').value.trim() || 'Выбранная дата';
+      setSelectedTarget(customLabel, parsed);
+    });
+
+    // --- Главный цикл таймеров ---
     function tick() {
       const now = new Date();
       const upcoming = getSortedUpcoming(now);
       const nearest = upcoming[0];
       const nyDate = getNextOccurrence(0, 1, now);
-      const nextSeason = getNextSeason(now);
+      const seasonInfo = getSeasonInfo(selectedSeason, now);
+      const targetInfo = getSelectedTarget(now);
 
       if (nearest) {
-        const shortDate = nearest.nextDate.toLocaleDateString('ru-RU', {
-          day: 'numeric',
-          month: 'short'
-        });
+        const shortDate = nearest.nextDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
         document.getElementById('nearest-title').textContent = `${nearest.name} (${shortDate})`;
         renderTimer(document.getElementById('nearest-timer'), nearest.nextDate, now);
       }
 
       document.getElementById('ny-title').textContent = `Новый год ${nyDate.getFullYear()}`;
-      document.getElementById('season-title').textContent = nextSeason.name;
-
       renderTimer(document.getElementById('ny-timer'), nyDate, now);
-      renderTimer(document.getElementById('season-timer'), nextSeason.date, now);
+
+      document.getElementById('season-title').textContent = seasonInfo.name;
+      document.getElementById('season-mode-badge').textContent = seasonInfo.badge;
+      renderTimer(document.getElementById('season-timer'), seasonInfo.date, now);
+
+      const targetDateStr = targetInfo.date.toLocaleString('ru-RU', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      document.getElementById('selected-target-title').textContent = `${targetInfo.name} — ${targetDateStr}`;
+      renderTimer(document.getElementById('selected-target-timer'), targetInfo.date, now);
     }
+
+    // --- Инициализация ---
+    const initialSeasonBtn = document.querySelector(`#season-themes .theme-btn[data-season="${selectedSeason}"]`);
+    if (initialSeasonBtn) {
+      applySeasonTheme(initialSeasonBtn.dataset.theme, selectedSeason);
+    }
+    const savedColors = readJSON(KEYS.colors, null);
+    if (savedColors) {
+      applyCustomColors(savedColors);
+    }
+    const initTarget = getSelectedTarget();
+    document.getElementById('target-name-input').value = initTarget.name;
+    document.getElementById('target-date-input').value = toLocalInputString(initTarget.date);
 
     tick();
     renderHolidays();
+    renderNotes();
     setInterval(tick, 1000);
   </script>
 </body>
