@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>n1ghtixx — Все праздники РФ и сезоны</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-1: #090d16;
+      --bg-2: #111827;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --glow: rgba(56, 189, 248, 0.22);
+      --card: rgba(17, 24, 39, 0.82);
+      --card-soft: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --success: #34d399;
+    }
+
+    body.theme-newyear {
+      --bg-1: #16090d;
+      --bg-2: #241018;
+      --accent: #fbbf24;
+      --accent-2: #f43f5e;
+      --glow: rgba(251, 191, 36, 0.22);
+    }
+
+    body.theme-spring {
+      --bg-1: #081814;
+      --bg-2: #0f2922;
+      --accent: #34d399;
+      --accent-2: #a3e635;
+      --glow: rgba(52, 211, 153, 0.22);
+    }
+
+    body.theme-summer {
+      --bg-1: #1a1207;
+      --bg-2: #291d0c;
+      --accent: #fb923c;
+      --accent-2: #facc15;
+      --glow: rgba(251, 146, 60, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, var(--glow), transparent 45%),
+        radial-gradient(circle at 85% 0%, rgba(129, 140, 248, 0.12), transparent 40%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      padding: 24px 16px 72px;
+      transition: background 0.35s ease;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(1.45rem, 3.6vw, 2.25rem);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 6px;
+      max-width: 660px;
+    }
+
+    .themes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .theme-btn {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.84rem;
+      font-family: inherit;
+      transition: 0.2s ease;
+    }
+
+    .theme-btn:hover,
+    .theme-btn.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 18px var(--glow);
+    }
+
+    .grid-top {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .card-label {
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      text-align: center;
+    }
+
+    .unit {
+      background: var(--card-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 6px;
+    }
+
+    .num {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .unit-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .cat-btn {
+      background: var(--card-soft);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: 0.2s ease;
+    }
+
+    .cat-btn:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .cat-btn.active {
+      background: var(--accent);
+      color: #061018;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input,
+    select,
+    button.action-btn {
+      background: rgba(9, 13, 22, 0.7);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+    }
+
+    input {
+      flex: 1 1 220px;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+    }
+
+    button.action-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #071019;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.2s ease;
+    }
+
+    button.action-btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .holidays-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .holiday-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .holiday-item:hover {
+      border-color: rgba(255, 255, 255, 0.24);
+      transform: translateY(-2px);
+    }
+
+    .holiday-item.next-up {
+      border-color: var(--accent);
+      box-shadow: 0 0 22px var(--glow);
+    }
+
+    .item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .holiday-date {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--card-soft);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .badge.soon {
+      background: rgba(52, 211, 153, 0.14);
+      border-color: rgba(52, 211, 153, 0.4);
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .holiday-name {
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .item-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .del-btn {
+      background: transparent;
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      color: #fda4af;
+      border-radius: 8px;
+      padding: 3px 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .del-btn:hover {
+      background: rgba(244, 63, 94, 0.15);
+    }
+
+    .add-form {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .add-form.open {
+      display: flex;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 36px 16px;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>n1ghtixx</h1>
+        <p class="subtitle">Полный календарь праздников, памятных, воинских и профессиональных дат Российской Федерации с живыми таймерами</p>
+      </div>
+      <div class="themes">
+        <button class="theme-btn active" data-theme="">Базовая</button>
+        <button class="theme-btn" data-theme="theme-newyear">Новый год</button>
+        <button class="theme-btn" data-theme="theme-spring">Весна</button>
+        <button class="theme-btn" data-theme="theme-summer">Лето</button>
+      </div>
+    </header>
+
+    <section class="grid-top">
+      <div class="card">
+        <div class="card-label">Ближайшая дата</div>
+        <div class="card-title" id="nearest-title">Загрузка...</div>
+        <div class="countdown" id="nearest-timer"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Главное событие</div>
+        <div class="card-title" id="ny-title">Новый год</div>
+        <div class="countdown" id="ny-timer"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Смена сезона</div>
+        <div class="card-title" id="season-title">До начала зимы</div>
+        <div class="countdown" id="season-timer"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="category-tabs" id="category-tabs">
+        <button class="cat-btn active" data-cat="all">Все даты</button>
+        <button class="cat-btn" data-cat="state">Государственные</button>
+        <button class="cat-btn" data-cat="military">Воинские и памятные</button>
+        <button class="cat-btn" data-cat="prof">Профессиональные</button>
+        <button class="cat-btn" data-cat="social">Общественные и памятные</button>
+        <button class="cat-btn" data-cat="custom">Мои даты</button>
+      </div>
+
+      <div class="controls">
+        <input type="text" id="search-input" placeholder="Поиск по названию праздника или даты..." />
+        <select id="month-filter">
+          <option value="all">Все месяцы</option>
+          <option value="0">Январь</option>
+          <option value="1">Февраль</option>
+          <option value="2">Март</option>
+          <option value="3">Апрель</option>
+          <option value="4">Май</option>
+          <option value="5">Июнь</option>
+          <option value="6">Июль</option>
+          <option value="7">Август</option>
+          <option value="8">Сентябрь</option>
+          <option value="9">Октябрь</option>
+          <option value="10">Ноябрь</option>
+          <option value="11">Декабрь</option>
+        </select>
+        <button class="action-btn" id="toggle-add-btn">+ Добавить дату</button>
+      </div>
+
+      <form class="add-form" id="add-form">
+        <input type="text" id="custom-name" placeholder="Название события (например, День рождения)" required />
+        <select id="custom-month">
+          <option value="0">Январь</option>
+          <option value="1">Февраль</option>
+          <option value="2">Март</option>
+          <option value="3">Апрель</option>
+          <option value="4">Май</option>
+          <option value="5">Июнь</option>
+          <option value="6">Июль</option>
+          <option value="7">Август</option>
+          <option value="8">Сентябрь</option>
+          <option value="9">Октябрь</option>
+          <option value="10">Ноябрь</option>
+          <option value="11">Декабрь</option>
+        </select>
+        <input type="number" id="custom-day" min="1" max="31" placeholder="День (1–31)" style="max-width: 130px;" required />
+        <button type="submit" class="action-btn">Сохранить</button>
+      </form>
+    </section>
+
+    <div class="meta-bar">
+      <span id="results-count">Найдено дат: 0</span>
+      <span>Сортировка: по ближайшей дате</span>
+    </div>
+
+    <section class="holidays-list" id="holidays-list"></section>
+  </div>
+
+  <script>
+    const CAT_LABELS = {
+      state: 'Государственный',
+      military: 'Воинский / Памятный',
+      prof: 'Профессиональный',
+      social: 'Общественный / Памятный',
+      custom: 'Моя дата'
+    };
+
+    // Фиксированные праздники, памятные, воинские и профессиональные даты РФ
+    const baseHolidays = [
+      // Январь
+      { name: 'Новый год', month: 0, day: 1, cat: 'state' },
+      { name: 'Новогодние каникулы', month: 0, day: 2, cat: 'state' },
+      { name: 'Рождество Христово', month: 0, day: 7, cat: 'state' },
+      { name: 'День работника прокуратуры РФ', month: 0, day: 12, cat: 'prof' },
+      { name: 'День российской печати', month: 0, day: 13, cat: 'prof' },
+      { name: 'День образования Следственного комитета РФ', month: 0, day: 15, cat: 'prof' },
+      { name: 'День инженерных войск', month: 0, day: 21, cat: 'military' },
+      { name: 'День российского студенчества (Татьянин день)', month: 0, day: 25, cat: 'social' },
+      { name: 'День полного освобождения Ленинграда от фашистской блокады', month: 0, day: 27, cat: 'military' },
+
+      // Февраль
+      { name: 'День разгрома советскими войсками немецко-фашистских войск в Сталинградской битве', month: 1, day: 2, cat: 'military' },
+      { name: 'День российской науки', month: 1, day: 8, cat: 'prof' },
+      { name: 'День памяти о россиянах, исполнявших служебный долг за пределами Отечества', month: 1, day: 10, cat: 'military' },
+      { name: 'День дипломатического работника', month: 1, day: 10, cat: 'prof' },
+      { name: 'День памяти о россиянах, исполнявших долг за пределами Отечества', month: 1, day: 15, cat: 'military' },
+      { name: 'День защитника Отечества', month: 1, day: 23, cat: 'state' },
+      { name: 'День сил специальных операций', month: 1, day: 27, cat: 'military' },
+
+      // Март
+      { name: 'Международный женский день', month: 2, day: 8, cat: 'state' },
+      { name: 'День работников архивов', month: 2, day: 10, cat: 'prof' },
+      { name: 'День работников геодезии и картографии', month: 2, day: 11, cat: 'prof' },
+      { name: 'День воссоединения Крыма с Россией', month: 2, day: 18, cat: 'state' },
+      { name: 'День работников культуры', month: 2, day: 25, cat: 'prof' },
+      { name: 'День войск национальной гвардии РФ', month: 2, day: 27, cat: 'military' },
+
+      // Апрель
+      { name: 'День единения народов Беларуси и России', month: 3, day: 2, cat: 'social' },
+      { name: 'День сотрудников военных комиссариатов', month: 3, day: 8, cat: 'military' },
+      { name: 'День космонавтики', month: 3, day: 12, cat: 'military' },
+      { name: 'День памяти погибших в радиационных авариях и катастрофах', month: 3, day: 26, cat: 'social' },
+      { name: 'День российского парламентаризма', month: 3, day: 27, cat: 'social' },
+      { name: 'День работника скорой медицинской помощи', month: 3, day: 28, cat: 'prof' },
+      { name: 'День пожарной охраны', month: 3, day: 30, cat: 'prof' },
+
+      // Май
+      { name: 'Праздник Весны и Труда', month: 4, day: 1, cat: 'state' },
+      { name: 'День радио', month: 4, day: 7, cat: 'prof' },
+      { name: 'День Победы', month: 4, day: 9, cat: 'state' },
+      { name: 'День основания Черноморского флота', month: 4, day: 13, cat: 'military' },
+      { name: 'День основания Тихоокеанского флота', month: 4, day: 21, cat: 'military' },
+      { name: 'День славянской письменности и культуры', month: 4, day: 24, cat: 'social' },
+      { name: 'День российского предпринимательства', month: 4, day: 26, cat: 'prof' },
+      { name: 'День пограничника', month: 4, day: 28, cat: 'military' },
+
+      // Июнь
+      { name: 'День защиты детей', month: 5, day: 1, cat: 'social' },
+      { name: 'День эколога', month: 5, day: 5, cat: 'prof' },
+      { name: 'День русского языка / Пушкинский день России', month: 5, day: 6, cat: 'social' },
+      { name: 'День социального работника', month: 5, day: 8, cat: 'prof' },
+      { name: 'День России', month: 5, day: 12, cat: 'state' },
+      { name: 'День памяти и скорби', month: 5, day: 22, cat: 'military' },
+      { name: 'День молодёжи', month: 5, day: 27, cat: 'social' },
+      { name: 'День изобретателя и рационализатора', month: 5, day: 29, cat: 'prof' },
+
+      // Июль
+      { name: 'День работников морского и речного флота', month: 6, day: 5, cat: 'prof' },
+      { name: 'День семьи, любви и верности', month: 6, day: 8, cat: 'social' },
+      { name: 'День российской почты', month: 6, day: 12, cat: 'prof' },
+      { name: 'День памяти святого равноапостольного князя Владимира', month: 6, day: 28, cat: 'social' },
+      { name: 'День Военно-Морского Флота', month: 6, day: 26, cat: 'military' },
+
+      // Август
+      { name: 'День Воздушно-десантных войск (ВДВ)', month: 7, day: 2, cat: 'military' },
+      { name: 'День железнодорожника', month: 7, day: 2, cat: 'prof' },
+      { name: 'День строителя', month: 7, day: 9, cat: 'prof' },
+      { name: 'День физкультурника', month: 7, day: 8, cat: 'social' },
+      { name: 'День Военно-воздушных сил', month: 7, day: 12, cat: 'military' },
+      { name: 'День Государственного флага РФ', month: 7, day: 22, cat: 'state' },
+      { name: 'День российского кино', month: 7, day: 27, cat: 'prof' },
+      { name: 'День шахтёра', month: 7, day: 30, cat: 'prof' },
+
+      // Сентябрь
+      { name: 'День знаний', month: 8, day: 1, cat: 'social' },
+      { name: 'День окончания Второй мировой войны', month: 8, day: 3, cat: 'military' },
+      { name: 'День солидарности в борьбе с терроризмом', month: 8, day: 3, cat: 'social' },
+      { name: 'День танкиста', month: 8, day: 13, cat: 'military' },
+      { name: 'День работников леса', month: 8, day: 20, cat: 'prof' },
+      { name: 'День воспитателя и всех дошкольных работников', month: 8, day: 27, cat: 'prof' },
+      { name: 'День воссоединения ДНР, ЛНР, Запорожской и Херсонской областей с РФ', month: 8, day: 30, cat: 'state' },
+
+      // Октябрь
+      { name: 'День пожилых людей', month: 9, day: 1, cat: 'social' },
+      { name: 'День космических войск', month: 9, day: 4, cat: 'military' },
+      { name: 'День учителя', month: 9, day: 5, cat: 'prof' },
+      { name: 'День работников сельского хозяйства и перерабатывающей промышленности', month: 9, day: 11, cat: 'prof' },
+      { name: 'День работников дорожного хозяйства', month: 9, day: 18, cat: 'prof' },
+      { name: 'День военного связиста', month: 9, day: 20, cat: 'military' },
+      { name: 'День подразделений специального назначения', month: 9, day: 24, cat: 'military' },
+      { name: 'День таможенника РФ', month: 9, day: 25, cat: 'prof' },
+      { name: 'День работников автомобильного и городского пассажирского транспорта', month: 9, day: 25, cat: 'prof' },
+      { name: 'День памяти жертв политических репрессий', month: 9, day: 30, cat: 'social' },
+
+      // Ноябрь
+      { name: 'День народного единства', month: 10, day: 4, cat: 'state' },
+      { name: 'День военной разведки', month: 10, day: 5, cat: 'military' },
+      { name: 'День сотрудника органов внутренних дел РФ', month: 10, day: 10, cat: 'prof' },
+      { name: 'День ракетных войск и артиллерии', month: 10, day: 19, cat: 'military' },
+      { name: 'День матери в России', month: 10, day: 29, cat: 'social' },
+      { name: 'День Государственного герба РФ', month: 10, day: 30, cat: 'state' },
+
+      // Декабрь
+      { name: 'День юриста', month: 11, day: 3, cat: 'prof' },
+      { name: 'День Неизвестного Солдата', month: 11, day: 3, cat: 'military' },
+      { name: 'День добровольца (волонтёра) в России', month: 11, day: 5, cat: 'social' },
+      { name: 'День героев Отечества', month: 11, day: 9, cat: 'military' },
+      { name: 'День Конституции РФ', month: 11, day: 12, cat: 'state' },
+      { name: 'День работника органов безопасности РФ', month: 11, day: 20, cat: 'prof' },
+      { name: 'День энергетика', month: 11, day: 22, cat: 'prof' },
+      { name: 'День спасателя РФ', month: 11, day: 27, cat: 'prof' }
+    ];
+
+    const STORAGE_KEY = 'n1ghtixx_custom_holidays_v2';
+    let selectedCat = 'all';
+
+    function loadCustomHolidays() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCustomHolidays(list) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      } catch {}
+    }
+
+    function getAllHolidays() {
+      const custom = loadCustomHolidays().map((item, idx) => ({
+        ...item,
+        cat: 'custom',
+        customIndex: idx
+      }));
+      return [...baseHolidays, ...custom];
+    }
+
+    function getNextOccurrence(month, day, fromDate = new Date()) {
+      const year = fromDate.getFullYear();
+      let target = new Date(year, month, day, 0, 0, 0, 0);
+      if (target <= fromDate) {
+        target = new Date(year + 1, month, day, 0, 0, 0, 0);
+      }
+      return target;
+    }
+
+    function getNextSeason(fromDate = new Date()) {
+      const seasons = [
+        { name: 'До начала весны', month: 2, day: 1 },
+        { name: 'До начала лета', month: 5, day: 1 },
+        { name: 'До начала осени', month: 8, day: 1 },
+        { name: 'До начала зимы', month: 11, day: 1 }
+      ];
+      let nearest = null;
+      for (const s of seasons) {
+        const date = getNextOccurrence(s.month, s.day, fromDate);
+        if (!nearest || date < nearest.date) {
+          nearest = { ...s, date };
+        }
+      }
+      return nearest;
+    }
+
+    function formatDiff(targetDate, now = new Date()) {
+      const diff = Math.max(0, targetDate - now);
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      return { days, hours, minutes, seconds };
+    }
+
+    function renderTimer(el, targetDate, now = new Date()) {
+      const { days, hours, minutes, seconds } = formatDiff(targetDate, now);
+      el.innerHTML = `
+        <div class="unit"><div class="num">${days}</div><div class="unit-label">дней</div></div>
+        <div class="unit"><div class="num">${String(hours).padStart(2, '0')}</div><div class="unit-label">часов</div></div>
+        <div class="unit"><div class="num">${String(minutes).padStart(2, '0')}</div><div class="unit-label">минут</div></div>
+        <div class="unit"><div class="num">${String(seconds).padStart(2, '0')}</div><div class="unit-label">секунд</div></div>
+      `;
+    }
+
+    function getSortedUpcoming(now = new Date()) {
+      return getAllHolidays()
+        .map((h) => {
+          const nextDate = getNextOccurrence(h.month, h.day, now);
+          const daysLeft = Math.max(0, Math.ceil((nextDate - now) / (1000 * 60 * 60 * 24)));
+          return { ...h, nextDate, daysLeft };
+        })
+        .sort((a, b) => a.nextDate - b.nextDate);
+    }
+
+    function renderHolidays() {
+      const now = new Date();
+      const query = document.getElementById('search-input').value.trim().toLowerCase();
+      const monthVal = document.getElementById('month-filter').value;
+      const listEl = document.getElementById('holidays-list');
+      const countEl = document.getElementById('results-count');
+
+      const upcoming = getSortedUpcoming(now);
+      const globalNearestName = upcoming[0]?.name;
+
+      const filtered = upcoming.filter((h) => {
+        const matchesCat = selectedCat === 'all' || h.cat === selectedCat;
+        const matchesName = !query || h.name.toLowerCase().includes(query);
+        const matchesMonth = monthVal === 'all' || String(h.month) === monthVal;
+        return matchesCat && matchesName && matchesMonth;
+      });
+
+      countEl.textContent = `Найдено дат: ${filtered.length}`;
+
+      if (!filtered.length) {
+        listEl.innerHTML = `
+          <div class="empty-state">
+            По заданным фильтрам ничего не найдено. Попробуй сбросить категорию, месяц или поисковый запрос.
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = filtered
+        .map((h) => {
+          const dateLabel = h.nextDate.toLocaleDateString('ru-RU', {
+            day: 'numeric',
+            month: 'long'
+          });
+          const isNearest = h.name === globalNearestName && selectedCat === 'all' && monthVal === 'all' && !query;
+          const isSoon = h.daysLeft <= 14;
+          const delBtn =
+            h.cat === 'custom'
+              ? `<button class="del-btn" data-del="${h.customIndex}">Удалить</button>`
+              : '';
+
+          return `
+            <div class="holiday-item ${isNearest ? 'next-up' : ''}">
+              <div class="item-top">
+                <span class="holiday-date">${dateLabel}</span>
+                <span class="badge ${isSoon ? 'soon' : ''}">${isNearest ? 'Ближайшая' : CAT_LABELS[h.cat]}</span>
+              </div>
+              <div class="holiday-name">${h.name}</div>
+              <div class="item-bottom">
+                <span>Осталось дней: <strong>${h.daysLeft}</strong></span>
+                ${delBtn}
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+
+      listEl.querySelectorAll('[data-del]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.del);
+          const updated = loadCustomHolidays().filter((_, i) => i !== idx);
+          saveCustomHolidays(updated);
+          renderHolidays();
+          tick();
+        });
+      });
+    }
+
+    document.querySelectorAll('.theme-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.theme-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.body.className = btn.dataset.theme;
+      });
+    });
+
+    document.querySelectorAll('.cat-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.cat-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedCat = btn.dataset.cat;
+        renderHolidays();
+      });
+    });
+
+    document.getElementById('search-input').addEventListener('input', renderHolidays);
+    document.getElementById('month-filter').addEventListener('change', renderHolidays);
+
+    const addForm = document.getElementById('add-form');
+    document.getElementById('toggle-add-btn').addEventListener('click', () => {
+      addForm.classList.toggle('open');
+    });
+
+    addForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameInput = document.getElementById('custom-name');
+      const monthInput = document.getElementById('custom-month');
+      const dayInput = document.getElementById('custom-day');
+
+      const name = nameInput.value.trim();
+      const month = Number(monthInput.value);
+      const day = Number(dayInput.value);
+
+      if (!name || day < 1 || day > 31) return;
+
+      const current = loadCustomHolidays();
+      current.push({ name, month, day });
+      saveCustomHolidays(current);
+
+      nameInput.value = '';
+      dayInput.value = '';
+      addForm.classList.remove('open');
+
+      renderHolidays();
+      tick();
+    });
+
+    function tick() {
+      const now = new Date();
+      const upcoming = getSortedUpcoming(now);
+      const nearest = upcoming[0];
+      const nyDate = getNextOccurrence(0, 1, now);
+      const nextSeason = getNextSeason(now);
+
+      if (nearest) {
+        const shortDate = nearest.nextDate.toLocaleDateString('ru-RU', {
+          day: 'numeric',
+          month: 'short'
+        });
+        document.getElementById('nearest-title').textContent = `${nearest.name} (${shortDate})`;
+        renderTimer(document.getElementById('nearest-timer'), nearest.nextDate, now);
+      }
+
+      document.getElementById('ny-title').textContent = `Новый год ${nyDate.getFullYear()}`;
+      document.getElementById('season-title').textContent = nextSeason.name;
+
+      renderTimer(document.getElementById('ny-timer'), nyDate, now);
+      renderTimer(document.getElementById('season-timer'), nextSeason.date, now);
+    }
+
+    tick();
+    renderHolidays();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
