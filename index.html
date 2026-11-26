@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>n1ghtixx — Все праздники РФ, таймеры и заметки</title>
+  <title>n1ghtixx days — Все праздники РФ, таймеры и заметки</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -84,7 +84,6 @@
       --glow: rgba(248, 113, 113, 0.28);
     }
 
-    /* Готовые цветовые пресеты */
     body.palette-violet {
       --bg-1: #10091f;
       --bg-2: #1c1036;
@@ -294,7 +293,6 @@
       border-radius: 999px;
     }
 
-    /* Панель готовых цветов */
     .presets-bar {
       display: none;
       flex-wrap: wrap;
@@ -348,7 +346,6 @@
       display: inline-block;
     }
 
-    /* Верхние 3 карточки */
     .grid-top {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -446,7 +443,6 @@
       margin-top: 2px;
     }
 
-    /* Блок отсчёта до выбранной даты / сезона */
     .target-banner {
       background: var(--card);
       backdrop-filter: blur(14px);
@@ -496,7 +492,6 @@
       margin-top: 8px;
     }
 
-    /* Панель фильтров */
     .panel {
       background: var(--card);
       backdrop-filter: blur(14px);
@@ -642,6 +637,22 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
 
+    /* Яркое выделение для важных памятных дат */
+    .holiday-item.highlight-date {
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.18), rgba(129, 140, 248, 0.16));
+      border-color: #38bdf8;
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.34);
+    }
+
+    .holiday-item.highlight-date .holiday-date {
+      color: #7dd3fc;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    .holiday-item.highlight-date .holiday-name {
+      color: #ffffff;
+    }
+
     .holiday-item.glow-active {
       border-color: var(--accent);
       box-shadow: 0 0 24px var(--glow);
@@ -756,7 +767,6 @@
       border-radius: 16px;
     }
 
-    /* Подложка выдвижных панелей */
     .drawer-backdrop {
       display: none;
       position: fixed;
@@ -770,7 +780,6 @@
       display: block;
     }
 
-    /* Боковая панель заметок */
     .notes-sidebar {
       position: fixed;
       top: 0;
@@ -793,7 +802,6 @@
       transform: translateX(0);
     }
 
-    /* Боковая панель настроек */
     .settings-sidebar {
       position: fixed;
       top: 0;
@@ -1010,7 +1018,6 @@
       color: var(--muted);
     }
 
-    /* Отдельное модальное окно таймера */
     .timer-modal-backdrop {
       display: none;
       position: fixed;
@@ -1062,7 +1069,7 @@
   <div class="container">
     <header>
       <div>
-        <h1>n1ghtixx</h1>
+        <h1 id="site-brand-heading">n1ghtixx</h1>
         <p class="subtitle">Полный календарь праздников РФ, таймеры, заметки и гибкие настройки интерфейса</p>
       </div>
 
@@ -1084,7 +1091,6 @@
       </div>
     </header>
 
-    <!-- Готовые цветовые наборы -->
     <section class="presets-bar" id="presets-bar">
       <div class="presets-list" id="presets-list">
         <button class="preset-btn active" data-palette=""><span class="swatch" style="background:#38bdf8"></span>Неон</button>
@@ -1101,7 +1107,6 @@
       <button class="ghost-btn" id="reset-palette-btn">Сбросить</button>
     </section>
 
-    <!-- Верхние 3 карточки -->
     <section class="grid-top">
       <div class="card">
         <div class="card-label">Ближайший праздник</div>
@@ -1128,7 +1133,6 @@
       </div>
     </section>
 
-    <!-- Блок отсчёта до выбранной даты / сезона / таймера -->
     <section class="target-banner" id="target-banner">
       <div>
         <div class="card-label" id="target-banner-label">Отсчёт до выбранной даты</div>
@@ -1150,7 +1154,6 @@
       <div class="countdown" id="selected-target-timer"></div>
     </section>
 
-    <!-- Фильтры и список праздников -->
     <section class="panel">
       <div class="category-tabs" id="category-tabs">
         <button class="cat-btn active" data-cat="all">Все даты</button>
@@ -1234,10 +1237,8 @@
     <section class="holidays-list" id="holidays-list"></section>
   </div>
 
-  <!-- Подложка для боковых панелей -->
   <div class="drawer-backdrop" id="drawer-backdrop"></div>
 
-  <!-- Отдельное окно таймера -->
   <div class="timer-modal-backdrop" id="timer-modal-backdrop">
     <div class="timer-modal">
       <div class="drawer-head">
@@ -1267,7 +1268,6 @@
     </div>
   </div>
 
-  <!-- Боковая панель настроек -->
   <aside class="settings-sidebar" id="settings-sidebar">
     <div class="drawer-head">
       <h2>Настройки</h2>
@@ -1508,7 +1508,6 @@
     </div>
   </aside>
 
-  <!-- Боковая панель заметок -->
   <aside class="notes-sidebar" id="notes-sidebar">
     <div class="drawer-head">
       <h2>Заметки</h2>
@@ -1541,6 +1540,11 @@
   </aside>
 
   <script>
+    // Поменяй значение SITE_NAME, чтобы изменить название сайта в заголовке и вкладке
+    const SITE_NAME = 'n1ghtixx';
+    document.title = `${SITE_NAME} — Все праздники РФ, таймеры и заметки`;
+    document.getElementById('site-brand-heading').textContent = SITE_NAME;
+
     const CAT_LABELS = {
       state: 'Государственный',
       military: 'Воинский / Памятный',
@@ -1682,8 +1686,10 @@
       { name: 'День военной разведки', month: 10, day: 5, cat: 'military' },
       { name: 'День проведения военного парада на Красной площади в городе Москве в ознаменование двадцать четвёртой годовщины Великой Октябрьской социалистической революции (1941 год); День Октябрьской революции 1917 года', month: 10, day: 7, cat: 'military' },
       { name: 'День сотрудника органов внутренних дел РФ', month: 10, day: 10, cat: 'prof' },
+      { name: 'День рождения создателя', month: 10, day: 11, cat: 'social', highlight: true },
       { name: 'День ракетных войск и артиллерии', month: 10, day: 19, cat: 'military' },
       { name: 'День Военной присяги', month: 10, day: 21, cat: 'military' },
+      { name: 'День рождения сайта', month: 10, day: 26, cat: 'social', highlight: true },
       { name: 'День матери в России', month: 10, day: 29, cat: 'social' },
       { name: 'День Государственного герба РФ', month: 10, day: 30, cat: 'state' },
 
@@ -1916,7 +1922,6 @@
       tick();
     }
 
-    // --- Запуск таймера и состояние кнопки "Запущен" (серая) ---
     function getRunnerState() {
       return readJSON(KEYS.runnerTimer, { running: false, name: '', iso: null, noteText: '' });
     }
@@ -1970,7 +1975,6 @@
       }
     }
 
-    // --- Список праздников ---
     function matchesQuery(text) {
       const rawQ = document.getElementById('search-input').value;
       if (!rawQ.trim()) return true;
@@ -2065,6 +2069,7 @@
 
           const borderStyle = h.color ? `border-color:${h.color};` : '';
           const dateColorStyle = h.color ? `color:${h.color};` : '';
+          const highlightClass = h.highlight ? 'highlight-date' : '';
 
           const daysText = `Осталось дней: <strong>${h.daysLeft}</strong>${repeatTag}`;
           const topBlock = appSettings.cardOrder === 'bottom-right'
@@ -2076,7 +2081,7 @@
             : `<div class="item-bottom"><span>${daysText}</span>${quickButtons}</div>`;
 
           return `
-            <div class="holiday-item ${shouldGlow ? 'glow-active' : ''}" style="${borderStyle}" data-pick-idx="${i}">
+            <div class="holiday-item ${highlightClass} ${shouldGlow ? 'glow-active' : ''}" style="${borderStyle}" data-pick-idx="${i}">
               ${topBlock}
               <div class="holiday-name">${h.name}</div>
               ${bottomBlock}
@@ -2151,7 +2156,6 @@
       });
     }
 
-    // --- Переход к предыдущему / следующему событию ---
     function stepTargetEvent(delta) {
       const now = new Date();
       const upcoming = getSortedUpcoming(now);
@@ -2167,7 +2171,6 @@
     document.getElementById('prev-event-btn').addEventListener('click', () => stepTargetEvent(-1));
     document.getElementById('next-event-btn').addEventListener('click', () => stepTargetEvent(1));
 
-    // --- Темы и цвета ---
     function syncBodyClasses() {
       const classes = [];
       const activeThemeBtn = document.querySelector(`#season-themes .theme-btn[data-season="${selectedSeason}"]`);
@@ -2241,7 +2244,6 @@
 
     document.getElementById('reset-palette-btn').addEventListener('click', () => applyPalette(''));
 
-    // --- Боковые панели и модальное окно таймера ---
     const notesSidebar = document.getElementById('notes-sidebar');
     const settingsSidebar = document.getElementById('settings-sidebar');
     const drawerBackdrop = document.getElementById('drawer-backdrop');
@@ -2351,7 +2353,6 @@
       setRunnerState({ running: false, name: '', iso: null, noteText: '' });
     });
 
-    // Свайпы пальцем
     let touchStartX = 0;
     let touchStartY = 0;
     let touchTarget = null;
@@ -2394,7 +2395,6 @@
       { passive: true }
     );
 
-    // --- Заметки ---
     function getSortedNotes() {
       const notes = readJSON(KEYS.notes, []).map((n, idx) => ({ ...n, _idx: idx }));
       if (appSettings.sortCustom === 'alpha') {
@@ -2495,7 +2495,6 @@
       renderHolidays();
     });
 
-    // --- Привязка всех контролов настроек ---
     function syncSettingsUI() {
       document.getElementById('opt-counter-style').value = appSettings.counterStyle || 'blocks';
       document.getElementById('opt-ms').checked = Boolean(appSettings.showMs);
@@ -2617,7 +2616,6 @@
       syncSettingsUI();
     });
 
-    // --- Фильтры и формы ---
     document.querySelectorAll('.cat-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.cat-btn').forEach((b) => b.classList.remove('active'));
@@ -2758,7 +2756,6 @@
         bannerNoteBox.textContent = '';
       }
 
-      // Обновление модального окна таймера
       if (runner.running && runner.iso) {
         const rDate = new Date(runner.iso);
         if (rDate > now) {
@@ -2779,7 +2776,6 @@
       syncRunnerButtons();
     }
 
-    // Инициализация
     document.querySelectorAll('#season-themes .theme-btn').forEach((b) => {
       b.classList.toggle('active', b.dataset.season === selectedSeason);
     });
