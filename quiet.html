@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>n1ghtixx ball</title>
+  <style>
+    :root {
+      --accent: #f6c945;
+      --accent-soft: rgba(246, 201, 69, 0.14);
+      --accent-glow: rgba(246, 201, 69, 0.34);
+      --bg: #0b0a07;
+      --panel: rgba(20, 18, 13, 0.86);
+      --panel-solid: #17150f;
+      --card: #201d15;
+      --card-hover: #29251b;
+      --line: rgba(255, 248, 220, 0.1);
+      --line-accent: rgba(246, 201, 69, 0.48);
+      --text: #f7f4ea;
+      --muted: #a69f8a;
+      --ok: #5cd68d;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    }
+
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 540px;
+      margin: 0 auto;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 44%, var(--accent-soft), transparent 62%),
+        var(--bg);
+    }
+
+    #arena-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1;
+    }
+
+    /* --- ИГРОВОЙ СЛОЙ --- */
+    #game-layer {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .top-cluster {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .hud-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 8px 11px;
+    }
+
+    .currency-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pill .v {
+      color: var(--accent);
+    }
+
+    .ghost-btn {
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 11px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+    }
+
+    .ghost-btn:hover {
+      border-color: var(--line-accent);
+      background: var(--card-hover);
+    }
+
+    .ghost-btn:active {
+      transform: scale(0.97);
+    }
+
+    .ring-status {
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 7px 12px;
+    }
+
+    .ring-status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 5px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ring-status-row strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .meter {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      border-radius: 999px;
+      transition: width 0.22s ease;
+    }
+
+    .bottom-cluster {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .dps-chip {
+      align-self: flex-start;
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 5px 10px;
+      font-size: 11px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .dps-chip strong {
+      color: var(--accent);
+    }
+
+    .dock {
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 9px;
+    }
+
+    .nav-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      margin-bottom: 9px;
+    }
+
+    .nav-item {
+      background: var(--card);
+      border: 1px solid transparent;
+      color: var(--muted);
+      border-radius: 11px;
+      padding: 8px 3px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .nav-item.active {
+      background: var(--accent);
+      color: #12100a;
+      font-weight: 800;
+    }
+
+    .dock-body {
+      display: none;
+      max-height: 184px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .dock-body.active {
+      display: block;
+    }
+
+    /* --- СТАРТОВЫЙ ЭКРАН --- */
+    #start-overlay {
+      position: absolute;
+      inset: 12px;
+      z-index: 30;
+      background:
+        radial-gradient(circle at 50% 34%, var(--accent-soft), transparent 58%),
+        linear-gradient(180deg, rgba(24, 21, 13, 0.96) 0%, rgba(12, 11, 7, 0.98) 100%);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--line-accent);
+      border-radius: 26px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    #start-overlay.hidden {
+      opacity: 0;
+      transform: scale(0.985);
+      pointer-events: none;
+    }
+
+    .hero-block {
+      text-align: center;
+      margin: auto 0;
+      padding: 12px 0;
+    }
+
+    .crest {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      border: 2px solid var(--line-accent);
+      background: rgba(255, 255, 255, 0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 36px var(--accent-glow);
+    }
+
+    .crest-ball {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #ffffff, var(--accent));
+      box-shadow: 0 0 18px var(--accent-glow);
+    }
+
+    .title-main {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 850;
+      letter-spacing: -0.025em;
+      color: var(--text);
+    }
+
+    .subtitle-main {
+      margin: 8px auto 0;
+      max-width: 290px;
+      font-size: 13px;
+      line-height: 1.48;
+      color: var(--muted);
+    }
+
+    .play-action {
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      padding: 15px 18px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #12100a;
+      background: var(--accent);
+      box-shadow: 0 10px 26px var(--accent-glow);
+      cursor: pointer;
+      margin-bottom: 9px;
+      transition: transform 0.12s ease, filter 0.15s ease;
+    }
+
+    .play-action:hover {
+      filter: brightness(1.04);
+    }
+
+    .play-action:active {
+      transform: scale(0.98);
+    }
+
+    .menu-matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .menu-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 11px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .menu-card:hover {
+      border-color: var(--line-accent);
+      background: var(--card-hover);
+    }
+
+    .menu-card.span-2 {
+      grid-column: span 2;
+    }
+
+    /* --- МОДАЛЬНЫЙ РАЗДЕЛ --- */
+    #section-sheet {
+      position: absolute;
+      inset: 12px;
+      z-index: 40;
+      background: linear-gradient(180deg, #1a170f 0%, #100e09 100%);
+      border: 1px solid var(--line-accent);
+      border-radius: 26px;
+      padding: 16px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #section-sheet.open {
+      display: flex;
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sheet-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .sheet-scroll {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    /* --- КАРТОЧКИ КОНТЕНТА --- */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .tile {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.15s ease, box-shadow 0.25s ease;
+    }
+
+    .tile:hover {
+      border-color: var(--line-accent);
+      background: var(--card-hover);
+    }
+
+    .tile:active {
+      transform: scale(0.98);
+    }
+
+    .tile.glow, .skin-item.glow, .shop-item.glow {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow), inset 0 0 12px var(--accent-soft);
+      animation: pulseCard 0.4s ease;
+    }
+
+    @keyframes pulseCard {
+      0% { transform: scale(0.97); }
+      50% { transform: scale(1.015); }
+      100% { transform: scale(1); }
+    }
+
+    .tile-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tile-name {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .tile-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tag-price {
+      background: var(--accent-soft);
+      border: 1px solid var(--line-accent);
+      color: var(--accent);
+      border-radius: 8px;
+      padding: 3px 7px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .skins-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .skin-item {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 9px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s ease, box-shadow 0.25s ease;
+    }
+
+    .skin-item.equipped {
+      border-color: var(--ok);
+    }
+
+    .skin-disc {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin: 0 auto 5px;
+    }
+
+    .shop-item {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 7px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, box-shadow 0.25s ease;
+    }
+
+    .shop-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .shop-cta {
+      background: var(--accent);
+      color: #12100a;
+      border: none;
+      border-radius: 9px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .option-box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+
+    .option-box:last-child {
+      margin-bottom: 0;
+    }
+
+    .option-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .option-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .switch-chip {
+      background: var(--panel-solid);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      border-radius: 9px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .switch-chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #12100a;
+    }
+
+    .range-bar {
+      width: 100%;
+      margin-top: 8px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .palette-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .color-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.14s ease, border-color 0.14s ease;
+    }
+
+    .color-btn.selected {
+      border-color: #ffffff;
+      transform: scale(1.12);
+    }
+
+    .color-wheel {
+      width: 32px;
+      height: 28px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    /* Уведомления: новые сверху, старые уходят вниз */
+    #toast-tray {
+      position: fixed;
+      top: 68px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(92vw, 360px);
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 6px;
+      pointer-events: none;
+      z-index: 900;
+    }
+
+    .toast-card {
+      background: var(--card-hover);
+      border: 1px solid var(--line-accent);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      transform: translateY(0);
+      opacity: 1;
+      transition: transform 0.28s ease, opacity 0.28s ease;
+    }
+
+    .toast-card.enter {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    .toast-card.exit {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <canvas id="arena-canvas"></canvas>
+
+  <main id="game-layer">
+    <div class="top-cluster">
+      <div class="hud-bar">
+        <div class="currency-group">
+          <span class="pill">● <span class="v" id="g-coins">80</span></span>
+          <span class="pill">🔑 <span class="v" id="g-keys">5</span></span>
+          <span class="pill">◆ <span class="v" id="g-gems">15</span></span>
+        </div>
+        <button class="ghost-btn" onclick="toStart()">Меню</button>
+      </div>
+
+      <div class="ring-status">
+        <div class="ring-status-row">
+          <span>Уровень колец: <strong id="g-level">1</strong></span>
+          <span>HP: <strong id="g-hp">200</strong></span>
+        </div>
+        <div class="meter"><div class="meter-fill" id="g-meter"></div></div>
+      </div>
+    </div>
+
+    <div class="bottom-cluster">
+      <div class="dps-chip">DPS: <strong id="g-dps">21.6</strong></div>
+
+      <div class="dock">
+        <div class="nav-strip">
+          <button class="nav-item active" data-t="upgrades" onclick="switchDock('upgrades')">Прокачка</button>
+          <button class="nav-item" data-t="chests" onclick="switchDock('chests')">Сундуки</button>
+          <button class="nav-item" data-t="skins" onclick="switchDock('skins')">Скины</button>
+          <button class="nav-item" data-t="buy" onclick="switchDock('buy')">Где купить</button>
+          <button class="nav-item" data-t="settings" onclick="switchDock('settings')">Настройки</button>
+        </div>
+
+        <div class="dock-body active" id="dock-upgrades"></div>
+        <div class="dock-body" id="dock-chests"></div>
+        <div class="dock-body" id="dock-skins"></div>
+        <div class="dock-body" id="dock-buy"></div>
+        <div class="dock-body" id="dock-settings"></div>
+      </div>
+    </div>
+  </main>
+
+  <section id="start-overlay">
+    <div class="hud-bar">
+      <div class="currency-group">
+        <span class="pill">● <span class="v" id="s-coins">80</span></span>
+        <span class="pill">🔑 <span class="v" id="s-keys">5</span></span>
+        <span class="pill">◆ <span class="v" id="s-gems">15</span></span>
+      </div>
+    </div>
+
+    <div class="hero-block">
+      <div class="crest">
+        <div class="crest-ball"></div>
+      </div>
+      <h1 class="title-main">n1ghtixx ball</h1>
+      <p class="subtitle-main">
+        Безопасный цикл отскоков внутри колец, прокачка параметров и коллекция скинов.
+      </p>
+    </div>
+
+    <div>
+      <button class="play-action" onclick="launchPlay()">Play</button>
+      <div class="menu-matrix">
+        <button class="menu-card" onclick="openSheet('upgrades')">Прокачка</button>
+        <button class="menu-card" onclick="openSheet('chests')">Сундуки</button>
+        <button class="menu-card" onclick="openSheet('skins')">Скины</button>
+        <button class="menu-card" onclick="openSheet('buy')">Где купить</button>
+        <button class="menu-card span-2" onclick="openSheet('settings')">Настройки</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="section-sheet">
+    <div class="sheet-header">
+      <h2 class="sheet-title" id="sheet-title">Раздел</h2>
+      <button class="ghost-btn" onclick="closeSheet()">Назад</button>
+    </div>
+    <div class="sheet-scroll" id="sheet-body"></div>
+  </section>
+</div>
+
+<div id="toast-tray"></div>
+
+<script>
+  const canvas = document.getElementById("arena-canvas");
+  const ctx = canvas.getContext("2d");
+
+  let viewW = 390;
+  let viewH = 844;
+  let CX = viewW / 2;
+  let CY = viewH * 0.48;
+
+  const RING_GAP = 18;
+  const SAFE_INNER_RADIUS = 64;
+
+  const RING_PALETTE = ["#f6c945", "#ff9f43", "#4cd98a", "#56b4ff", "#d68aff", "#f26d85"];
+  const PRESET_COLORS = ["#f6c945", "#4cd98a", "#56b4ff", "#ff8a4c", "#d68aff", "#f26d85"];
+
+  const UPGRADES = [
+    { key: "damage", name: "Урон",     base: 10, mult: 1.16 },
+    { key: "income", name: "Доход",    base: 10, mult: 1.16 },
+    { key: "speed",  name: "Скорость", base: 12, mult: 1.18 },
+    { key: "pulse",  name: "Импульс",  base: 14, mult: 1.18 }
+  ];
+
+  const SKINS = [
+    { id: "sol",     name: "Sol",    cost: 0,  core: "#ffffff", glow: "#f6c945" },
+    { id: "emerald", name: "Mint",   cost: 8,  core: "#f2fff8", glow: "#4cd98a" },
+    { id: "sky",     name: "Sky",    cost: 16, core: "#f2f9ff", glow: "#56b4ff" },
+    { id: "ember",   name: "Ember",  cost: 25, core: "#fff5f0", glow: "#ff8a4c" },
+    { id: "lilac",   name: "Lilac",  cost: 35, core: "#fbf5ff", glow: "#d68aff" },
+    { id: "rose",    name: "Rose",   cost: 50, core: "#fff4f6", glow: "#f26d85" }
+  ];
+
+  const OFFERS = [
+    { id: "web-ver",  cat: "editions", title: "Офлайн-версия quiet.html", sub: "Локальное сохранение прогресса", label: "Активировать", reward: { coins: 90, gems: 8, keys: 2 } },
+    { id: "apk-ver",  cat: "editions", title: "Сборка под Android (APK)", sub: "Пакет для запуска на телефоне", label: "Забрать бонус", reward: { coins: 140, gems: 12, keys: 4 } },
+    { id: "gem-pack", cat: "packs",    title: "Пакет алмазов", sub: "+20 ◆ для покупки скинов", label: "+20 ◆", reward: { gems: 20 } },
+    { id: "key-pack", cat: "packs",    title: "Набор ключей", sub: "+8 🔑 для открытия сундуков", label: "+8 🔑", reward: { keys: 8 } }
+  ];
+
+  let playing = false;
+  let sheetSection = null;
+  let buyFilter = "all";
+
+  let state = {
+    coins: 80,
+    keys: 5,
+    gems: 15,
+    level: 1,
+    cleared: 0,
+    lvl: { damage: 1, income: 1, speed: 1, pulse: 1 },
+    skin: "sol",
+    unlockedSkins: ["sol"],
+    claimedOffers: [],
+    accentColor: "#f6c945",
+    soundEnabled: true,
+    soundVolume: 0.65,
+    vibrateEnabled: true
+  };
+
+  function saveState() {
+    localStorage.setItem("n1ghtixx_spaced_v1", JSON.stringify(state));
+  }
+
+  function loadState() {
+    const raw = localStorage.getItem("n1ghtixx_spaced_v1");
+    if (raw) {
+      try {
+        const d = JSON.parse(raw);
+        state = {
+          ...state,
+          ...d,
+          lvl: { ...state.lvl, ...(d.lvl || {}) },
+          unlockedSkins: Array.isArray(d.unlockedSkins) && d.unlockedSkins.length ? d.unlockedSkins : ["sol"],
+          claimedOffers: Array.isArray(d.claimedOffers) ? d.claimedOffers : [],
+          soundEnabled: typeof d.soundEnabled === "boolean" ? d.soundEnabled : true,
+          soundVolume: typeof d.soundVolume === "number" ? Math.min(1, Math.max(0, d.soundVolume)) : 0.65,
+          vibrateEnabled: typeof d.vibrateEnabled === "boolean" ? d.vibrateEnabled : true
+        };
+      } catch (e) {}
+    }
+  }
+
+  function hexToRgba(hex, alpha) {
+    const clean = (hex || "#f6c945").replace("#", "");
+    if (clean.length !== 6) return `rgba(246, 201, 69, ${alpha})`;
+    const r = parseInt(clean.slice(0, 2), 16);
+    const g = parseInt(clean.slice(2, 4), 16);
+    const b = parseInt(clean.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  // --- ЗВУК И ВИБРАЦИЯ ---
+  let audioCtx = null;
+
+  function ensureAudio() {
+    if (!state.soundEnabled || state.soundVolume <= 0) return null;
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return null;
+    if (!audioCtx) audioCtx = new AudioCtx();
+    if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+    return audioCtx;
+  }
+
+  function tone(freq, endFreq, dur, type = "sine", volScale = 1) {
+    const ac = ensureAudio();
+    if (!ac) return;
+    const now = ac.currentTime;
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, now);
+    if (endFreq && endFreq !== freq) {
+      osc.frequency.exponentialRampToValueAtTime(Math.max(40, endFreq), now + dur);
+    }
+    const peak = Math.max(0.001, Math.min(0.45, state.soundVolume * 0.25 * volScale));
+    gain.gain.setValueAtTime(peak, now);
+    gain.gain.exponentialRampToValueAtTime(0.0008, now + dur);
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    osc.start(now);
+    osc.stop(now + dur + 0.01);
+  }
+
+  function playUpgradeSound(lvlNum = 1) {
+    const shift = Math.min(260, (lvlNum - 1) * 14);
+    tone(340 + shift, 620 + shift, 0.14, "triangle", 1.0);
+    setTimeout(() => tone(560 + shift, 780 + shift, 0.1, "sine", 0.75), 55);
+  }
+
+  function playBreakSound(lvlNum = 1) {
+    const shift = Math.min(220, lvlNum * 4);
+    tone(220 + shift, 95, 0.18, "sawtooth", 0.85);
+    setTimeout(() => tone(440 + shift, 660 + shift, 0.14, "triangle", 0.9), 40);
+  }
+
+  function triggerBreakVibration() {
+    if (!state.vibrateEnabled) return;
+    if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
+      try { navigator.vibrate([35, 20, 45]); } catch (e) {}
+    }
+  }
+
+  // --- УВЕДОМЛЕНИЯ (НОВЫЕ СВЕРХУ, СТАРЫЕ УХОДЯТ ВНИЗ) ---
+  function pushToast(text) {
+    const tray = document.getElementById("toast-tray");
+    const el = document.createElement("div");
+    el.className = "toast-card enter";
+    el.textContent = text;
+    tray.appendChild(el);
+
+    requestAnimationFrame(() => el.classList.remove("enter"));
+
+    while (tray.children.length > 4) {
+      const oldest = tray.firstElementChild;
+      oldest.classList.add("exit");
+      setTimeout(() => {
+        if (oldest.parentNode) oldest.parentNode.removeChild(oldest);
+      }, 260);
+      break;
+    }
+
+    setTimeout(() => {
+      el.classList.add("exit");
+      setTimeout(() => {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      }, 280);
+    }, 2200);
+  }
+
+  function glowEl(el) {
+    if (!el) return;
+    el.classList.remove("glow");
+    void el.offsetWidth;
+    el.classList.add("glow");
+    setTimeout(() => el.classList.remove("glow"), 440);
+  }
+
+  function getLevelMaxHp(lvl) {
+    const l = Math.max(1, lvl);
+    return Math.round(200 * Math.pow(1.083, Math.min(50, l) - 1) + Math.max(0, l - 50) * 450);
+  }
+
+  function getDamage() {
+    return (18 + (state.lvl.damage - 1) * 9) * (1 + (state.lvl.pulse - 1) * 0.15);
+  }
+
+  // --- КОЛЬЦА НА ВЕСЬ ЭКРАН С ГАРАНТИРОВАННЫМ РАССТОЯНИЕМ ---
+  let rings = [];
+  let sparks = [];
+  let trail = [];
+  let ball = { x: 180, y: 240, vx: 3.1, vy: 3.4, r: 9 };
+
+  function resizeArena() {
+    const app = document.querySelector(".app");
+    const rect = app.getBoundingClientRect();
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    viewW = Math.max(280, rect.width);
+    viewH = Math.max(420, rect.height);
+    canvas.width = Math.round(viewW * dpr);
+    canvas.height = Math.round(viewH * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    CX = viewW / 2;
+    CY = viewH * 0.48;
+
+    ball.x = Math.min(Math.max(ball.x, CX - 42), CX + 42);
+    ball.y = Math.min(Math.max(ball.y, CY - 42), CY + 42);
+  }
+
+  function maxOuterRadius() {
+    return Math.max(130, Math.min(viewW * 0.48, viewH * 0.34));
+  }
+
+  function makeRing(radius, idx) {
+    const hp = getLevelMaxHp(state.level + idx);
+    return {
+      radius,
+      hp,
+      angle: Math.random() * Math.PI * 2,
+      rot: (idx % 2 === 0 ? 1 : -1) * (0.011 + Math.random() * 0.008),
+      gap: 0.85,
+      color: RING_PALETTE[(idx + state.level) % RING_PALETTE.length],
+      hit: 0
+    };
+  }
+
+  function initRings() {
+    rings = [];
+    const outer = maxOuterRadius();
+    const count = Math.max(3, Math.floor((outer - SAFE_INNER_RADIUS) / RING_GAP) + 1);
+    const capped = Math.min(9, count);
+    for (let i = 0; i < capped; i++) {
+      rings.push(makeRing(SAFE_INNER_RADIUS + i * RING_GAP, i));
+    }
+  }
+
+  function addSparks(x, y, color, count = 10) {
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const spd = 1 + Math.random() * 2.8;
+      sparks.push({ x, y, vx: Math.cos(a) * spd, vy: Math.sin(a) * spd, life: 1, color });
+    }
+  }
+
+  function normAngle(a) {
+    while (a < 0) a += Math.PI * 2;
+    while (a >= Math.PI * 2) a -= Math.PI * 2;
+    return a;
+  }
+
+  function onRingBroken(ring) {
+    addSparks(ball.x, ball.y, ring.color, 14);
+    playBreakSound(state.level);
+    triggerBreakVibration();
+
+    const gain = Math.round(14 + state.level * 6 * (1 + (state.lvl.income - 1) * 0.25));
+    state.coins += gain;
+    state.cleared += 1;
+
+    if (Math.random() < 0.25) {
+      state.keys += 1;
+      pushToast("+1 ключ за кольцо");
+    }
+    if (Math.random() < 0.14) {
+      state.gems += 1;
+      pushToast("+1 алмаз за кольцо");
+    }
+
+    state.level += 1;
+    pushToast(`Уровень колец ${state.level} • HP: ${getLevelMaxHp(state.level)}`);
+
+    const outer = maxOuterRadius();
+    const lastR = rings.length ? rings[rings.length - 1].radius : SAFE_INNER_RADIUS;
+    const nextR = Math.min(outer + RING_GAP, lastR + RING_GAP);
+    rings.push(makeRing(nextR, rings.length));
+
+    saveState();
+    renderAll();
+  }
+
+  function stepRingsGame() {
+    const speedFactor = 1 + (state.lvl.speed - 1) * 0.1;
+    const speed = 3.6 * speedFactor;
+    const mag = Math.hypot(ball.vx, ball.vy) || 1;
+    ball.vx = (ball.vx / mag) * speed;
+    ball.vy = (ball.vy / mag) * speed;
+
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+
+    trail.push({ x: ball.x, y: ball.y });
+    if (trail.length > 13) trail.shift();
+
+    // Плавное сжатие внутреннего кольца с жёстким сохранением дистанции RING_GAP между всеми кольцами
+    const outerLimit = maxOuterRadius();
+    for (let i = 0; i < rings.length; i++) {
+      const r = rings[i];
+      r.angle = normAngle(r.angle + r.rot);
+      if (r.hit > 0) r.hit -= 0.08;
+
+      if (i === 0) {
+        if (r.radius > SAFE_INNER_RADIUS) {
+          r.radius = Math.max(SAFE_INNER_RADIUS, r.radius - 0.06);
+        }
+      } else {
+        const minAllowed = rings[i - 1].radius + RING_GAP;
+        if (r.radius > minAllowed) {
+          r.radius = Math.max(minAllowed, r.radius - 0.06);
+        } else {
+          r.radius = minAllowed;
+        }
+      }
+
+      if (r.radius > outerLimit + RING_GAP) {
+        r.radius = outerLimit + RING_GAP;
+      }
+    }
+
+    if (rings.length) {
+      const inner = rings[0];
+      const dx = ball.x - CX;
+      const dy = ball.y - CY;
+      const dist = Math.hypot(dx, dy) || 0.001;
+      const ang = normAngle(Math.atan2(dy, dx));
+
+      if (dist + ball.r >= inner.radius) {
+        const diff = normAngle(ang - inner.angle);
+        if (diff < inner.gap) {
+          rings.shift();
+          onRingBroken(inner);
+        } else {
+          const nx = dx / dist;
+          const ny = dy / dist;
+          ball.x = CX + nx * (inner.radius - ball.r - 1);
+          ball.y = CY + ny * (inner.radius - ball.r - 1);
+
+          const dot = ball.vx * nx + ball.vy * ny;
+          const jitter = (Math.random() - 0.5) * 0.34;
+          const rvx = ball.vx - 2 * dot * nx;
+          const rvy = ball.vy - 2 * dot * ny;
+          ball.vx = rvx * Math.cos(jitter) - rvy * Math.sin(jitter);
+          ball.vy = rvx * Math.sin(jitter) + rvy * Math.cos(jitter);
+
+          inner.hp -= getDamage();
+          inner.hit = 1;
+          state.coins += 1 * state.lvl.income;
+          addSparks(ball.x, ball.y, inner.color, 4);
+
+          if (inner.hp <= 0) {
+            rings.shift();
+            onRingBroken(inner);
+          }
+        }
+      }
+    }
+
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const p = sparks[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 0.045;
+      if (p.life <= 0) sparks.splice(i, 1);
+    }
+  }
+
+  function drawFullRings() {
+    ctx.clearRect(0, 0, viewW, viewH);
+
+    for (let i = rings.length - 1; i >= 0; i--) {
+      const r = rings[i];
+      ctx.beginPath();
+      ctx.arc(CX, CY, r.radius, r.angle + r.gap, r.angle + Math.PI * 2);
+      ctx.strokeStyle = r.hit > 0.2 ? "#ffffff" : r.color;
+      ctx.lineWidth = i === 0 ? 5 : 3.5;
+      ctx.lineCap = "round";
+      ctx.stroke();
+    }
+
+    if (rings.length) {
+      ctx.fillStyle = "#fbf8ef";
+      ctx.font = "800 22px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(Math.max(1, Math.ceil(rings[0].hp)), CX, CY);
+    }
+
+    const skin = SKINS.find(s => s.id === state.skin) || SKINS[0];
+    trail.forEach((pt, idx) => {
+      const rad = ball.r * ((idx + 1) / trail.length) * 0.82;
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, rad, 0, Math.PI * 2);
+      ctx.fillStyle = hexToRgba(skin.glow, 0.3);
+      ctx.fill();
+    });
+
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+    ctx.fillStyle = skin.core;
+    ctx.shadowColor = skin.glow;
+    ctx.shadowBlur = 15;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    sparks.forEach(p => {
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+  }
+
+  function renderLoop() {
+    if (playing) {
+      stepRingsGame();
+      drawFullRings();
+      document.getElementById("g-coins").textContent = Math.floor(state.coins);
+      document.getElementById("g-hp").textContent = rings.length ? Math.max(1, Math.ceil(rings[0].hp)) : 0;
+    }
+    requestAnimationFrame(renderLoop);
+  }
+
+  // --- НАВИГАЦИЯ ---
+  function launchPlay() {
+    ensureAudio();
+    playing = true;
+    closeSheet();
+    document.getElementById("start-overlay").classList.add("hidden");
+  }
+
+  function toStart() {
+    playing = false;
+    closeSheet();
+    document.getElementById("start-overlay").classList.remove("hidden");
+  }
+
+  function openSheet(sec) {
+    ensureAudio();
+    sheetSection = sec;
+    const titles = {
+      upgrades: "Прокачка",
+      chests: "Сундуки",
+      skins: "Скины",
+      buy: "Где купить",
+      settings: "Настройки"
+    };
+    document.getElementById("sheet-title").textContent = titles[sec] || "Раздел";
+    document.getElementById("section-sheet").classList.add("open");
+    renderAll();
+  }
+
+  function closeSheet() {
+    sheetSection = null;
+    document.getElementById("section-sheet").classList.remove("open");
+  }
+
+  function switchDock(tab) {
+    ensureAudio();
+    document.querySelectorAll(".nav-item").forEach(b => b.classList.toggle("active", b.dataset.t === tab));
+    document.querySelectorAll(".dock-body").forEach(p => p.classList.remove("active"));
+    document.getElementById("dock-" + tab).classList.add("active");
+    renderAll();
+  }
+
+  // --- ЭКОНОМИКА, НАСТРОЙКИ И ЦВЕТ ---
+  function applyAccentColor(hex) {
+    state.accentColor = hex;
+    document.documentElement.style.setProperty("--accent", hex);
+    document.documentElement.style.setProperty("--accent-soft", hexToRgba(hex, 0.14));
+    document.documentElement.style.setProperty("--accent-glow", hexToRgba(hex, 0.34));
+    document.documentElement.style.setProperty("--line-accent", hexToRgba(hex, 0.48));
+    saveState();
+    renderAll();
+  }
+
+  function getUpCost(key) {
+    const u = UPGRADES.find(x => x.key === key) || UPGRADES[0];
+    return Math.round(u.base * Math.pow(u.mult, (state.lvl[key] || 1) - 1));
+  }
+
+  function buyUpgrade(key) {
+    const cost = getUpCost(key);
+    if (state.coins < cost) {
+      pushToast(`Не хватает монет (${cost})`);
+      return;
+    }
+    state.coins -= cost;
+    state.lvl[key] = (state.lvl[key] || 1) + 1;
+    const u = UPGRADES.find(x => x.key === key);
+    playUpgradeSound(state.lvl[key]);
+    pushToast(`${u.name} прокачан до Ур. ${state.lvl[key]}`);
+    saveState();
+    renderAll();
+    glowEl(document.querySelector(`[data-up-key="${key}"]`));
+  }
+
+  function openChest(keyCost, el) {
+    if (state.keys < keyCost) {
+      pushToast(`Нужно ключей: ${keyCost}`);
+      return;
+    }
+    state.keys -= keyCost;
+    const mult = keyCost === 15 ? 3 : 1;
+    const addCoins = Math.round((40 + state.level * 8) * mult);
+    const addGems = (keyCost === 15 ? 7 : 3) + Math.floor(Math.random() * 3);
+    state.coins += addCoins;
+    state.gems += addGems;
+    playUpgradeSound(state.level);
+    pushToast(`Сундук: +${addCoins} монет и +${addGems} алмазов`);
+    saveState();
+    renderAll();
+    glowEl(el);
+  }
+
+  function selectSkin(id) {
+    const s = SKINS.find(x => x.id === id);
+    if (!s) return;
+    if (state.unlockedSkins.includes(s.id)) {
+      state.skin = s.id;
+      playUpgradeSound(1);
+      pushToast(`Надет скин ${s.name}`);
+      saveState();
+      renderAll();
+      return;
+    }
+    if (state.gems < s.cost) {
+      pushToast(`Нужно алмазов: ${s.cost}`);
+      return;
+    }
+    state.gems -= s.cost;
+    state.unlockedSkins.push(s.id);
+    state.skin = s.id;
+    playUpgradeSound(3);
+    pushToast(`Куплен скин ${s.name}`);
+    saveState();
+    renderAll();
+    glowEl(document.querySelector(`[data-skin-id="${id}"]`));
+  }
+
+  function claimOffer(id) {
+    const item = OFFERS.find(x => x.id === id);
+    if (!item) return;
+    if (item.cat === "editions" && state.claimedOffers.includes(item.id)) {
+      pushToast("Уже активировано");
+      return;
+    }
+    if (item.cat === "editions") state.claimedOffers.push(item.id);
+    if (item.reward.coins) state.coins += item.reward.coins;
+    if (item.reward.gems) state.gems += item.reward.gems;
+    if (item.reward.keys) state.keys += item.reward.keys;
+    playUpgradeSound(2);
+    pushToast(`Получено: ${item.title}`);
+    saveState();
+    renderAll();
+    glowEl(document.querySelector(`[data-offer-id="${id}"]`));
+  }
+
+  function toggleSound() {
+    state.soundEnabled = !state.soundEnabled;
+    if (state.soundEnabled) playUpgradeSound(2);
+    pushToast(state.soundEnabled ? "Звук включён" : "Звук выключён");
+    saveState();
+    renderAll();
+  }
+
+  function changeVolume(v) {
+    const num = Math.min(1, Math.max(0, Number(v)));
+    state.soundVolume = num;
+    if (num > 0 && !state.soundEnabled) state.soundEnabled = true;
+    saveState();
+    document.querySelectorAll(".vol-val").forEach(el => {
+      el.textContent = Math.round(num * 100) + "%";
+    });
+  }
+
+  function toggleVibrate() {
+    state.vibrateEnabled = !state.vibrateEnabled;
+    if (state.vibrateEnabled && typeof navigator.vibrate === "function") {
+      try { navigator.vibrate(35); } catch (e) {}
+    }
+    pushToast(state.vibrateEnabled ? "Вибрация включена" : "Вибрация выключена");
+    saveState();
+    renderAll();
+  }
+
+  function balanceHeader() {
+    const c = Math.floor(state.coins);
+    return `
+      <div class="currency-group" style="margin-bottom:9px;">
+        <span class="pill">Монеты: <span class="v">${c}</span></span>
+        <span class="pill">Ключи: <span class="v">${state.keys}</span></span>
+        <span class="pill">Алмазы: <span class="v">${state.gems}</span></span>
+      </div>
+    `;
+  }
+
+  function htmlUpgrades() {
+    return `${balanceHeader()}<div class="grid-2">${UPGRADES.map(u => `
+      <div class="tile" data-up-key="${u.key}" onclick="buyUpgrade('${u.key}')">
+        <div class="tile-top">
+          <div>
+            <div class="tile-name">${u.name}</div>
+            <div class="tile-sub">Ур. ${state.lvl[u.key] || 1}</div>
+          </div>
+          <span class="tag-price">${getUpCost(u.key)}</span>
+        </div>
+      </div>
+    `).join("")}</div>`;
+  }
+
+  function htmlChests() {
+    return `${balanceHeader()}<div class="grid-2">
+      <div class="tile" style="text-align:center;" onclick="openChest(5, this)">
+        <div style="font-size:20px;">📦</div>
+        <div class="tile-name" style="margin-top:4px;">Ящик</div>
+        <div class="tile-sub" style="color:var(--accent);">5 ключей</div>
+      </div>
+      <div class="tile" style="text-align:center;" onclick="openChest(15, this)">
+        <div style="font-size:20px;">👑</div>
+        <div class="tile-name" style="margin-top:4px;">Кейс</div>
+        <div class="tile-sub" style="color:var(--accent);">15 ключей</div>
+      </div>
+    </div>`;
+  }
+
+  function htmlSkins() {
+    return `${balanceHeader()}<div class="skins-3">${SKINS.map(s => {
+      const has = state.unlockedSkins.includes(s.id);
+      const eq = state.skin === s.id;
+      return `
+        <div class="skin-item ${eq ? "equipped" : ""}" data-skin-id="${s.id}" onclick="selectSkin('${s.id}')">
+          <div class="skin-disc" style="background:${s.core};box-shadow:0 0 10px ${s.glow};"></div>
+          <div class="tile-name">${s.name}</div>
+          <div class="tile-sub" style="color:${eq ? "var(--ok)" : (has ? "var(--accent)" : "var(--muted)")};">
+            ${eq ? "Надет" : (has ? "Выбрать" : s.cost + " ◆")}
+          </div>
+        </div>
+      `;
+    }).join("")}</div>`;
+  }
+
+  function htmlBuy() {
+    const list = buyFilter === "all" ? OFFERS : OFFERS.filter(o => o.cat === buyFilter);
+    return `
+      ${balanceHeader()}
+      <div style="display:flex;gap:6px;margin-bottom:8px;">
+        <button class="ghost-btn" style="${buyFilter === "all" ? "border-color:var(--accent);color:var(--accent);" : ""}" onclick="buyFilter='all';renderAll();">Всё</button>
+        <button class="ghost-btn" style="${buyFilter === "editions" ? "border-color:var(--accent);color:var(--accent);" : ""}" onclick="buyFilter='editions';renderAll();">Издания</button>
+        <button class="ghost-btn" style="${buyFilter === "packs" ? "border-color:var(--accent);color:var(--accent);" : ""}" onclick="buyFilter='packs';renderAll();">Наборы</button>
+      </div>
+      ${list.map(o => {
+        const done = o.cat === "editions" && state.claimedOffers.includes(o.id);
+        return `
+          <div class="shop-item" data-offer-id="${o.id}" onclick="claimOffer('${o.id}')">
+            <div>
+              <div class="tile-name">${o.title}</div>
+              <div class="tile-sub">${o.sub}</div>
+            </div>
+            <button class="shop-cta">${done ? "Готово" : o.label}</button>
+          </div>
+        `;
+      }).join("")}
+    `;
+  }
+
+  function htmlSettings() {
+    return `
+      ${balanceHeader()}
+      <div class="option-box">
+        <div class="option-row">
+          <div>
+            <div>Звуковые эффекты</div>
+            <div class="option-hint">При прокачке шарика и разрушении кольца</div>
+          </div>
+          <button class="switch-chip ${state.soundEnabled ? "active" : ""}" onclick="toggleSound()">
+            ${state.soundEnabled ? "ВКЛ" : "ВЫКЛ"}
+          </button>
+        </div>
+        <div style="margin-top:8px;">
+          <div class="option-row" style="font-size:11px;color:var(--muted);">
+            <span>Громкость</span>
+            <span class="vol-val" style="color:var(--accent);">${Math.round(state.soundVolume * 100)}%</span>
+          </div>
+          <input type="range" class="range-bar" min="0" max="1" step="0.05" value="${state.soundVolume}" oninput="changeVolume(this.value)" />
+        </div>
+      </div>
+
+      <div class="option-box">
+        <div class="option-row">
+          <div>
+            <div>Вибрация телефона</div>
+            <div class="option-hint">Срабатывает при разрушении кольца</div>
+          </div>
+          <button class="switch-chip ${state.vibrateEnabled ? "active" : ""}" onclick="toggleVibrate()">
+            ${state.vibrateEnabled ? "ВКЛ" : "ВЫКЛ"}
+          </button>
+        </div>
+      </div>
+
+      <div class="option-box">
+        <div class="option-row" style="font-size:11px;color:var(--muted);">
+          <span>Цвет интерфейса</span>
+          <span style="color:var(--accent);">${state.accentColor.toLowerCase()}</span>
+        </div>
+        <div class="palette-row">
+          ${PRESET_COLORS.map(c => `
+            <button class="color-btn ${state.accentColor.toLowerCase() === c.toLowerCase() ? "selected" : ""}" style="background:${c};" onclick="applyAccentColor('${c}')"></button>
+          `).join("")}
+          <input type="color" class="color-wheel" value="${state.accentColor}" oninput="applyAccentColor(this.value)" />
+        </div>
+      </div>
+    `;
+  }
+
+  function renderAll() {
+    const c = Math.floor(state.coins);
+    document.getElementById("s-coins").textContent = c;
+    document.getElementById("s-keys").textContent = state.keys;
+    document.getElementById("s-gems").textContent = state.gems;
+
+    document.getElementById("g-coins").textContent = c;
+    document.getElementById("g-keys").textContent = state.keys;
+    document.getElementById("g-gems").textContent = state.gems;
+
+    document.getElementById("g-level").textContent = state.level;
+    document.getElementById("g-hp").textContent = rings.length ? Math.max(1, Math.ceil(rings[0].hp)) : getLevelMaxHp(state.level);
+    document.getElementById("g-meter").style.width = (((state.cleared % 10) / 10) * 100) + "%";
+    document.getElementById("g-dps").textContent = (getDamage() * (1 + (state.lvl.speed - 1) * 0.2)).toFixed(1);
+
+    document.getElementById("dock-upgrades").innerHTML = htmlUpgrades();
+    document.getElementById("dock-chests").innerHTML = htmlChests();
+    document.getElementById("dock-skins").innerHTML = htmlSkins();
+    document.getElementById("dock-buy").innerHTML = htmlBuy();
+    document.getElementById("dock-settings").innerHTML = htmlSettings();
+
+    if (sheetSection) {
+      const builders = {
+        upgrades: htmlUpgrades,
+        chests: htmlChests,
+        skins: htmlSkins,
+        buy: htmlBuy,
+        settings: htmlSettings
+      };
+      document.getElementById("sheet-body").innerHTML = (builders[sheetSection] || htmlSettings)();
+    }
+  }
+
+  window.addEventListener("resize", () => {
+    resizeArena();
+    initRings();
+  });
+
+  loadState();
+  resizeArena();
+  initRings();
+  applyAccentColor(state.accentColor || "#f6c945");
+  renderAll();
+  drawFullRings();
+  renderLoop();
+</script>
+</body>
+</html>
